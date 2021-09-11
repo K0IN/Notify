@@ -3,3 +3,4 @@ build
 *.log
 dist 
 src/.mf
+src/frontend/size-plugin.json

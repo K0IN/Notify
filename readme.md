@@ -7,6 +7,14 @@ Hosted inside a `cloudflare worker` or `selfhost` (using miniflare).
 
 see [installation documentation](doc/install.md)
 
+## How to send a notification
+
+> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://yourendpoint/api/notify
+
+optional with a icon:
+
+> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World", "icon": "https://via.placeholder.com/150"}' https://yourendpoint/api/notify
+
 ## Todo list
 
   * [x] Init push the project
