@@ -6,7 +6,7 @@ route = ""
 workers_dev = true
 
 kv_namespaces = [
-    { binding = "NOTIFY_USERS", id = "0940a92f29874157afd3d228ad992e32" }
+    { binding = "NOTIFY_USERS", id = "" }
 ]
 
 [build]

@@ -5,9 +5,17 @@
 Go into the frontend directory and run `npm install` and `npm run build`.
 Now copy the build folder to the root of the backend.
 
+## 2. Generate your kv namespace
+
+use wrangler to create your namespace.
+
+> npx wrangler kv:namespace create "NOTIFY_USERS"
+
+and set the id inside the wrangler.toml file.
+
 ## 2. Get your sever key
 
-go to (any modern) browser and run this script in your console: [script](../helper/main.js)
+go to your browser and run this script in your console: [script](../helper/main.js)
 it will print a random generated server key that will be used to send web notifications.
 You will need to set the resulting string inside your secrets (for that see miniflare secrets or cloudflare secrets)
 
@@ -22,18 +30,18 @@ also install the dependencies of the frontend:
 
 > cd src/frontend && npm install
 
-### on your cloudflare account
+### Deploy to: your cloudflare account
 
 > npx wrangler login
 > npx wrangler publish
 
-### locally with Miniflare
+### Deploy to: locally with Miniflare
 
 > npx miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml
 
 if you use secrets make sure to pass them like so: --binding KEY1=value1
 [see miniflare documentation](https://miniflare.dev/variables-secrets.html)
 
-### docker (with miniflare)
+### Deploy to: docker (with miniflare)
 
 > docker run -p 80:80 todo_notify_container_name:latest

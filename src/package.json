@@ -8,7 +8,7 @@
         "build": "webpack",
         "serve": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml",
         "watch": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml --watch",
-        "run_docker": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml --upstream localhost"
+        "run_docker": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml"
     },
     "eslintConfig": {
         "root": true,
