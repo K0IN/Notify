@@ -27,7 +27,7 @@ for more info see [the documentation](doc/api.md)
   * [ ] Write a proper README
   * [ ] Move the webpush code to a separate package
   * [ ] Beautify the frontend
-  * [ ] Docker image (automated build)
+  * [x] Docker image (automated build)
   * [ ] Add a url to a notification so it can be clicked
   * [ ] Add password protection to join
 

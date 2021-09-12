@@ -32,16 +32,17 @@ also install the dependencies of the frontend:
 
 ### Deploy to: your cloudflare account
 
+> cd src
 > npx wrangler login
 > npx wrangler publish
 
 ### Deploy to: locally with Miniflare
 
-> npx miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml
+> npx miniflare src/dist/worker.js --kv-persist --wrangler-config wrangler.toml
 
 if you use secrets make sure to pass them like so: --binding KEY1=value1
 [see miniflare documentation](https://miniflare.dev/variables-secrets.html)
 
 ### Deploy to: docker (with miniflare)
 
-> docker run -p 80:80 todo_notify_container_name:latest
+> docker run -p 8787:8787 ghcr.io/k0in/notify:main
