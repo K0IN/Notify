@@ -31,7 +31,9 @@ deviceRouter.get('/:device_id',
     async (request: Required<Request>, event: FetchEvent): Promise<Response> => {
         const { device_id } = request.params as { device_id: string };
         return await checkDevice(String(device_id))
-            .then((device) => success<string>("device exists"))
+            .then((exists) => exists ?
+                success<boolean>(true) :
+                success<boolean>(false))
             .catch((error: Error) => failure<string>(error.message));
     });
 

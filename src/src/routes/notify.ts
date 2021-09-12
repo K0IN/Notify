@@ -8,8 +8,7 @@ import { compareStringSafe } from "../crypto";
 export const notificationRouter = Router({ base: "/api/notify" });
 
 function auth(req: Request) {
-    if (SERVERPWD && SERVERPWD !== "") {	
-        
+    if (SERVERPWD && SERVERPWD !== "") {        
         const header = (req as any).headers.get("authorization");
         if (!header) {
             return failure<string>("No authorization header (please provide a authorization with a bearer token)", {status: 401});

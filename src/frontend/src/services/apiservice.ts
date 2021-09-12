@@ -12,7 +12,7 @@ export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
 }
 
 export const getVapidData = async (): Promise<IApiResponse<string>> => {
-    return await fetch(apiBase + "/keys/get").then(response => response.json());
+    return await fetch(apiBase + "/keys").then(response => response.json());
 }
 
 export const createDevice = async (webPushData: WebPushData): Promise<IApiResponse<{ id: string, secret: string }>> => {
