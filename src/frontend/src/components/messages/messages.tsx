@@ -22,7 +22,7 @@ const Messages: FunctionalComponent = () => {
         const onMessageInternalCallback = (messageData: MessageEvent) => {
             const { data } = messageData as { data: PushMessage };
             if (data.type === 'notification') {
-                setMessages(old => [data.data, ...old]);
+                setMessages(old => [data.data, ...old].sort((a, b) => b.receivedAt - a.receivedAt));
             }
         }
 

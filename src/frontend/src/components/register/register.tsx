@@ -8,7 +8,7 @@ import Button from 'preact-material-components/Button';
 import 'preact-material-components/Button/style.css';
 
 
-async function login() {
+async function login(): Promise<boolean> {
     const serverKey = await getVapidData();
     if (!serverKey.successful) {
         // throw new Error('Could not get server key');
@@ -37,9 +37,9 @@ async function login() {
     return true;
 }
 
-async function logoff() {
+async function logoff(): Promise<boolean> {
     if (!localStorage.userData) {
-        return;
+        return false;
     }
     const sw = await navigator.serviceWorker.ready;
     const sub = await sw.pushManager.getSubscription();
@@ -47,10 +47,11 @@ async function logoff() {
         await sub.unsubscribe();
     }
     localStorage.removeItem('userData');
+    return false;
 }
 
-const toggleLoginStatus = async (event: Event): boolean => {
-    if (event.target.checked) {
+const toggleLoginStatus = async (event: any /* Event */): Promise<boolean> => {
+    if (event.target && event.target.checked) {
         return await login();
     } else {
         return await logoff();

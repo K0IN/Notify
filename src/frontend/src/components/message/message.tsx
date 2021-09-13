@@ -22,7 +22,7 @@ const timeStampToString = (timestamp: number): string => {
     return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
 }
 
-const Message: FunctionalComponent = ({ message }: MessageProps) => {
+const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) => {
 
     useEffect(() => {
         if (!message.read) {

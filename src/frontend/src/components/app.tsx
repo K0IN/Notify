@@ -17,8 +17,8 @@ const App: FunctionalComponent = () => {
             }
         }).catch(error => console.warn(error));
 
-        if((navigator as unknown).clearAppBadge) {
-            navigator.clearAppBadge().catch(error => console.warn(error));
+        if((navigator as any).clearAppBadge) {
+            (navigator as any).clearAppBadge().catch((error: Error) => console.warn(error));
         }
     }, []);
 
