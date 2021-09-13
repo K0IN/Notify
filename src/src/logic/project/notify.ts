@@ -3,8 +3,8 @@ import type { JWK } from "../../webpush/jwk";
 import { generateWebPushMessage } from "../../webpush/webpush";
 import { WebPushMessage, WebPushResult } from "../../webpush/webpushinfos";
 
-export async function notifyAll(title: string, message: string, icon: string): Promise<Promise<void>> {
 
+export async function notifyAll(title: string, message: string, tags: string[], icon?: string): Promise<Promise<void>> {
     if (!SUB || !VAPID_SERVER_KEY) {
         throw new Error("No Subject or vapid server key please set your secret / env var (see readme)");
     }

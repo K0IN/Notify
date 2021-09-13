@@ -1,11 +1,11 @@
-import { Message } from "./message";
+import { MessageType } from "./messagetype";
 
 export interface BasePushMessage<T> {
     type: string;
     data: T;
 }
 
-export interface NewMessagePushMessage extends BasePushMessage<Message> {
+export interface NewMessagePushMessage extends BasePushMessage<MessageType> {
     type: 'notification';
 }
 

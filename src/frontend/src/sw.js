@@ -28,25 +28,26 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('push', function (event) {
-    console.log('Received a push message', event, event.data);
-
     if (!event.data) {
         throw new Error('No data in push event');
     }
 
-    const { title, body, icon } = JSON.parse(event.data.text());
+    const { title, body, icon = "", tags = [] } = JSON.parse(event.data.text());
     const tag = (Math.random() + 1).toString(36).substring(7);
 
+    // todo input validation
+
     const messageData = {
-        body, icon, title,
+        body, icon, title, tags,
         receivedAt: Date.now(),
         read: false
     };
 
-    event.waitUntil(Promise.all([
+    event.waitUntil(Promise.allSettled([
         self.registration.showNotification(title, { body, image: icon, tag }).catch(), // first show notification
-        addMessageToDB(messageData).catch(),                                             // save message to db
-        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch()     // send a event to main window to update the notification
+        addMessageToDB(messageData).catch(),                                           // save message to db
+        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch(),  // send a event to main window to update the notification
+        navigator && navigator.setAppBadge && navigator.setAppBadge(1)                 // add a badge
     ]));
 });
 

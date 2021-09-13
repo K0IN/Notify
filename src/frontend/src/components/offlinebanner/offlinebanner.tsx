@@ -1,8 +1,3 @@
-// use https://github.com/sanpoChew/preact-component-queries\
-// navigator.onLine
-// import { h, Component } from 'preact';
-// https://levelup.gitconnected.com/detecting-online-offline-in-javascript-1963c4fb81e1
-
 import { FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from "preact/hooks";
 import { getVapidData } from "../../services/apiservice";
