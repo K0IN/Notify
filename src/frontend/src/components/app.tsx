@@ -1,5 +1,4 @@
 import { FunctionalComponent, h } from 'preact';
-import 'preact-material-components/Theme/style.css';
 import { useEffect } from 'preact/hooks';
 import Index from '../routes/index';
 

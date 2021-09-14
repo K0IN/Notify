@@ -1,11 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
-import 'preact-material-components/Button/style.css';
-import Switch from 'preact-material-components/Switch';
-import 'preact-material-components/Switch/style.css';
 import { useEffect, useState } from "preact/hooks";
 import { arraybuffer2base64, createDevice, getVapidData } from "../../services/apiservice";
-
-
 
 async function login(): Promise<boolean> {
     const serverKey = await getVapidData();

@@ -1,7 +1,4 @@
 import { FunctionalComponent, h } from "preact";
-import 'preact-material-components/Chips/style.css';
-import List from 'preact-material-components/List';
-import 'preact-material-components/List/style.css';
 import { useEffect, useState } from "preact/hooks";
 import { getOfflineDb } from "../../services/localdb";
 import { MessageType } from "../../types/messagetype";
@@ -41,7 +38,10 @@ const Messages: FunctionalComponent = () => {
 
     return (<div>
         <List two-line={true} dense={false}>
-            {messages.map((message, index) => (<Message message={message} />))}
+            {messages.map((message, index) => (
+                <li>
+                    <Message message={message} />
+                </li>))}
         </List>
     </div>)
 }

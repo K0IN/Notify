@@ -1,6 +1,4 @@
 import { FunctionalComponent, h } from "preact";
-import List from 'preact-material-components/List';
-import 'preact-material-components/List/style.css';
 import { useEffect } from "preact/hooks";
 import { getOfflineDb } from "../../services/localdb";
 import { MessageType } from "../../types/messagetype";
@@ -30,23 +28,17 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
         }
     }, []);
 
-    // todo: 
+    // todo:
     // - add a delete button
     // - add a read status indicator
     // - add a better timestamp
     // - add a icon option
 
     return (
-        <List.Item>
-            <List.TextContainer>
-                <List.PrimaryText>
-                    {message.title} - {timeStampToString(message.receivedAt)}
-                </List.PrimaryText>
-                <List.SecondaryText>
-                    {message.body}
-                </List.SecondaryText>
-            </List.TextContainer>
-        </List.Item>)
+        <div>
+            <h1> {message.title} - {timeStampToString(message.receivedAt)}</h1>
+            <span>{message.body}</span>
+        </div>)
 }
 
 export default Message;

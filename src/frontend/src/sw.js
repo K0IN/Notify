@@ -1,8 +1,8 @@
-import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
+import { getFiles, setupPrecaching } from 'preact-cli/sw/';
 import { dbName, dbVersion } from './staticsettings';
 import { openDB } from "idb";
 
-setupRouting();
+// setupRouting();
 const urlsToCache = getFiles();
 urlsToCache.push({ url: '/favicon.ico', revision: null });
 setupPrecaching(urlsToCache);
