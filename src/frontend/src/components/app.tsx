@@ -4,7 +4,7 @@ import { useEffect } from 'preact/hooks';
 import Messages from './messages/messages';
 import Register from './register/register';
 
-import style from '../style/style.css';
+import style from './style.css';
 
 const App: FunctionalComponent = () => {
     useEffect(() => {

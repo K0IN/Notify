@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { getOfflineDb } from "../../services/localdb";
 import { MessageType } from "../../types/messagetype";
 import { PushMessage } from "../../types/postmassage";
@@ -19,7 +19,7 @@ const sortMessages = (messages: MessageType[]) => {
 
 const Messages: FunctionalComponent = () => {
     const [messages, setMessages] = useState<MessageType[]>([]);
-
+    const ref = useRef<Menu>()
     useEffect(() => {
         getOfflineDb().then(db => db.getAll('messages')).then(messages => setMessages(sortMessages(messages))).catch(console.warn);
 

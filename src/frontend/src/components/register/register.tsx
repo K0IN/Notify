@@ -2,6 +2,9 @@ import { FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from "preact/hooks";
 import { arraybuffer2base64, createDevice, getVapidData } from "../../services/apiservice";
 
+import Switch from 'preact-material-components/Switch';
+import 'preact-material-components/Switch/style.css';
+
 async function login(): Promise<boolean> {
     const serverKey = await getVapidData();
     if (!serverKey.successful) {
@@ -60,7 +63,7 @@ const Register: FunctionalComponent = () => {
 
     return (
         <div>
-            Subscribe to notifications <input type="checkbox" onChange={async (e: any) => setLoginStatus(await toggleLoginStatus(e))} checked={isLoggedIn} />
+            Subscribe to notifications <Switch onChange={async (e: any) => setLoginStatus(await toggleLoginStatus(e))} checked={isLoggedIn} />
         </div>
     );
 };
