@@ -8,7 +8,11 @@ urlsToCache.push({ url: '/favicon.ico', revision: null });
 setupPrecaching(urlsToCache);
 
 async function addMessageToDB(messageData) {
-    await openDB(dbName, dbVersion).then(db => db.add('messages', messageData)).catch(err => console.log(err));
+    await openDB(dbName, dbVersion, {
+        upgrade(db) {
+            db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+        }
+    }).then(db => db.add('messages', messageData)).catch(err => console.log(err));
 }
 
 function sendMessageToMainWindow(messageData) {
@@ -20,7 +24,11 @@ function sendMessageToMainWindow(messageData) {
 }
 
 self.addEventListener('activate', (event) => {
-    // todo: init db here
+    event.waitUntil(openDB(dbName, dbVersion, {
+        upgrade(db) {
+            db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+        }
+    }).catch(error => console.warn(error)));
 });
 
 self.addEventListener('install', function (event) {

@@ -1,6 +1,5 @@
 import { FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from "preact/hooks";
-import { getVapidData } from "../../services/apiservice";
 
 const OfflineWarning: FunctionalComponent = () => {
     const [isOffline, setOffline] = useState<boolean>(false);

@@ -1,28 +1,37 @@
-import { openDB } from "idb";
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
-import { dbName, dbVersion } from "../../staticsettings";
-import { MessageType } from "../../types/messagetype";
-
+import 'preact-material-components/Chips/style.css';
 import List from 'preact-material-components/List';
 import 'preact-material-components/List/style.css';
+import { useEffect, useState } from "preact/hooks";
+import { getOfflineDb } from "../../services/localdb";
+import { MessageType } from "../../types/messagetype";
 import { PushMessage } from "../../types/postmassage";
 import Message from "../message/message";
 
-import Chips from 'preact-material-components/Chips';
-import 'preact-material-components/Chips/style.css';
+
+
+const sortMessages = (messages: MessageType[]) => {
+    return messages.sort((a, b) => {
+        if (a.receivedAt > b.receivedAt) {
+            return 1;
+        }
+        if (a.receivedAt < b.receivedAt) {
+            return -1;
+        }
+        return 0;
+    });
+}
 
 const Messages: FunctionalComponent = () => {
     const [messages, setMessages] = useState<MessageType[]>([]);
 
     useEffect(() => {
-        // load all messages from the (offline) database
-        openDB(dbName, dbVersion).then(db => db.getAll('messages')).then(messages => setMessages(messages)).catch(console.warn);
+        getOfflineDb().then(db => db.getAll('messages')).then(messages => setMessages(sortMessages(messages))).catch(console.warn);
 
         const onMessageInternalCallback = (messageData: MessageEvent) => {
             const { data } = messageData as { data: PushMessage };
             if (data.type === 'notification') {
-                setMessages(old => [data.data, ...old].sort((a, b) => b.receivedAt - a.receivedAt));
+                setMessages(old => sortMessages([data.data, ...old]));
             }
         }
 

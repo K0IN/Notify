@@ -1,32 +1,19 @@
-import { openDB } from 'idb';
 import { FunctionalComponent, h } from 'preact';
-import { Route, Router } from 'preact-router';
+import 'preact-material-components/Theme/style.css';
 import { useEffect } from 'preact/hooks';
 import Index from '../routes/index';
-import { dbName, dbVersion } from '../staticsettings';
-import OfflineWarning from './offlinebanner/offlinebanner';
-import ServerWarning from './serverwarning/serverwarning';
 
-import 'preact-material-components/Theme/style.css';
 
 const App: FunctionalComponent = () => {
     useEffect(() => {
-        openDB(dbName, dbVersion, {
-            upgrade(db) {
-                db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
-            }
-        }).catch(error => console.warn(error));
-
-        if((navigator as any).clearAppBadge) {
+        if ((navigator as any).clearAppBadge) {
             (navigator as any).clearAppBadge().catch((error: Error) => console.warn(error));
         }
     }, []);
 
     return (
         <div id="preact_root">
-            <Router>
-                <Route path="/" component={Index} default />
-            </Router>
+            <Index />
         </div>
     );
 };

@@ -1,11 +1,10 @@
 import { FunctionalComponent, h } from 'preact';
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { arraybuffer2base64, createDevice, getVapidData } from "../../services/apiservice";
-
+import 'preact-material-components/Button/style.css';
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
-import Button from 'preact-material-components/Button';
-import 'preact-material-components/Button/style.css';
+import { useEffect, useState } from "preact/hooks";
+import { arraybuffer2base64, createDevice, getVapidData } from "../../services/apiservice";
+
 
 
 async function login(): Promise<boolean> {

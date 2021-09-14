@@ -1,11 +1,10 @@
-import { openDB } from "idb";
 import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
-import { dbName, dbVersion } from "../../staticsettings";
-import { MessageType } from "../../types/messagetype";
-
 import List from 'preact-material-components/List';
 import 'preact-material-components/List/style.css';
+import { useEffect } from "preact/hooks";
+import { getOfflineDb } from "../../services/localdb";
+import { MessageType } from "../../types/messagetype";
+
 
 type MessageProps = {
     message: MessageType;
@@ -27,7 +26,7 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
     useEffect(() => {
         if (!message.read) {
             message.read = true;
-            openDB(dbName, dbVersion).then(db => db.put("messages", message));
+            getOfflineDb().then(db => db.put("messages", message));
         }
     }, []);
 
