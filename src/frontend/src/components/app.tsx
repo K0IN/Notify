@@ -1,7 +1,10 @@
 import { FunctionalComponent, h } from 'preact';
 import { useEffect } from 'preact/hooks';
-import Index from '../routes/index';
 
+import Messages from './messages/messages';
+import Register from './register/register';
+
+import style from '../style/style.css';
 
 const App: FunctionalComponent = () => {
     useEffect(() => {
@@ -10,11 +13,17 @@ const App: FunctionalComponent = () => {
         }
     }, []);
 
-    return (
-        <div id="preact_root">
-            <Index />
+    return (<div>
+        <div class={style.content}>
+            <div class={style.headeritem}>
+                <Register />
+            </div>
+            <div class={style.main}>
+                <Messages />
+            </div>
         </div>
-    );
+    </div>);
+
 };
 
 export default App;

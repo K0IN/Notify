@@ -5,8 +5,6 @@ import { MessageType } from "../../types/messagetype";
 import { PushMessage } from "../../types/postmassage";
 import Message from "../message/message";
 
-
-
 const sortMessages = (messages: MessageType[]) => {
     return messages.sort((a, b) => {
         if (a.receivedAt > b.receivedAt) {
@@ -37,12 +35,12 @@ const Messages: FunctionalComponent = () => {
     }, [messages]);
 
     return (<div>
-        <List two-line={true} dense={false}>
+        <ul>
             {messages.map((message, index) => (
                 <li>
                     <Message message={message} />
                 </li>))}
-        </List>
+        </ul>
     </div>)
 }
 

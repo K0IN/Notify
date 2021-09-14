@@ -60,7 +60,7 @@ const Register: FunctionalComponent = () => {
 
     return (
         <div>
-            Subscribe to notifications <Switch onChange={async (e: any) => setLoginStatus(await toggleLoginStatus(e))} checked={isLoggedIn} />
+            Subscribe to notifications <input type="checkbox" onChange={async (e: any) => setLoginStatus(await toggleLoginStatus(e))} checked={isLoggedIn} />
         </div>
     );
 };
