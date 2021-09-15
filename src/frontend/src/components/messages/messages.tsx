@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { getOfflineDb } from "../../services/localdb";
 import { MessageType } from "../../types/messagetype";
 import { PushMessage } from "../../types/postmassage";
+
+import style from "./messages.css";
+
 import Message from "../message/message";
 
 import Chips from 'preact-material-components/Chips';
@@ -33,9 +36,9 @@ const Messages: FunctionalComponent = () => {
     }, [messages]);
 
     return (<div>
-        <ul>
+        <ul class={style.messagelist}>
             {messages.map((message, index) => (
-                <li>
+                <li class={style.nobullet}>
                     <Message message={message} />
                 </li>)
             )}

@@ -16,7 +16,7 @@ export async function notifyAll(title: string, message: string, tags: string[], 
     const vapidKeys: Readonly<JWK> = JSON.parse(VAPID_SERVER_KEY);
 
     const webPushMessageInfo: WebPushMessage = {
-        data: JSON.stringify({ body: message, icon, title }),
+        data: JSON.stringify({ body: message, icon, title, tags }),
         urgency: "normal",
         sub: SUB,
         ttl: 60 * 24 * 7

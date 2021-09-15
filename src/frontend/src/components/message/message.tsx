@@ -7,6 +7,11 @@ import Chips from 'preact-material-components/Chips';
 import 'preact-material-components/Chips/style.css';
 import 'preact-material-components/Theme/style.css';
 
+import Elevation from 'preact-material-components/Elevation';
+import 'preact-material-components/Elevation/style.css';
+
+import style from "./message.css";
+
 type MessageProps = {
     message: MessageType;
 }
@@ -32,11 +37,13 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
 
     return (
         <div>
-            <h1>{message.title} - {timeStampToString(message.receivedAt)}</h1>
-            <span>{message.body}</span>
-            <Chips>
-                {message.tags.map((tag: string) => (<Chips.Chip>{tag as any}</Chips.Chip>) as any)}
-            </Chips>
+            <Elevation z={1}>
+                <h1>{message.title} - {timeStampToString(message.receivedAt)}</h1>
+                <div class={style.messagebody}>{message.body}</div>
+                <Chips>
+                    {message.tags.map((tag: string) => (<Chips.Chip>{tag as any}</Chips.Chip>) as any)}
+                </Chips>
+            </Elevation>
         </div>)
 }
 

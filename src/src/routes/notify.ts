@@ -31,11 +31,11 @@ export async function readBodyAs<T>(request: Request): Promise<Partial<T>> {
 
 notificationRouter.post("/", auth,
     async (request: Required<Request>, event: FetchEvent): Promise<Response> => {
-        const { title, message, icon, tags } = await readBodyAs<{ title: string, message: string, icon?: string, tags?: Array<string> }>(request);
+        const { title, message, icon = "", tags = []} = await readBodyAs<{ title: string, message: string, icon?: string, tags?: Array<string> }>(request);
         if (!title || !message) {
             return failure<string>("Missing title or message", { status: 400 });
         }
-        return await notifyAll(String(title), String(message), (tags || []).map(e => String(e)), String(icon || ""))
+        return await notifyAll(String(title), String(message), (tags).map(e => String(e)), String(icon))
             .then((messagePromise: Promise<void>) => event.waitUntil(messagePromise))
             .then(() => success<string>("notified", { headers: corsHeaders }))
             .catch((error: Error) => failure<string>(error.message, { headers: corsHeaders }));

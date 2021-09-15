@@ -1,0 +1,7 @@
+.nobullet {
+    list-style-type: none;
+}
+
+.messagelist {
+    padding: 10px;
+}
