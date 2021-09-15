@@ -38,7 +38,8 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
     return (
         <div>
             <Elevation z={1}>
-                <h1>{message.title} - {timeStampToString(message.receivedAt)}</h1>
+                <h1>{message.title}</h1>
+                <p>{timeStampToString(message.receivedAt)}</p>
                 <div class={style.messagebody}>{message.body}</div>
                 <Chips>
                     {message.tags.map((tag: string) => (<Chips.Chip>{tag as any}</Chips.Chip>) as any)}
