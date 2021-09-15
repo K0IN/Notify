@@ -6,11 +6,11 @@ route = ""
 workers_dev = true
 
 kv_namespaces = [
-    { binding = "NOTIFY_USERS", id = "" }
+    { binding = "NOTIFY_USERS", id = "614c593c1c0d4f51a3b40864e61bc4e0" }
 ]
 
 [build]
-command = "npm install && npm run build_all"
+command = "npm install && npm run build_all" # todo install client dependencies as well
 
 [build.upload]
 format = "service-worker"
@@ -20,7 +20,7 @@ format = "service-worker"
 VAPID_SERVER_KEY = "{\"crv\":\"P-256\",\"d\":\"MM3IEY73Br5_Hdtfknab6QIXqCHXv7S5cZrlD3lrjuk\",\"ext\":true,\"key_ops\":[\"sign\"],\"kty\":\"EC\",\"x\":\"YNEmMB5QyQULW4WepHQvn5WWrBXpHGFB51eJ3oJj3k4\",\"y\":\"NU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ\"}"
 SUB = "admin@example.com"
 SERVERPWD = "" # "" = no pw
-CORS_ORIGIN = "" # "" = no cors
+CORS_ORIGIN = "*" # "" = no cors
 SERVE_FRONTEND = true
 
 # [secrets]

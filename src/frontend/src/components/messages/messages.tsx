@@ -5,23 +5,21 @@ import { MessageType } from "../../types/messagetype";
 import { PushMessage } from "../../types/postmassage";
 import Message from "../message/message";
 
+import Chips from 'preact-material-components/Chips';
+import 'preact-material-components/Chips/style.css';
+import 'preact-material-components/Theme/style.css';
+
 const sortMessages = (messages: MessageType[]) => {
-    return messages.sort((a, b) => {
-        if (a.receivedAt > b.receivedAt) {
-            return 1;
-        }
-        if (a.receivedAt < b.receivedAt) {
-            return -1;
-        }
-        return 0;
-    });
+    return messages.sort((a, b) => b.receivedAt - a.receivedAt);
 }
 
 const Messages: FunctionalComponent = () => {
     const [messages, setMessages] = useState<MessageType[]>([]);
-    const ref = useRef<Menu>()
+
     useEffect(() => {
-        getOfflineDb().then(db => db.getAll('messages')).then(messages => setMessages(sortMessages(messages))).catch(console.warn);
+        getOfflineDb().then(db => db.getAll('messages')).then(messages => sortMessages(messages)).then(setMessages).catch(console.warn);
+
+        // todo set all messages to read
 
         const onMessageInternalCallback = (messageData: MessageEvent) => {
             const { data } = messageData as { data: PushMessage };
@@ -30,8 +28,8 @@ const Messages: FunctionalComponent = () => {
             }
         }
 
-        navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
-        return () => navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
+        navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
+        return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
     }, [messages]);
 
     return (<div>
@@ -39,7 +37,8 @@ const Messages: FunctionalComponent = () => {
             {messages.map((message, index) => (
                 <li>
                     <Message message={message} />
-                </li>))}
+                </li>)
+            )}
         </ul>
     </div>)
 }

@@ -31,11 +31,11 @@ self.addEventListener('activate', (event) => {
     }).catch(error => console.warn(error)));
 });
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', (event) => {
     self.skipWaiting();
 });
 
-self.addEventListener('push', function (event) {
+self.addEventListener('push', (event) => {
     if (!event.data) {
         throw new Error('No data in push event');
     }

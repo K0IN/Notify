@@ -8,7 +8,7 @@ export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
     for (let i = 0; i < bytes.byteLength; i++) {
         binary += String.fromCharCode(bytes[i]);
     }
-    return window.btoa(binary);
+    return btoa(binary);
 }
 
 export const getVapidData = async (): Promise<IApiResponse<string>> => {

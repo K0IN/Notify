@@ -9,7 +9,10 @@ import style from './style.css';
 const App: FunctionalComponent = () => {
     useEffect(() => {
         if ((navigator as any).clearAppBadge) {
-            (navigator as any).clearAppBadge().catch((error: Error) => console.warn(error));
+            (navigator as any).clearAppBadge().catch(console.warn);
+        }
+        if (!navigator.serviceWorker) {
+            // todo: device not supported print this to the user
         }
     }, []);
 

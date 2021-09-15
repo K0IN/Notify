@@ -30,6 +30,7 @@ for more info see [the documentation](doc/api.md)
   * [x] Docker image (automated build)
   * [ ] Add a url to a notification so it can be clicked
   * [ ] Add password protection to join
+  * [ ] Filter notifications
 
 ## Credits
 
