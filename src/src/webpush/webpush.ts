@@ -33,7 +33,7 @@ export async function generateWebPushMessage(message: WebPushMessage,
     }
 
     if (res.status != 200 && res.status != 201) {
-        console.log(`Web Push error: ${res.status} body: ${await res.text()}`);
+        console.error(`Web Push error: ${res.status} body: ${await res.text()}`);
         return WebPushResult.Error;
     }
 

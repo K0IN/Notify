@@ -15,6 +15,10 @@ optional with a icon:
 
 > curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World", "icon": "https://via.placeholder.com/150"}' https://yourendpoint/api/notify
 
+optional with some tags:
+
+> curl -X POST -H "Content-Type: application/json" -d '{"message": "test", "title": "1231234", "tag": ["test", "server"]}' https://yourendpoint/api/notify
+
 if you have a server password defined you will also need to set the `Authorization` header: `bearer <server_password>`
 
 for more info see [the documentation](doc/api.md)

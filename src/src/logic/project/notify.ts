@@ -10,25 +10,29 @@ export async function notifyAll(title: string, message: string, tags: string[], 
     }
     
     const devices = await getAllDevicesIDs();
-    
-    console.log("notify devices", devices);
-    
+
     const vapidKeys: Readonly<JWK> = JSON.parse(VAPID_SERVER_KEY);
 
+    const data = JSON.stringify({ body: message, icon, title, tags });
+
+    if (data.length > 4 * 1024 * 1024) {
+        throw new Error("Message too long");
+    }
+
     const webPushMessageInfo: WebPushMessage = {
-        data: JSON.stringify({ body: message, icon, title, tags }),
+        data,
         urgency: "normal",
         sub: SUB,
         ttl: 60 * 24 * 7
     };
-    console.log(webPushMessageInfo);
+    
     const promises = devices.map(async (deviceId): Promise<void> => {
         const device = await getDevice(deviceId);
         if (!device.pushData) {
             throw new Error("Device has no push data");
         }
         const result = await generateWebPushMessage(webPushMessageInfo, device.pushData, vapidKeys);
-        if (result == WebPushResult.NotSubscribed) {
+        if (result === WebPushResult.NotSubscribed) {
             await deleteDeviceFromDatabase(deviceId);
         }
     });
