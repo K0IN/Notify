@@ -10,4 +10,4 @@ COPY . .
 WORKDIR /usr/src/app/src
 RUN npm install
 COPY --from=frontend_builder /usr/src/build /usr/src/app/src/frontend/build
-ENTRYPOINT [ "npx", "miniflare", "./dist/worker.js", "--kv-persist", "--wrangler-config", "wrangler.toml", "--env", "./.env" ]
+ENTRYPOINT [ "npx", "miniflare", "./dist/worker.js", "--kv-persist", "--wrangler-config", "wrangler.toml", "--env", "env" ]

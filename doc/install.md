@@ -40,7 +40,13 @@ see above steps on [run in miniflare](#run-in-miniflare)
 
 ### Deploy to: docker (with miniflare)
 
-> docker run -p 8787:8787 -v env.txt:/usr/src/app/src/.env ghcr.io/k0in/notify:main
+(with env file in current dir / or use --binding KEY1=value1 see [miniflare](#Run in miniflare))
+
+> docker run -p 8787:8787 -v $(pwd)/env:/usr/src/app/src/env ghcr.io/k0in/notify:main
+
+you can also save your persistant data in a volume
+
+> /usr/src/app/src/.mf
 
 ## server-key
 
