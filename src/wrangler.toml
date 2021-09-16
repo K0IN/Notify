@@ -10,7 +10,7 @@ kv_namespaces = [
 ]
 
 [build]
-command = "npm install && npm run build_all" # todo install client dependencies as well
+command = "npm install && cd frontend && npm install && cd .. && npm run build_all" # todo install client dependencies as well
 
 [build.upload]
 format = "service-worker"

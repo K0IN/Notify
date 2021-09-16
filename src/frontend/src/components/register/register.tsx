@@ -75,7 +75,7 @@ const Register: FunctionalComponent = () => {
                 ref.current.MDComponent.show({ message: e.message, timeout: 5000 });
             }
             return false;
-        }).then(setLoginStatus());
+        }).then(setLoginStatus);
     }, []);
 
     return (

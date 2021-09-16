@@ -127,6 +127,7 @@ All routes are prefixed with `/api`
     "title":"<title>",
     "message":"<message>",
     "icon":"<icon url>",
+    "tags": [<list of strings>]
 }
 ```
 

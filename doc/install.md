@@ -1,11 +1,8 @@
 # Install
 
-## 1. Build the frontend
+## Run in Cloudflare
 
-Go into the frontend directory and run `npm install` and `npm run build`.
-Now copy the build folder to the root of the backend.
-
-## 2. Generate your kv namespace
+### 1. Generate your kv namespace
 
 use wrangler to create your namespace.
 
@@ -13,36 +10,40 @@ use wrangler to create your namespace.
 
 and set the id inside the wrangler.toml file.
 
-## 2. Get your sever key
+### 2. Set your env variables and secrets in wrangler.toml
+
+[how to create the server key](#server-key)
+
+### 3. Publish the worker using wrangler
+
+> cd src
+> npx wrangler publish
+
+## Run in miniflare
+
+### 1. Set your env variables and secrets in wrangler.toml
+
+[how to create the server key](#server-key)
+
+if you use secrets make sure to pass them like so: --binding KEY1=value1
+
+[see miniflare documentation](https://miniflare.dev/variables-secrets.html)
+
+### 2. Run miniflare
+
+> npx miniflare src/dist/worker.js --kv-persist --wrangler-config wrangler.toml
+
+
+## Run in miniflare with docker
+
+see above steps on [run in miniflare](#run-in-miniflare)
+
+### Deploy to: docker (with miniflare)
+
+> docker run -p 8787:8787 -v env.txt:/usr/src/app/src/.env ghcr.io/k0in/notify:main
+
+## server-key
 
 go to your browser and run this script in your console: [script](../helper/main.js)
 it will print a random generated server key that will be used to send web notifications.
 You will need to set the resulting string inside your secrets (for that see miniflare secrets or cloudflare secrets)
-
-## 2. Deploy the application
-
-Take a look at the wrangler.toml file and set the secrets and variables as you need them.
-first you should install the dependencies:
-
-> cd src && npm install
-
-also install the dependencies of the frontend:
-
-> cd src/frontend && npm install
-
-### Deploy to: your cloudflare account
-
-> cd src
-> npx wrangler login
-> npx wrangler publish
-
-### Deploy to: locally with Miniflare
-
-> npx miniflare src/dist/worker.js --kv-persist --wrangler-config wrangler.toml
-
-if you use secrets make sure to pass them like so: --binding KEY1=value1
-[see miniflare documentation](https://miniflare.dev/variables-secrets.html)
-
-### Deploy to: docker (with miniflare)
-
-> docker run -p 8787:8787 ghcr.io/k0in/notify:main
