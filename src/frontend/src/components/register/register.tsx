@@ -63,12 +63,9 @@ const toggleLoginStatus = async (event: any /* Event */): Promise<boolean> => {
 }
 
 const Register: FunctionalComponent = () => {
-    const [isLoggedIn, setLoginStatus] = useState<boolean>(false);
+    const [isLoggedIn, setLoginStatus] = useState<boolean>(!!localStorage.userData);
     const ref = useRef<Snackbar>();
-    useEffect(() => {
-        setLoginStatus(!!localStorage.userData);
-    }, []);
-
+    
     const loginCb = useCallback(async (e: Event) => {
         toggleLoginStatus(e).catch(e => {
             if (ref.current) {

@@ -7,7 +7,7 @@ const urlsToCache = getFiles();
 urlsToCache.push({ url: '/favicon.ico', revision: null });
 setupPrecaching(urlsToCache);
 
-async function addMessageToDB(messageData) {
+const addMessageToDB = async (messageData) => {
     await openDB(dbName, dbVersion, {
         upgrade(db) {
             db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
@@ -15,8 +15,8 @@ async function addMessageToDB(messageData) {
     }).then(db => db.add('messages', messageData)).catch(err => console.log(err));
 }
 
-function sendMessageToMainWindow(messageData) {
-    return new Promise(async (resolve) => {
+const sendMessageToMainWindow = async (messageData) => {
+    return await new Promise(async (resolve) => {
         const clientList = await clients.matchAll({ type: 'window' });
         clientList.map(client => client.postMessage(messageData));
         resolve();
@@ -42,8 +42,6 @@ self.addEventListener('push', (event) => {
 
     const { title, body, icon = "", tags = [] } = JSON.parse(event.data.text());
     const tag = (Math.random() + 1).toString(36).substring(7);
-
-    // todo input validation
 
     const messageData = {
         body, icon, title, tags,

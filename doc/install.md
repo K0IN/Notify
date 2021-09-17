@@ -33,8 +33,7 @@ if you use secrets make sure to pass them like so: --binding KEY1=value1
 
 > npx miniflare src/dist/worker.js --kv-persist --wrangler-config wrangler.toml
 
-
-## Run in miniflare with docker
+## Run in miniflare with docker (beta better documentation coming soon)
 
 see above steps on [run in miniflare](#run-in-miniflare)
 
