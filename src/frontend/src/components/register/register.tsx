@@ -71,8 +71,10 @@ const Register: FunctionalComponent = () => {
 
     const loginCb = useCallback(async (e: Event) => {
         if (!navigator.serviceWorker || !('PushManager' in window)) {
-            ref.current.MDComponent.show({ message: "your browser is not supported", timeout: 5000 });
-            return;
+            if (ref.current) {
+                ref.current.MDComponent.show({ message: "your browser is not supported", timeout: 5000 });
+            }
+            return false;
         }
 
         toggleLoginStatus(e).catch(e => {
