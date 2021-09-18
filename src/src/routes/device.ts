@@ -9,8 +9,6 @@ import type { WebPushInfos } from "../webpush/webpushinfos";
 
 export const deviceRouter = Router({ base: "/api/device" });
 
-// todo check if device exists
-
 deviceRouter.post('/',
     async (request: Request, event: FetchEvent): Promise<Response> => {
         if (!request.json) {

@@ -37,6 +37,7 @@ for more info see [the documentation](doc/api.md)
   * [ ] Add a url to a notification so it can be clicked
   * [ ] Add password protection to join
   * [ ] Filter notifications
+  * [ ] Split frontend and backend into two
 
 ## 
 

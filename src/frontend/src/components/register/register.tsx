@@ -17,6 +17,9 @@ async function login(): Promise<boolean> {
     }
 
     const sw = await navigator.serviceWorker.ready;
+    if (!sw.pushManager) {
+        throw new Error('Your device does not support webpush');
+    }
     const subscribeParams = { userVisibleOnly: true, applicationServerKey: serverKey.data };
     const subscription = await sw.pushManager.subscribe(subscribeParams);
     if (!subscription) {
@@ -65,14 +68,19 @@ const toggleLoginStatus = async (event: any /* Event */): Promise<boolean> => {
 const Register: FunctionalComponent = () => {
     const [isLoggedIn, setLoginStatus] = useState<boolean>(!!localStorage.userData);
     const ref = useRef<Snackbar>();
-    
+
     const loginCb = useCallback(async (e: Event) => {
+        if (!navigator.serviceWorker || !('PushManager' in window)) {
+            ref.current.MDComponent.show({ message: "your browser is not supported", timeout: 5000 });
+            return;
+        }
+
         toggleLoginStatus(e).catch(e => {
             if (ref.current) {
                 ref.current.MDComponent.show({ message: e.message, timeout: 5000 });
             }
             return false;
-        }).then(setLoginStatus);
+        }).then(setLoginStatus).then(() => location.reload()); // reload page
     }, []);
 
     return (

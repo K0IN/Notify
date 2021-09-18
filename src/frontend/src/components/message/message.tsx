@@ -25,7 +25,6 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
     // - add a read status indicator
     // - add a icon option
     // - add a show more option on to many tags
-    // - add a menu to delete a message
 
     return (
         <div>

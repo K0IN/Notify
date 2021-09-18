@@ -11,9 +11,6 @@ const App: FunctionalComponent = () => {
         if ((navigator as any).clearAppBadge) {
             (navigator as any).clearAppBadge().catch(console.warn);
         }
-        if (!navigator.serviceWorker) {
-            // todo: device not supported print this to the user
-        }
     }, []);
 
     return (<div>

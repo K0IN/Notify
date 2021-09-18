@@ -29,7 +29,7 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
     const body = {
         "aud": `${pushService.protocol}//${pushService.host}`,
         "exp": `${Math.floor(Date.now() / 1000) + (12 * 60 * 60)}`,
-        "sub": "mailto:admin@1k0.in"                                // todo: make this configurable
+        "sub": sub
     }
 
     const unsignedToken = objToUrlB64(header) + "." + objToUrlB64(body);

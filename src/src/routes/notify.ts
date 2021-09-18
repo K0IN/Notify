@@ -40,18 +40,3 @@ notificationRouter.post("/", auth,
             .then(() => success<string>("notified", { headers: corsHeaders }))
             .catch((error: Error) => failure<string>(error.message, { headers: corsHeaders }));
     });
-
-/* todo: add tags
-notificationRouter.post('/:device_id', auth,
-    async (request: Required<Request>, event: FetchEvent): Promise<Response> => {
-        const { device_id } = request.params as { device_id: string };
-        const { title, message, icon } = await readBodyAs<{ title: string, message: string, icon: string }>(request);
-        if (!title || !message) {
-            return failure<string>("Missing title or message", { status: 400 });
-        }
-        return await notifyDevice(String(title), String(device_id), String(message), String(icon))
-            .then((deletionPromise) => event.waitUntil(deletionPromise))
-            .then((device) => success<string>("device deleted", { headers: corsHeaders }))
-            .catch((error: Error) => failure<string>(error.message, { headers: corsHeaders }));
-    });
-*/
