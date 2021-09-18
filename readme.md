@@ -1,7 +1,9 @@
 # Notify
 
-A Simple way to send push messages (via a webhook) to every device that supports web push.
+A Simple way to send push messages (via a webhook) to every [device that supports web push](https://caniuse.com/push-api).
 Hosted inside a `cloudflare worker` or `selfhost` (using miniflare).
+
+![example of the app](https://i.imgur.com/h68KYqi.png)
 
 ## Install
 
@@ -35,6 +37,8 @@ for more info see [the documentation](doc/api.md)
   * [ ] Add a url to a notification so it can be clicked
   * [ ] Add password protection to join
   * [ ] Filter notifications
+
+## 
 
 ## Credits
 
