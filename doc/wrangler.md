@@ -12,7 +12,7 @@ this is the password for the (send push) webhook endpoint you will need to set y
 
 default: "" (empty) -> no password set
 
-## Variables
+## Env Variables
 
 ### SUB
 

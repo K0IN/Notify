@@ -13,6 +13,7 @@ and set the id inside the wrangler.toml file.
 ### 2. Set your env variables and secrets in wrangler.toml
 
 [how to create the server key](#server-key)
+also see [wrangler file at vars](/src/wrangler.toml) for more details.
 
 ### 3. Publish the worker using wrangler
 
@@ -41,9 +42,15 @@ see above steps on [run in miniflare](#run-in-miniflare)
 
 (with env file in current dir / or use --binding KEY1=value1 see [miniflare](#Run in miniflare))
 
+example of disable frontend using parameters
+
+> docker run -p 8787:8787 test --binding SERVE_FRONTEND=
+
+or use env file ([see miniflare documentation](https://miniflare.dev/variables-secrets.html))
+
 > docker run -p 8787:8787 -v $(pwd)/env:/usr/src/app/src/env ghcr.io/k0in/notify:main
 
-you can also save your persistant data in a volume
+you can also save your persistent data in a volume
 
 > /usr/src/app/src/.mf
 
