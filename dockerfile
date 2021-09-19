@@ -1,13 +1,17 @@
-FROM node:16-alpine AS frontend_builder
+FROM node:16-alpine AS builder
 WORKDIR /usr/src
-COPY ./src/frontend .
+COPY src .
 RUN npm install
 RUN npm run build
 
+
 FROM node:16-alpine
-WORKDIR /usr/src/app
-COPY . .
-WORKDIR /usr/src/app/src
-RUN npm install
-COPY --from=frontend_builder /usr/src/build /usr/src/app/src/frontend/build
-ENTRYPOINT [ "npx", "miniflare", "./dist/worker.js", "--kv-persist", "--wrangler-config", "wrangler.toml", "--env", "env" ]
+WORKDIR /usr/app
+RUN npm install -g miniflare
+
+COPY --from=builder /usr/src/dist /usr/app/dist
+COPY --from=builder /usr/src/frontend/build /usr/app/frontend/build
+COPY --from=builder /usr/src/package.json /usr/app/package.json 
+COPY --from=builder /usr/src/wrangler.toml /usr/app/wrangler.toml 
+
+ENTRYPOINT [ "miniflare", "./dist/worker.js", "--kv-persist", "--wrangler-config", "wrangler.toml", "--env", "env", "--build-command", ""]
