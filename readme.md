@@ -38,7 +38,7 @@ for more info see [the documentation](doc/api.md)
   * [ ] Add password protection to join
   * [ ] Filter notifications
   * [ ] Split frontend and backend into two
-  * [ ] create a slim docker image with just the compield files
+  * [x] create a slim docker image with just the compiled files
   
 ## 
 
