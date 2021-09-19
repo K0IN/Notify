@@ -1,8 +1,7 @@
-name = "backend"
+name = "notify_app"
 type = "javascript"
 zone_id = ""
 account_id = ""
-route = ""
 workers_dev = true
 
 kv_namespaces = [
