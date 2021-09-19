@@ -2,7 +2,7 @@ FROM node:16-alpine AS builder
 WORKDIR /usr/src
 COPY src .
 RUN npm install
-RUN npm run build
+RUN npm run build_all
 
 
 FROM node:16-alpine
