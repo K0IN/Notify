@@ -6,8 +6,6 @@ You can even receive notifications if the app is closed or your offline(and back
 It comes with a offline installable pwa for all time access to your latest notifications.
 
 ![example of the app](https://i.imgur.com/h68KYqi.png)
-
-
 ![using on android](https://i.imgur.com/ArAAAO7.png)
 ![using on windows](https://i.imgur.com/U5v3GZl.png)
 

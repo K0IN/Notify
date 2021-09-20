@@ -48,7 +48,7 @@ example of disable frontend using parameters
 
 or use env file ([see miniflare documentation](https://miniflare.dev/variables-secrets.html))
 
-> docker run -p 8787:8787 -v $(pwd)/env:/usr/src/app/src/env ghcr.io/k0in/notify:main
+> docker run -p 8787:8787 -v ${pwd}/env:/usr/app/.env -v ${pwd}/persistance:/usr/app/data ghcr.io/k0in/notify:main
 
 you can also save your persistent data in a volume
 

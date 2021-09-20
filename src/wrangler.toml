@@ -30,3 +30,7 @@ SERVE_FRONTEND = true
 [site]
 bucket = "frontend/build"
 entry-point = "."
+
+[miniflare]
+env_path = ".env"
+kv_persist = "./data/"
