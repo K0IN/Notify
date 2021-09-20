@@ -1,9 +1,15 @@
 # Notify
 
-A Simple way to send push messages (via a webhook) to every [device that supports web push](https://caniuse.com/push-api).
+A Simple way to send (offline) push messages (via a webhook) to every [device that supports web push](https://caniuse.com/push-api).
 Hosted inside a `cloudflare worker` or `selfhost` (using miniflare).
+You can even receive notifications if the app is closed or your offline(and back online again).
+It comes with a offline installable pwa for all time access to your latest notifications.
 
 ![example of the app](https://i.imgur.com/h68KYqi.png)
+
+
+![using on android](https://i.imgur.com/ArAAAO7.png)
+![using on windows](https://i.imgur.com/U5v3GZl.png)
 
 ## Install
 
