@@ -2,5 +2,5 @@ node_modules
 build
 *.log
 dist 
-src/.mf
-src/frontend/size-plugin.json
+app/.mf
+app/frontend/size-plugin.json

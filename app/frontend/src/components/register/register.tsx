@@ -83,6 +83,7 @@ const Register: FunctionalComponent = () => {
             }
             return false;
         }).then(setLoginStatus).then(() => location.reload()); // reload page
+        // todo reload only if login successful
     }, []);
 
     return (

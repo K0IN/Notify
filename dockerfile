@@ -1,6 +1,6 @@
 FROM node:16-alpine AS builder
 WORKDIR /usr/src
-COPY src .
+COPY app .
 RUN npm install
 RUN npm run build_all
 
