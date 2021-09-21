@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
-import { getOfflineDb } from "../../services/localdb";
+import { getOfflineDb } from "../../services/messagedb";
 import { MessageType } from "../../types/messagetype";
 import { PushMessage } from "../../types/postmassage";
 
@@ -21,16 +21,13 @@ const Messages: FunctionalComponent = () => {
 
     useEffect(() => {
         getOfflineDb().then(db => db.getAll('messages')).then(messages => sortMessages(messages)).then(setMessages).catch(console.warn);
-
         // todo set all messages to read
-
         const onMessageInternalCallback = (messageData: MessageEvent) => {
             const { data } = messageData as { data: PushMessage };
             if (data.type === 'notification') {
                 setMessages(old => sortMessages([data.data, ...old]));
             }
-        }
-        
+        }        
         navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
         return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
     }, []);
