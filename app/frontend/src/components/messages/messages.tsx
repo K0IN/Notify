@@ -30,10 +30,10 @@ const Messages: FunctionalComponent = () => {
                 setMessages(old => sortMessages([data.data, ...old]));
             }
         }
-
+        
         navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
         return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
-    }, [messages]);
+    }, []);
 
     return (<div>
         <ul class={style.messagelist}>
