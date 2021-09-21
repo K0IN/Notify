@@ -1,5 +1,6 @@
 import { apiBase } from "../staticsettings";
 import type { IApiResponse } from "../types/apiresponse";
+import type { Device } from "../types/localdevice";
 import type { WebPushData } from "../types/webpushdata";
 
 export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
@@ -11,22 +12,31 @@ export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
     return btoa(binary);
 }
 
-export const getVapidData = async (): Promise<IApiResponse<string>> => {
-    return await fetch(apiBase + "/keys").then(response => response.json());
+function parseResponse<T>(promise: Promise<IApiResponse<T>>): Promise<T> {
+    return promise.then((response: IApiResponse<T>) => {
+        if (!response.successful) {
+            throw new Error(response.error);
+        }
+        return response.data as T;
+    });
 }
 
-export const createDevice = async (webPushData: WebPushData): Promise<IApiResponse<{ id: string, secret: string }>> => {
-    return await fetch(apiBase + "/device", { method: "POST", body: JSON.stringify({ web_push_data: webPushData }) }).then(response => response.json());
+export function getVapidData(): Promise<string> {
+    const fetchPromise = fetch(`${apiBase}/keys`).then(r => r.json());
+    return parseResponse<string>(fetchPromise);
 }
 
-export const deleteDevice = async (deviceId: string, secret: string): Promise<IApiResponse<string>> => {
-    return await fetch(apiBase + "/device/" + deviceId, {
-        method: "DELETE", body: JSON.stringify({
-            secret
-        })
-    }).then(response => response.json());
+export function createDevice(webPushData: WebPushData): Promise<Device> {
+    const fetchPromise = fetch(`${apiBase}/device`, { 
+        method: "POST", 
+        body: JSON.stringify({ 
+            web_push_data: webPushData 
+        }) 
+    }).then(r => r.json());
+    return parseResponse<Device>(fetchPromise);
 }
 
-export const checkIfDeviceExists = async (deviceId: string): Promise<IApiResponse<boolean>> => {
-    return await fetch(apiBase + "/device/" + deviceId).then(response => response.json());
+export function checkIfDeviceExists(deviceId: string): Promise<boolean> {
+    const fetchPromise = fetch(`${apiBase}/device/${deviceId}`).then(r => r.json());
+    return parseResponse<boolean>(fetchPromise);
 }
