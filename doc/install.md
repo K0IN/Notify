@@ -52,7 +52,7 @@ or use env file ([see miniflare documentation](https://miniflare.dev/variables-s
 
 you can also save your persistent data in a volume
 
-> /usr/src/app/src/.mf
+> /usr/app/data
 
 ## server-key
 
