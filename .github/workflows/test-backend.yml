@@ -18,6 +18,8 @@ jobs:
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.0
+        with:
+          node-version: "16.x"          
       
       - name: run tests
         run: cd app && npm install && npm test
