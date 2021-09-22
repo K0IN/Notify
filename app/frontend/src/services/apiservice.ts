@@ -27,11 +27,11 @@ export function getVapidData(): Promise<string> {
 }
 
 export function createDevice(webPushData: WebPushData): Promise<Device> {
-    const fetchPromise = fetch(`${apiBase}/device`, { 
-        method: "POST", 
-        body: JSON.stringify({ 
-            web_push_data: webPushData 
-        }) 
+    const fetchPromise = fetch(`${apiBase}/device`, {
+        method: "POST",
+        body: JSON.stringify({
+            web_push_data: webPushData
+        })
     }).then(r => r.json());
     return parseResponse<Device>(fetchPromise);
 }

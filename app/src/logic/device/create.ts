@@ -9,7 +9,7 @@ export async function create(webPushData: WebPushInfos): Promise<IDevice> {
         secret: generateRandomId(),
         pushData: { 
             auth: String(webPushData.auth), 
-            endpoint: String(webPushData.endpoint), 
+            endpoint: new URL(webPushData.endpoint).toString(), 
             key: String(webPushData.key) 
         }
     };

@@ -5,6 +5,7 @@ import { create } from "../logic/device/create";
 import { deleteDevice } from "../logic/device/delete";
 import { notifyDevice } from "../logic/device/notify";
 import { failure, success } from "../types/apiresponse";
+import { UrlEncodedToB64 } from "../webpush/util";
 import type { WebPushInfos } from "../webpush/webpushinfos";
 
 export const deviceRouter = Router({ base: "/api/device" });
@@ -14,7 +15,7 @@ deviceRouter.post('/',
         if (!request.json) {
             return failure<string>("body not set");
         }
-        const { web_push_data } = await request.json() as { secret: string, web_push_data: WebPushInfos };        
+        const { web_push_data } = await request.json() as { secret: string, web_push_data: WebPushInfos };
         return await create({
                 auth: String(web_push_data.auth),
                 endpoint: String(web_push_data.endpoint),
