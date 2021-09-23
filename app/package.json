@@ -4,7 +4,7 @@
     "description": "Notify worker",
     "main": "dist/worker.js", 
     "scripts": {
-        "build_all": "webpack && cd frontend && npm run build",
+        "build_all": "webpack && cd frontend && npm i && npm run build",
         "build": "webpack",
         "serve": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml",
         "dev": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml --watch",
