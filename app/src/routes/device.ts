@@ -1,5 +1,4 @@
 import { Request, Router } from "itty-router";
-import { corsHeaders } from "../cors";
 import { checkDevice } from "../logic/device/check";
 import { create } from "../logic/device/create";
 import { deleteDevice } from "../logic/device/delete";
