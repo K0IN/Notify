@@ -4,7 +4,8 @@ import { Miniflare, Request } from "miniflare";
 test.beforeEach((t) => {
     const mf = new Miniflare({
         buildCommand: undefined,
-        kvNamespaces: ["NOTIFY_USERS"]
+        kvNamespaces: ["NOTIFY_USERS"],
+        kvPersist: false,
     });
     t.context = { mf };
 });

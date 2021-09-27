@@ -9,7 +9,8 @@
         "serve": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml",
         "dev": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml --watch",
         "publish": "wrangler publish",
-        "test": "npm run build && ava --verbose test/*.spec.mjs"
+        "integrationstest": "npm run build && ava --verbose integrationstest/*.spec.mjs",
+        "test": "npm run integrationstest"
     },
     "eslintConfig": {
         "root": true,

@@ -5,6 +5,7 @@ import { Miniflare } from "miniflare";
 test.beforeEach((t) => {
     const mf = new Miniflare({
         buildCommand: undefined,
+        kvPersist: false,
     });
     t.context = { mf };
 });
