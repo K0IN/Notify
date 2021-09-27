@@ -1,12 +1,9 @@
-const sum = (...a: number[]) => a.reduce((acc, val) => acc + val, 0);
+import { b64ToUrlEncoded } from "./util";
 
 declare const test: any;
 declare const expect: any;
 
 test('basic', () => {
-    expect(sum()).toBe(0);
-});
-
-test('basic again', () => {
-    expect(sum(1, 2)).toBe(3);
+    const input = 'aGFsbG8gd2VsdA==' // btoa("hallo welt")
+    expect(b64ToUrlEncoded(input)).toBe("aGFsbG8gd2VsdA");
 });
