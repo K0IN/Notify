@@ -1,5 +1,4 @@
-// todo make this ajustable by the user
-export const isDebug = false;
 export const dbName = 'notify-db';
 export const dbVersion = 1;
-export const apiBase = isDebug ? "http://localhost:8787/api" : "/api" // if you host this somewhere use full url example: "http://localhost:8787/api"
+// if you want to run the gui separate from the api, change this to to your api location example: "http://localhost:8787/api"
+export const apiBase = "/api" 
