@@ -25,26 +25,9 @@ optional with some tags:
 
 > curl -X POST -H "Content-Type: application/json" -d '{"message": "test", "title": "1231234", "tag": ["test", "server"]}' https://yourendpoint/api/notify
 
-if you have a server password defined you will also need to set the `Authorization` header: `bearer <server_password>`
+if you have a server password defined you will also need to set the `Authorization` header to: `bearer <server_password>`
 
 for more info see [the documentation](doc/api.md)
-
-## Todo list
-
-  * [x] Init push the project
-  * [x] Better documentation
-  * [ ] Add tests
-  * [ ] Write a proper README
-  * [ ] Move the webpush code to a separate package
-  * [ ] Beautify the frontend
-  * [x] Docker image (automated build)
-  * [ ] Add a url to a notification so it can be clicked
-  * [ ] Add password protection to join
-  * [ ] Filter notifications
-  * [ ] Split frontend and backend into two
-  * [x] create a slim docker image with just the compiled files
-  
-## 
 
 ## Credits
 
