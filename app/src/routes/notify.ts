@@ -2,7 +2,6 @@ import { Request, Router } from "itty-router";
 import { corsHeaders } from "../cors";
 import { notifyAll } from "../logic/project/notify";
 import { failure, success } from "../types/apiresponse";
-import { notifyDevice } from "../logic/device/notify";
 import { compareStringSafe } from "../crypto";
 
 export const notificationRouter = Router({ base: "/api/notify" });

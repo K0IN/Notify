@@ -1,6 +1,6 @@
 import type { JWK } from "./jwk";
 import type { WebPushInfos } from "./webpushinfos";
-import { arrayBufferToBase64, b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, joinUint8Arrays, stringToU8Array, u8ToString } from "./util";
+import { b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, joinUint8Arrays, stringToU8Array, u8ToString } from "./util";
 import { hkdfGenerate } from "./hkdf";
 
 type mKeyPair = {

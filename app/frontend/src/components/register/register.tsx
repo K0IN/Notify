@@ -1,13 +1,11 @@
 import { FunctionalComponent, h } from 'preact';
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { arraybuffer2base64, checkIfDeviceExists, createDevice, getVapidData } from "../../services/apiservice";
+import { checkIfDeviceExists } from "../../services/apiservice";
 
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
 
 import Snackbar from 'preact-material-components/Snackbar';
-import Button from 'preact-material-components/Button';
-import 'preact-material-components/Button/style.css';
 import 'preact-material-components/Snackbar/style.css';
 import type { Device } from '../../types/localdevice';
 import { login, logoff } from '../../services/loginservice';

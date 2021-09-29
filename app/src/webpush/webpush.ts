@@ -1,6 +1,5 @@
 import type { JWK } from "./jwk";
 import { WebPushInfos, WebPushMessage, WebPushResult } from "./webpushinfos";
-import { arrayBufferToBase64, b64ToUrlEncoded, exportPublicKeyPair, stringToU8Array, u8ToString } from "./util";
 import { generateEncryptedMessage } from "./message";
 import { generateV1Headers, generateV2Headers } from "./vapid";
 

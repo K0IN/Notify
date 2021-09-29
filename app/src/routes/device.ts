@@ -2,9 +2,7 @@ import { Request, Router } from "itty-router";
 import { checkDevice } from "../logic/device/check";
 import { create } from "../logic/device/create";
 import { deleteDevice } from "../logic/device/delete";
-import { notifyDevice } from "../logic/device/notify";
 import { failure, success } from "../types/apiresponse";
-import { UrlEncodedToB64 } from "../webpush/util";
 import type { WebPushInfos } from "../webpush/webpushinfos";
 
 export const deviceRouter = Router({ base: "/api/device" });
