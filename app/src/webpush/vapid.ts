@@ -1,5 +1,5 @@
-import type { JWK } from "./jwk";
-import { arrayBufferToBase64, b64ToUrlEncoded, exportPublicKeyPair, stringToU8Array } from "./util";
+import type { JWK } from './jwk';
+import { arrayBufferToBase64, b64ToUrlEncoded, exportPublicKeyPair, stringToU8Array } from './util';
 
 const objToUrlB64 = (obj: object) => b64ToUrlEncoded(btoa(JSON.stringify(obj)));
 
@@ -10,7 +10,8 @@ async function signData(token: string, applicationKeys: any): Promise<string> {
         true,
         ['sign']);
 
-    const sig = await crypto.subtle.sign({ name: 'ECDSA', hash: { name: 'SHA-256' } },
+    const sig = await crypto.subtle.sign(
+        { name: 'ECDSA', hash: { name: 'SHA-256' } },
         key,
         stringToU8Array(token));
 
@@ -22,23 +23,23 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
     const pushService = new URL(endpoint);
 
     const header = {
-        "typ": "JWT",
-        "alg": "ES256"
-    }
+        'typ': 'JWT',
+        'alg': 'ES256'
+    };
 
     const body = {
-        "aud": `${pushService.protocol}//${pushService.host}`,
-        "exp": `${Math.floor(Date.now() / 1000) + (12 * 60 * 60)}`,
-        "sub": sub
-    }
+        'aud': `${pushService.protocol}//${pushService.host}`,
+        'exp': `${Math.floor(Date.now() / 1000) + (12 * 60 * 60)}`,
+        'sub': sub
+    };
 
-    const unsignedToken = objToUrlB64(header) + "." + objToUrlB64(body);
+    const unsignedToken = objToUrlB64(header) + '.' + objToUrlB64(body);
     const signature = await signData(unsignedToken, applicationServerKeys);
 
     return {
         token: `${unsignedToken}.${signature}`,
         serverKey: publicKey
-    }
+    };
 }
 
 export async function generateV1Headers(endpoint: string, applicationServerKeys: JWK, sub: string): Promise<{ [headerName: string]: string }> {

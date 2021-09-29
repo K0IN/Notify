@@ -1,7 +1,7 @@
-import type { JWK } from "./jwk";
-import type { WebPushInfos } from "./webpushinfos";
-import { b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, joinUint8Arrays, stringToU8Array, u8ToString } from "./util";
-import { hkdfGenerate } from "./hkdf";
+import type { JWK } from './jwk';
+import type { WebPushInfos } from './webpushinfos';
+import { b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, joinUint8Arrays, stringToU8Array, u8ToString } from './util';
+import { hkdfGenerate } from './hkdf';
 
 type mKeyPair = {
     publicKey: CryptoKey,
@@ -14,15 +14,15 @@ async function generateSalt(): Promise<Uint8Array> {
 
 async function getSubKeyAsCryptoKey(subscription: WebPushInfos): Promise<CryptoKey> {
     const key = atob(subscription.key);
-    const publicKey = await crypto.subtle.importKey("jwk", {
+    const publicKey = await crypto.subtle.importKey('jwk', {
         kty: 'EC',
         crv: 'P-256',
         x: b64ToUrlEncoded(btoa(key.slice(1, 33))),
         y: b64ToUrlEncoded(btoa(key.slice(33, 65))),
         ext: true,
     }, {
-        name: "ECDH",
-        namedCurve: "P-256"
+        name: 'ECDH',
+        namedCurve: 'P-256'
     }, true, []);
     return publicKey;
 }
@@ -38,7 +38,7 @@ async function getSharedSecret(subscription: WebPushInfos, serverKeys: mKeyPair)
 }
 
 export async function generateContext(subscription: WebPushInfos, serverKeys: mKeyPair): Promise<Uint8Array> {
-    const clientPublicKey = await getSubKeyAsCryptoKey(subscription)
+    const clientPublicKey = await getSubKeyAsCryptoKey(subscription);
 
     const keysAsUint8 = await Promise.all([
         cryptoKeysToUint8Array(clientPublicKey),
@@ -50,7 +50,7 @@ export async function generateContext(subscription: WebPushInfos, serverKeys: mK
         serverPublicKey: keysAsUint8[1].publicKey,
     };
 
-    const labelUnit8Array = stringToU8Array('P-256\x00')
+    const labelUnit8Array = stringToU8Array('P-256\x00');
 
     const clientPublicKeyLengthUnit8Array = new Uint8Array(2);
     clientPublicKeyLengthUnit8Array[0] = 0x00;
@@ -73,7 +73,7 @@ async function generatePRK(subscription: WebPushInfos, serverKeys: mKeyPair): Pr
     const sharedSecret = await getSharedSecret(subscription, serverKeys);
     const token = 'Content-Encoding: auth\x00';
     const authInfoUint8Array = stringToU8Array(token);
-    return hkdfGenerate(sharedSecret, stringToU8Array(atob(subscription.auth)), authInfoUint8Array, 32)
+    return await hkdfGenerate(sharedSecret, stringToU8Array(atob(subscription.auth)), authInfoUint8Array, 32);
 }
 
 async function generateCEKInfo(subscription: WebPushInfos, serverKeys: mKeyPair): Promise<Uint8Array> {
@@ -94,11 +94,11 @@ export async function generateEncryptionKeys(subscription: WebPushInfos, salt: U
     const [prk, cekInfo, nonceInfo] = await Promise.all([
         generatePRK(subscription, serverKeys),
         generateCEKInfo(subscription, serverKeys),
-        generateNonceInfo(subscription, serverKeys),
+        generateNonceInfo(subscription, serverKeys)
     ]);
     const [contentEncryptionKey, nonce] = await Promise.all([
         hkdfGenerate(prk, salt, cekInfo, 16),
-        hkdfGenerate(prk, salt, nonceInfo, 12),
+        hkdfGenerate(prk, salt, nonceInfo, 12)
     ]);
     return { contentEncryptionKey, nonce };
 }
@@ -115,12 +115,8 @@ export async function generateEncryptedMessage(payloadText: string, subscription
 
     const salt = await generateSalt();
     const serverKeys = await generateServerKey();
-
     const exportedServerKey = await crypto.subtle.exportKey('jwk', serverKeys.publicKey);
-
-
     const encryptionKeys = await generateEncryptionKeys(subscription, salt, serverKeys);
-
     const contentEncryptionCryptoKey = await crypto.subtle.importKey('raw',
         encryptionKeys.contentEncryptionKey, 'AES-GCM', true,
         ['decrypt', 'encrypt']);

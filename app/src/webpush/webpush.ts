@@ -1,7 +1,7 @@
-import type { JWK } from "./jwk";
-import { WebPushInfos, WebPushMessage, WebPushResult } from "./webpushinfos";
-import { generateEncryptedMessage } from "./message";
-import { generateV1Headers, generateV2Headers } from "./vapid";
+import type { JWK } from './jwk';
+import { WebPushInfos, WebPushMessage, WebPushResult } from './webpushinfos';
+import { generateEncryptedMessage } from './message';
+import { generateV1Headers, generateV2Headers } from './vapid';
 
 export async function generateWebPushMessage(message: WebPushMessage, 
     deviceData: Partial<WebPushInfos>, applicationServerKeys: JWK): Promise<WebPushResult> {
@@ -11,7 +11,6 @@ export async function generateWebPushMessage(message: WebPushMessage,
     }
 
     const headers = await generateV2Headers(deviceData.endpoint, applicationServerKeys, message.sub);
-
     const encryptedPayloadDetails = await generateEncryptedMessage(message.data, deviceData as Required<WebPushInfos>, applicationServerKeys);
 
     headers['Encryption'] = `salt=${encryptedPayloadDetails.salt}`;

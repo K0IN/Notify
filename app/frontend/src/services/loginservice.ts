@@ -1,4 +1,4 @@
-import { arraybuffer2base64, createDevice, getVapidData } from "./apiservice";
+import { arraybuffer2base64, createDevice, getVapidData } from './apiservice';
 
 export async function login(): Promise<boolean> {
     const serverKey = await getVapidData();

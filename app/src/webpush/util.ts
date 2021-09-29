@@ -24,16 +24,16 @@ export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 }
 
 export function b64ToUrlEncoded(str: string): string {
-    return str.replaceAll(/\+/g, "-").replaceAll(/\//g, "_").replace(/=+/g, '');
+    return str.replaceAll(/\+/g, '-').replaceAll(/\//g, '_').replace(/=+/g, '');
 }
 
 export function UrlEncodedToB64(str: string): string {
     const padding = '='.repeat((4 - str.length % 4) % 4);
-    return str.replaceAll(/\-/g, "+").replaceAll(/\_/g, "/") + padding;
+    return str.replaceAll(/\-/g, '+').replaceAll(/\_/g, '/') + padding;
 }
 
 export function stringToU8Array(str: string): Uint8Array {
-    return new Uint8Array(str.split("").map(c => c.charCodeAt(0)));
+    return new Uint8Array(str.split('').map(c => c.charCodeAt(0)));
 }
 
 export function u8ToString(u8: Uint8Array): string {
@@ -41,7 +41,7 @@ export function u8ToString(u8: Uint8Array): string {
 }
 
 export function exportPublicKeyPair<T extends { x: string; y: string }>(key: T): string {
-    return btoa("\x04" + atob(UrlEncodedToB64(key.x)) + atob(UrlEncodedToB64(key.y)))
+    return btoa('\x04' + atob(UrlEncodedToB64(key.x)) + atob(UrlEncodedToB64(key.y)))
 }
 
 export function joinUint8Arrays(allUint8Arrays: Array<Uint8Array>): Uint8Array {
@@ -89,7 +89,7 @@ export async function cryptoKeysToUint8Array(publicKey: CryptoKey, privateKey?: 
     if (privateKey) {
         const jwk = await crypto.subtle.exportKey('jwk', privateKey);
         if (!jwk.d) {
-            throw new Error("Private key has no private key component");
+            throw new Error('Private key has no private key component');
         }
         exportedKeys.push(base64UrlToUint8Array(jwk.d));        
     }

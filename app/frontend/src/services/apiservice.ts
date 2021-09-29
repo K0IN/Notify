@@ -1,7 +1,7 @@
-import { apiBase } from "../staticsettings";
-import type { IApiResponse } from "../types/apiresponse";
-import type { Device } from "../types/localdevice";
-import type { WebPushData } from "../types/webpushdata";
+import { apiBase } from '../staticsettings';
+import type { IApiResponse } from '../types/apiresponse';
+import type { Device } from '../types/localdevice';
+import type { WebPushData } from '../types/webpushdata';
 
 export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
     let binary = '';
@@ -28,7 +28,7 @@ export function getVapidData(): Promise<string> {
 
 export function createDevice(webPushData: WebPushData): Promise<Device> {
     const fetchPromise = fetch(`${apiBase}/device`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
             web_push_data: webPushData
         })

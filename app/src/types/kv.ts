@@ -1,4 +1,4 @@
-type KVType = "text" | "json" | "arrayBuffer" | "stream";
+type KVType = 'text' | 'json' | 'arrayBuffer' | 'stream';
 
 interface ListResponse {
     keys: Array<{ name: string, expiration: number, metadata: { [key: string]: string } }>;

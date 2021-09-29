@@ -1,7 +1,7 @@
-import { FunctionalComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
-import { getOfflineDb } from "../../services/messagedb";
-import { MessageType } from "../../types/messagetype";
+import { FunctionalComponent, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+import { getOfflineDb } from '../../services/messagedb';
+import { MessageType } from '../../types/messagetype';
 
 import { format } from 'timeago.js';
 
@@ -12,7 +12,7 @@ import 'preact-material-components/Theme/style.css';
 import Elevation from 'preact-material-components/Elevation';
 import 'preact-material-components/Elevation/style.css';
 
-import style from "./message.css";
+import style from './message.css';
 
 type MessageProps = {
     message: MessageType;
@@ -20,7 +20,7 @@ type MessageProps = {
 
 function timestampToString(timestamp: number): string {
     const date = new Date(timestamp);
-    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 }
 
 const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) => {

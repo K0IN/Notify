@@ -1,4 +1,4 @@
-import type { KV } from "./types/kv";
+import type { KV } from './types/kv';
 
 declare global {
     // databases

@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { checkIfDeviceExists } from "../../services/apiservice";
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import { checkIfDeviceExists } from '../../services/apiservice';
 
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
@@ -34,7 +34,7 @@ const Register: FunctionalComponent = () => {
     const loginCb = useCallback(async (e: Event) => {
         if (!navigator.serviceWorker || !('PushManager' in window)) {
             if (ref.current) {
-                ref.current.MDComponent.show({ message: "your browser is not supported", timeout: 5000 });
+                ref.current.MDComponent.show({ message: 'your browser is not supported', timeout: 5000 });
             }
             return false;
         }
