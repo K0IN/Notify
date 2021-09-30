@@ -1,7 +1,7 @@
 import type { JWK } from './jwk';
 import { WebPushInfos, WebPushMessage, WebPushResult } from './webpushinfos';
 import { generateEncryptedMessage } from './message';
-import { generateV1Headers, generateV2Headers } from './vapid';
+import { generateV2Headers } from './vapid';
 
 export async function generateWebPushMessage(message: WebPushMessage, 
     deviceData: Partial<WebPushInfos>, applicationServerKeys: JWK): Promise<WebPushResult> {
