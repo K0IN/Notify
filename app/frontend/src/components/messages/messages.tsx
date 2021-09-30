@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { getOfflineDb } from '../../services/messagedb';
 import { MessageType } from '../../types/messagetype';
 import { PushMessage } from '../../types/postmassage';
 
