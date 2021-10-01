@@ -35,7 +35,7 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
 
     const unsignedToken = objToUrlB64(header) + '.' + objToUrlB64(body);
     const signature = await signData(unsignedToken, applicationServerKeys);
-    const token = `${unsignedToken}.${signature}`
+    const token = `${unsignedToken}.${signature}`;
     return { token, serverKey };
 }
 

@@ -29,7 +29,7 @@ export function b64ToUrlEncoded(str: string): string {
 
 export function UrlEncodedToB64(str: string): string {
     const padding = '='.repeat((4 - str.length % 4) % 4);
-    return str.replaceAll(/\-/g, '+').replaceAll(/\_/g, '/') + padding;
+    return str.replaceAll(/-/g, '+').replaceAll(/_/g, '/') + padding;
 }
 
 export function stringToU8Array(str: string): Uint8Array {
@@ -37,11 +37,11 @@ export function stringToU8Array(str: string): Uint8Array {
 }
 
 export function u8ToString(u8: Uint8Array): string {
-    return String.fromCharCode.apply(null, u8 as unknown);
+    return String.fromCharCode.apply(null, u8 as unknown as number[]);
 }
 
 export function exportPublicKeyPair<T extends { x: string; y: string }>(key: T): string {
-    return btoa('\x04' + atob(UrlEncodedToB64(key.x)) + atob(UrlEncodedToB64(key.y)))
+    return btoa('\x04' + atob(UrlEncodedToB64(key.x)) + atob(UrlEncodedToB64(key.y)));
 }
 
 export function joinUint8Arrays(allUint8Arrays: Array<Uint8Array>): Uint8Array {
@@ -72,7 +72,7 @@ function base64UrlToUint8Array(base64UrlData: string) {
     return buffer;
 }
 
-export async function cryptoKeysToUint8Array(publicKey: CryptoKey, privateKey?: CryptoKey): Promise<{ publicKey: unknown, privateKey?: unknown }> {
+export async function cryptoKeysToUint8Array(publicKey: CryptoKey, privateKey?: CryptoKey): Promise<{ publicKey: Uint8Array, privateKey?: Uint8Array }> {
     const exportedKeys = [];
     const jwk = await crypto.subtle.exportKey('jwk', publicKey);
     const x = base64UrlToUint8Array(jwk.x as string);

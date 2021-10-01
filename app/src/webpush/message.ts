@@ -98,11 +98,11 @@ export async function generateEncryptionKeys(subscription: WebPushInfos, salt: U
     return { contentEncryptionKey, nonce };
 }
 
-async function generateServerKey(): Promise<any> {
-    return await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']);
+async function generateServerKey(): Promise<mKeyPair> {
+    return await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']) as unknown as mKeyPair;
 }
 
-export async function generateEncryptedMessage(payloadText: string, subscription: WebPushInfos, applicationServerKeys: JWK): Promise<{
+export async function generateEncryptedMessage(payloadText: string, subscription: WebPushInfos): Promise<{
     cipherText: ArrayBuffer;
     salt: string;
     publicServerKey: string;
@@ -110,7 +110,7 @@ export async function generateEncryptedMessage(payloadText: string, subscription
 
     const salt = await generateSalt();
     const serverKeys = await generateServerKey();
-    const exportedServerKey = await crypto.subtle.exportKey('jwk', serverKeys.publicKey) as JWK;
+    const exportedServerKey = await crypto.subtle.exportKey('jwk', serverKeys.publicKey) as unknown as JWK;
     const encryptionKeys = await generateEncryptionKeys(subscription, salt, serverKeys);
     const contentEncryptionCryptoKey = await crypto.subtle.importKey('raw',
         encryptionKeys.contentEncryptionKey, 'AES-GCM', true,

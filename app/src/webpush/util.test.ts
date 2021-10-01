@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { b64ToUrlEncoded } from './util';
 
-declare const test: unknown;
-declare const expect: unknown;
+declare const test: any;
+declare const expect: any;
 
 test('basic', () => {
     const input = 'aGFsbG8gd2VsdA=='; // btoa('hallo welt')
