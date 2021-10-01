@@ -2,8 +2,6 @@
 // all util functions return normal b64 NOT URL safe b64 
 // use b64ToUrlEncoded to convert to URL safe b64
 
-import type { JWK } from "./jwk";
-
 function ArrayToHex(byteArray: Uint8Array): string {
     return Array.prototype.map.call(byteArray, (byte: number) => {
         return ('0' + (byte & 0xFF).toString(16)).slice(-2);
@@ -19,7 +17,7 @@ export function generateRandomId(): string {
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
     let bin = '';
     const uint8 = new Uint8Array(buffer);
-    uint8.forEach((code: any) => {
+    uint8.forEach((code: number) => {
         bin += String.fromCharCode(code);
     });
     return btoa(bin);
@@ -39,7 +37,7 @@ export function stringToU8Array(str: string): Uint8Array {
 }
 
 export function u8ToString(u8: Uint8Array): string {
-    return String.fromCharCode.apply(null, u8 as any);
+    return String.fromCharCode.apply(null, u8 as unknown);
 }
 
 export function exportPublicKeyPair<T extends { x: string; y: string }>(key: T): string {
@@ -74,7 +72,7 @@ function base64UrlToUint8Array(base64UrlData: string) {
     return buffer;
 }
 
-export async function cryptoKeysToUint8Array(publicKey: CryptoKey, privateKey?: CryptoKey): Promise<{ publicKey: any, privateKey?: any }> {
+export async function cryptoKeysToUint8Array(publicKey: CryptoKey, privateKey?: CryptoKey): Promise<{ publicKey: unknown, privateKey?: unknown }> {
     const exportedKeys = [];
     const jwk = await crypto.subtle.exportKey('jwk', publicKey);
     const x = base64UrlToUint8Array(jwk.x as string);

@@ -16,7 +16,7 @@ apiRouter.all('*', (request: Request) => failure<string>('method not found', { s
 const errorHandler = (error: Error) => {
     console.error('global error handler catched', error);
     return failure<string>(error.message, { headers: CORS_ORIGIN ? corsHeaders : {} });
-}
+};
 
 const handleRequest = async (event: FetchEvent): Promise<Response> => {
     const response: Response = await apiRouter.handle(event.request, event).catch(console.error);
@@ -28,6 +28,6 @@ const handleRequest = async (event: FetchEvent): Promise<Response> => {
     return (SERVE_FRONTEND && SERVE_FRONTEND != '') ?
         await getAssetFromKV(event, { mapRequestToAsset: serveSinglePageApp }) :
         new Response('not found', { status: 404 });
-}
+};
 
 addEventListener('fetch', (event: FetchEvent) => event.respondWith(handleRequest(event).catch(errorHandler)));

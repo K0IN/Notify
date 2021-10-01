@@ -1,7 +1,7 @@
 import { b64ToUrlEncoded } from './util';
 
-declare const test: any;
-declare const expect: any;
+declare const test: unknown;
+declare const expect: unknown;
 
 test('basic', () => {
     const input = 'aGFsbG8gd2VsdA=='; // btoa('hallo welt')
