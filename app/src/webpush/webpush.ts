@@ -11,7 +11,7 @@ export async function generateWebPushMessage(message: WebPushMessage,
     }
 
     const headers = await generateV2Headers(deviceData.endpoint, applicationServerKeys, message.sub);
-    const encryptedPayloadDetails = await generateEncryptedMessage(message.data, deviceData as Required<WebPushInfos>, applicationServerKeys);
+    const encryptedPayloadDetails = await generateEncryptedMessage(message.data, deviceData as Required<WebPushInfos>);
 
     headers['Encryption'] = `salt=${encryptedPayloadDetails.salt}`;
     headers['Crypto-Key'] = `dh=${encryptedPayloadDetails.publicServerKey}`;

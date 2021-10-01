@@ -4,14 +4,15 @@
     "description": "Notify worker",
     "main": "dist/worker.js",
     "scripts": {
-        "build_all": "webpack && cd frontend && npm i && npm run build",
+        "build_all": "npm i && webpack && cd frontend && npm i && npm run build",
         "build": "webpack",
         "serve": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml",
         "dev": "miniflare ./dist/worker.js --kv-persist --wrangler-config wrangler.toml --watch",
         "publish": "wrangler publish",
-        "integrationstest": "npm run build && ava --verbose integrationstest/*.spec.mjs",
+        "integrationstest": "ava --verbose integrationstest/*.spec.mjs",
         "unittest": "jest",
-        "test": "npm run unittest && npm run integrationstest"
+        "lint": "eslint src/",
+        "test": "npm run lint && npm run build && npm run unittest && npm run integrationstest"
     },
     "eslintConfig": {
         "root": true,
@@ -24,7 +25,11 @@
         "@cloudflare/workers-types": "^2.2.2",
         "@types/jest": "^27.0.2",
         "@types/web-push": "^3.3.2",
+        "@typescript-eslint/eslint-plugin": "^4.32.0",
+        "@typescript-eslint/parser": "^4.32.0",
         "ava": "^3.15.0",
+        "eslint": "^7.32.0",
+        "eslint-config-google": "^0.14.0",
         "jest": "^27.2.2",
         "miniflare": "^1.4.0",
         "ts-jest": "^27.0.5",

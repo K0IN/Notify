@@ -6,5 +6,5 @@ export function compareStringSafe(s1: string, s2: string): boolean {
     for (let i = 0; i < s1.length; i++) {
         result |= s1.charCodeAt(i) ^ s2.charCodeAt(i);
     }
-    return result === 0;    
+    return result === 0;
 }

@@ -5,7 +5,7 @@ import { b64ToUrlEncoded, exportPublicKeyPair } from '../webpush/util';
 
 export const keysRouter = Router({ base: '/api/keys' });
 
-keysRouter.get('/', (request: Request, event: FetchEvent): Response => {
+keysRouter.get('/', (): Response => {
     if (!VAPID_SERVER_KEY) {
         throw new Error('VAPID_SERVER_KEY not set (please set your env)');
     }

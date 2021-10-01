@@ -23,13 +23,11 @@ export async function getDevice(deviceId: string): Promise<IDevice> {
 export async function getAllDevicesIDs(): Promise<string[]> {
     const devices: string[] = [];
     let cursor: string | null = null;
-    while (true) {
-        const data = await NOTIFY_USERS.list(cursor ? { cursor } : undefined);
+    let data;
+    do {
+        data = await NOTIFY_USERS.list(cursor ? { cursor } : undefined);
         devices.push(...data.keys.map((entry) => entry.name));
-        if (data.list_complete) {
-            break;
-        }
         cursor = data.cursor as string;
-    }
+    } while (!data.list_complete);
     return devices;
 }

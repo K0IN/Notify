@@ -1,4 +1,4 @@
-export function success<T>(data: T, additions?: any): Response {
+export function success<T>(data: T, additions?: unknown): Response {
     const responseMetaData = Object.assign({
         status: 200,
         headers: {
@@ -9,7 +9,7 @@ export function success<T>(data: T, additions?: any): Response {
     return new Response(JSON.stringify({ successful: true, data }), responseMetaData);
 }
 
-export function failure<E>(error: E, additions?: any): Response {
+export function failure<E>(error: E, additions?: unknown): Response {
     const responseMetaData = Object.assign({
         status: 500,
         headers: {

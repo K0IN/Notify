@@ -35,5 +35,6 @@ export async function notifyAll(title: string, message: string, tags: string[], 
         }
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Promise.allSettled(promises) as any;
 }

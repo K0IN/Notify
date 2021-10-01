@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { b64ToUrlEncoded } from './util';
 
 declare const test: any;

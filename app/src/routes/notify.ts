@@ -8,6 +8,7 @@ export const notificationRouter = Router({ base: '/api/notify' });
 
 function auth(req: Request) {
     if (SERVERPWD && SERVERPWD !== '') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const header = (req as any).headers.get('authorization');
         if (!header) {
             return failure<string>('No authorization header (please provide a authorization with a bearer token)', { status: 401 });
