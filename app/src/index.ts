@@ -21,13 +21,13 @@ const errorHandler = (error: Error) => {
 const handleRequest = async (event: FetchEvent): Promise<Response> => {
     const response: Response = await apiRouter.handle(event.request, event).catch(console.error);
     if (response) {
-        if (CORS_ORIGIN) {
-            return new Response(response.body, { headers: { ...response.headers, ...corsHeaders }, status: response.status });
-        } else {
-            return response;
-        }
+        return CORS_ORIGIN ?
+            new Response(response.body, { headers: { ...response.headers, ...corsHeaders }, status: response.status }) :
+            response;
     }
-    return (SERVE_FRONTEND && SERVE_FRONTEND != '') ? await getAssetFromKV(event, { mapRequestToAsset: serveSinglePageApp }) : new Response('not found', { status: 404 });
+    return (SERVE_FRONTEND && SERVE_FRONTEND != '') ?
+        await getAssetFromKV(event, { mapRequestToAsset: serveSinglePageApp }) :
+        new Response('not found', { status: 404 });
 }
 
 addEventListener('fetch', (event: FetchEvent) => event.respondWith(handleRequest(event).catch(errorHandler)));

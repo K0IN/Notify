@@ -7,8 +7,8 @@ interface ListResponse {
 }
 
 interface PutOptions {
-    expirationTtl?: number, 
-    metadata?: { [key: string]: string }
+    expirationTtl?: number;
+    metadata?: { [key: string]: string };
 }
 
 export interface KV {

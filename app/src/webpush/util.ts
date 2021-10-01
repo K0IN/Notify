@@ -2,6 +2,8 @@
 // all util functions return normal b64 NOT URL safe b64 
 // use b64ToUrlEncoded to convert to URL safe b64
 
+import type { JWK } from "./jwk";
+
 function ArrayToHex(byteArray: Uint8Array): string {
     return Array.prototype.map.call(byteArray, (byte: number) => {
         return ('0' + (byte & 0xFF).toString(16)).slice(-2);
@@ -47,12 +49,10 @@ export function exportPublicKeyPair<T extends { x: string; y: string }>(key: T):
 export function joinUint8Arrays(allUint8Arrays: Array<Uint8Array>): Uint8Array {
     return allUint8Arrays.reduce(function (cumulativeValue, nextValue) {
         if (!(nextValue instanceof Uint8Array)) {
-            console.error('Received an non-Uint8Array value:', nextValue);
             throw new Error('Received an non-Uint8Array value.');
         }
-
         const joinedArray = new Uint8Array(
-            cumulativeValue.byteLength + nextValue.byteLength,
+            cumulativeValue.byteLength + nextValue.byteLength
         );
         joinedArray.set(cumulativeValue, 0);
         joinedArray.set(nextValue, cumulativeValue.byteLength);

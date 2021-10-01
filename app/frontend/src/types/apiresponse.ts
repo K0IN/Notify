@@ -1,4 +1,4 @@
-export interface IApiResponse<T, E = any> {
+export interface IApiResponse<T, E = string> {
     successful: boolean;
     data?: T;
     error?: E;

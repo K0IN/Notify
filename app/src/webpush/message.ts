@@ -19,7 +19,7 @@ async function getSubKeyAsCryptoKey(subscription: WebPushInfos): Promise<CryptoK
         crv: 'P-256',
         x: b64ToUrlEncoded(btoa(key.slice(1, 33))),
         y: b64ToUrlEncoded(btoa(key.slice(33, 65))),
-        ext: true,
+        ext: true
     }, {
         name: 'ECDH',
         namedCurve: 'P-256'
@@ -32,40 +32,35 @@ async function getSharedSecret(subscription: WebPushInfos, serverKeys: mKeyPair)
     const algorithm = {
         name: 'ECDH',
         namedCurve: 'P-256',
-        public: publicKey,
+        public: publicKey
     };
     return await crypto.subtle.deriveBits(algorithm, serverKeys.privateKey, 256);
 }
 
 export async function generateContext(subscription: WebPushInfos, serverKeys: mKeyPair): Promise<Uint8Array> {
-    const clientPublicKey = await getSubKeyAsCryptoKey(subscription);
+    const subKey = await getSubKeyAsCryptoKey(subscription);
 
-    const keysAsUint8 = await Promise.all([
-        cryptoKeysToUint8Array(clientPublicKey),
-        cryptoKeysToUint8Array(serverKeys.publicKey),
+    const [clientPublicKey, serverPublicKey] = await Promise.all([
+        cryptoKeysToUint8Array(subKey).then(key => key.publicKey),
+        cryptoKeysToUint8Array(serverKeys.publicKey).then(key => key.publicKey)
     ]);
-
-    const keys = {
-        clientPublicKey: keysAsUint8[0].publicKey,
-        serverPublicKey: keysAsUint8[1].publicKey,
-    };
 
     const labelUnit8Array = stringToU8Array('P-256\x00');
 
     const clientPublicKeyLengthUnit8Array = new Uint8Array(2);
     clientPublicKeyLengthUnit8Array[0] = 0x00;
-    clientPublicKeyLengthUnit8Array[1] = keys.clientPublicKey.byteLength;
+    clientPublicKeyLengthUnit8Array[1] = clientPublicKey.byteLength;
 
     const serverPublicKeyLengthBuffer = new Uint8Array(2);
     serverPublicKeyLengthBuffer[0] = 0x00;
-    serverPublicKeyLengthBuffer[1] = keys.serverPublicKey.byteLength;
+    serverPublicKeyLengthBuffer[1] = serverPublicKey.byteLength;
 
     return joinUint8Arrays([
         labelUnit8Array,
         clientPublicKeyLengthUnit8Array,
-        keys.clientPublicKey,
+        clientPublicKey,
         serverPublicKeyLengthBuffer,
-        keys.serverPublicKey,
+        serverPublicKey
     ]);
 }
 
@@ -80,14 +75,14 @@ async function generateCEKInfo(subscription: WebPushInfos, serverKeys: mKeyPair)
     const token = 'Content-Encoding: aesgcm\x00';
     const contentEncoding8Array = stringToU8Array(token);
     const contextBuffer = await generateContext(subscription, serverKeys);
-    return joinUint8Arrays([contentEncoding8Array,contextBuffer]);
+    return joinUint8Arrays([contentEncoding8Array, contextBuffer]);
 }
 
 async function generateNonceInfo(subscription: WebPushInfos, serverKeys: mKeyPair): Promise<Uint8Array> {
     const token = 'Content-Encoding: nonce\x00';
     const contentEncoding8Array = stringToU8Array(token);
     const contextBuffer = await generateContext(subscription, serverKeys);
-    return joinUint8Arrays([contentEncoding8Array,contextBuffer]);
+    return joinUint8Arrays([contentEncoding8Array, contextBuffer]);
 }
 
 export async function generateEncryptionKeys(subscription: WebPushInfos, salt: Uint8Array, serverKeys: mKeyPair): Promise<{ contentEncryptionKey: ArrayBuffer, nonce: ArrayBuffer }> {
@@ -115,7 +110,7 @@ export async function generateEncryptedMessage(payloadText: string, subscription
 
     const salt = await generateSalt();
     const serverKeys = await generateServerKey();
-    const exportedServerKey = await crypto.subtle.exportKey('jwk', serverKeys.publicKey);
+    const exportedServerKey = await crypto.subtle.exportKey('jwk', serverKeys.publicKey) as JWK;
     const encryptionKeys = await generateEncryptionKeys(subscription, salt, serverKeys);
     const contentEncryptionCryptoKey = await crypto.subtle.importKey('raw',
         encryptionKeys.contentEncryptionKey, 'AES-GCM', true,
@@ -132,14 +127,14 @@ export async function generateEncryptedMessage(payloadText: string, subscription
         {
             name: 'AES-GCM',
             tagLength: 128,
-            iv: encryptionKeys.nonce,
-        }, contentEncryptionCryptoKey,
-        recordUint8Array,
+            iv: encryptionKeys.nonce
+        }, 
+        contentEncryptionCryptoKey, recordUint8Array
     );
 
     return {
         cipherText: encryptedPayloadArrayBuffer,
         salt: b64ToUrlEncoded(btoa(u8ToString(salt))),
-        publicServerKey: b64ToUrlEncoded(exportPublicKeyPair(exportedServerKey as any)),
+        publicServerKey: b64ToUrlEncoded(exportPublicKeyPair(exportedServerKey))
     };
 }
