@@ -54,7 +54,7 @@ you can also save your persistent data in a volume
 
 > /usr/app/data
 
-## server-key
+## How to generate the server key
 
 go to your browser and run this script in your console: [script](../helper/main.js)
 it will print a random generated server key that will be used to send web notifications.
