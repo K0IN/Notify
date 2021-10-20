@@ -26,6 +26,7 @@ also see [wrangler file at vars](/app/wrangler.toml) for more details.
 
 [how to create the server key](#server-key)
 
+you can find all secrets and vars in the wrangler file at [wrangler file at vars](/app/wrangler.toml)
 if you use secrets make sure to pass them like so: --binding KEY1=value1
 
 [see miniflare documentation](https://miniflare.dev/variables-secrets.html)
