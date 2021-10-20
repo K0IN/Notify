@@ -13,7 +13,7 @@ and set the id inside the wrangler.toml file.
 ### 2. Set your env variables and secrets in wrangler.toml
 
 [how to create the server key](#How-to-generate-the-server-key)
-also see [wrangler file at vars](/src/wrangler.toml) for more details.
+also see [wrangler file at vars](/app/wrangler.toml) for more details.
 
 ### 3. Publish the worker using wrangler
 
