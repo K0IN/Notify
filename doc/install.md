@@ -40,17 +40,13 @@ see above steps on [run in miniflare](#run-in-miniflare)
 
 ### Deploy to: docker (with miniflare)
 
-(with env file in current dir / or use --binding KEY1=value1 see [miniflare](#Run in miniflare))
+(with env file in current dir / or use --binding KEY1=value1 see [miniflare](#Run-in-miniflare) )
 
-example of disable frontend using parameters
-
-> docker run -p 8787:8787 test --binding SERVE_FRONTEND=
-
-or use env file ([see miniflare documentation](https://miniflare.dev/variables-secrets.html))
+use env file ([see miniflare documentation](https://miniflare.dev/variables-secrets.html#env-files))
 
 > docker run -p 8787:8787 -v ${pwd}/env:/usr/app/.env -v ${pwd}/persistance:/usr/app/data ghcr.io/k0in/notify:main
 
-you can also save your persistent data in a volume
+you can also save your persistent data in a volume (mounting path inside the container)
 
 > /usr/app/data
 
