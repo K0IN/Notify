@@ -6,7 +6,7 @@ import { compareStringSafe } from '../crypto';
 
 export const notificationRouter = Router({ base: '/api/notify' });
 
-type headers = { get = (string) => string | undefined; };
+type headers = { get: (name: string) => string | undefined; };
 
 function auth(req: Request) {
     if (SERVERPWD && SERVERPWD !== '') {

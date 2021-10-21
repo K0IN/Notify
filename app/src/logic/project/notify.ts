@@ -35,5 +35,5 @@ export async function notifyAll(title: string, message: string, tags: string[], 
         }
     });
 
-    return Promise.allSettled(promises) as Promise<unknown>;
+    return Promise.all(promises) as unknown as Promise<void>;
 }
