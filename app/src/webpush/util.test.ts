@@ -4,7 +4,12 @@ import { b64ToUrlEncoded } from './util';
 declare const test: any;
 declare const expect: any;
 
-test('basic', () => {
+test('b64ToUrlEncoded', () => {
     const input = 'aGFsbG8gd2VsdA=='; // btoa('hallo welt')
+    expect(b64ToUrlEncoded(input)).toBe('aGFsbG8gd2VsdA');
+});
+
+test('base64UrlToUint8Array', () => {
+    const input = 'aGFsbG8gd2VsdA'; // btoa('hallo welt') - padding removed
     expect(b64ToUrlEncoded(input)).toBe('aGFsbG8gd2VsdA');
 });

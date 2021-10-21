@@ -2,6 +2,7 @@ export interface WebPushInfos {
     endpoint: string; 
     key: string;
     auth: string;
+    // supportedAlgorithms: string[]; 
 }
 
 type Urgency = 'very-low' | 'low' | 'normal' | 'high';
