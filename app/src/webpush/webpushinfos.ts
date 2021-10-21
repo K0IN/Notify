@@ -13,7 +13,6 @@ export interface WebPushMessage {
     ttl: number;
 }
 
-// todo move this to own errors
 export enum WebPushResult {
     Success = 0,
     Error = 1,
