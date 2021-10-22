@@ -16,10 +16,10 @@ test('test url check for create device', async (t) => {
         const req = new Request('http://localhost/api/device/', {
             method: 'POST',
             body: `{
-                'web_push_data': {
-                    'auth': 'auth',
-                    'endpoint': 'endpoint',
-                    'key': 'key'
+                "web_push_data": {
+                    "auth": "auth",
+                    "endpoint": "endpoint",
+                    "key": "key"
                 }
             }` });
         const res = await mf.dispatchFetch(req);
@@ -30,10 +30,10 @@ test('test url check for create device', async (t) => {
         const req = new Request('http://localhost/api/device/', {
             method: 'POST',
             body: `{
-                'web_push_data': {
-                    'auth': 'auth',
-                    'endpoint': 'https://google.com',
-                    'key': 'key'
+                "web_push_data": {
+                    "auth": "auth",
+                    "endpoint": "https://google.com",
+                    "key": "key"
                 }
             }` });
         const res = await mf.dispatchFetch(req);
@@ -54,10 +54,10 @@ test('device livespan check', async (t) => {
         const req = new Request('http://localhost/api/device/', {
             method: 'POST',
             body: `{
-                'web_push_data': {
-                    'auth': 'auth',
-                    'endpoint': 'https://google.com',
-                    'key': 'key'
+                "web_push_data": {
+                    "auth": "auth",
+                    "endpoint": "https://google.com",
+                    "key": "key"
                 }
             }` });
         const res = await mf.dispatchFetch(req);
@@ -77,7 +77,7 @@ test('device livespan check', async (t) => {
         const req = new Request('http://localhost/api/device/' + deviceId, {
             method: 'DELETE',
             body: `{
-                'secret': '${deviceSecret}'
+                "secret": "${deviceSecret}"
             }`
         });
         const res = await mf.dispatchFetch(req);
