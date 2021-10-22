@@ -9,13 +9,14 @@ export async function notifyAll(title: string, message: string, tags: string[], 
         throw new Error('No Subject or vapid server key please set your secret / env var (see readme)');
     }
 
-    const devices = await getAllDevicesIDs();
-    const vapidKeys: Readonly<JWK> = JSON.parse(VAPID_SERVER_KEY);
     const data = JSON.stringify({ body: message, icon, title, tags });
 
     if (data.length > 4 * 1024 * 1024) {
         throw new Error('Message too long');
     }
+
+    const deviceIds = await getAllDevicesIDs();
+    const vapidKeys: Readonly<JWK> = JSON.parse(VAPID_SERVER_KEY);
 
     const webPushMessageInfo: WebPushMessage = {
         data,
@@ -24,7 +25,7 @@ export async function notifyAll(title: string, message: string, tags: string[], 
         ttl: 60 * 24 * 7
     };
 
-    const promises = devices.map(async (deviceId): Promise<void> => {
+    const promises = deviceIds.map(async (deviceId): Promise<void> => {
         const device = await getDevice(deviceId);
         if (!device.pushData) {
             throw new Error('Device has no push data');
