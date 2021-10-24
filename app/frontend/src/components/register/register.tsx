@@ -30,7 +30,6 @@ const Register: FunctionalComponent = () => {
         checkIfDeviceExists(userData.id).then(setLoginStatus);
     }, []);
 
-
     const loginCb = useCallback(async (e: Event) => {
         if (!navigator.serviceWorker || !('PushManager' in window)) {
             if (ref.current) {

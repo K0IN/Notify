@@ -44,7 +44,7 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
                     <p class={style.messagetime} title={timestampToString(message.receivedAt)}>{receiveTimeStamp}</p>
                     <div class={style.messagebody}>{message.body}</div>
                     <Chips class={style.messagetags}>
-                        {message.tags.map((tag: string) => (<Chips.Chip>{tag as any}</Chips.Chip>) as any)}
+                        {message.tags.map((tag: string) => (<Chips.Chip>{(<Chips.Text>{tag}</Chips.Text>) as any}</Chips.Chip>) as any)}
                     </Chips>
                 </div>
             </Elevation>
