@@ -1,5 +1,4 @@
 import { FunctionalComponent, h } from 'preact';
-import { useEffect } from 'preact/hooks';
 
 import Messages from './messages/messages';
 import Register from './register/register';
