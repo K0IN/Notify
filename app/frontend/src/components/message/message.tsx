@@ -1,16 +1,12 @@
 import { FunctionalComponent, h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
-import { MessageType } from '../../types/messagetype';
-
-import { format } from 'timeago.js';
-
 import Chips from 'preact-material-components/Chips';
 import 'preact-material-components/Chips/style.css';
-import 'preact-material-components/Theme/style.css';
-
 import Elevation from 'preact-material-components/Elevation';
 import 'preact-material-components/Elevation/style.css';
-
+import 'preact-material-components/Theme/style.css';
+import { useEffect, useState } from 'preact/hooks';
+import { format } from 'timeago.js';
+import type { MessageType } from '../../types/messagetype';
 import style from './message.css';
 
 type MessageProps = {

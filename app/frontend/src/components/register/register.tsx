@@ -1,14 +1,12 @@
 import { FunctionalComponent, h } from 'preact';
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-import { checkIfDeviceExists } from '../../services/apiservice';
-
-import Switch from 'preact-material-components/Switch';
-import 'preact-material-components/Switch/style.css';
-
 import Snackbar from 'preact-material-components/Snackbar';
 import 'preact-material-components/Snackbar/style.css';
-import type { Device } from '../../types/localdevice';
+import Switch from 'preact-material-components/Switch';
+import 'preact-material-components/Switch/style.css';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import { checkIfDeviceExists } from '../../services/apiservice';
 import { login, logoff } from '../../services/loginservice';
+import type { Device } from '../../types/localdevice';
 
 const toggleLoginStatus = async (event: any /* Event */): Promise<boolean> => {
     if (event.target && event.target.checked) {
@@ -33,14 +31,14 @@ const Register: FunctionalComponent = () => {
     const loginCb = useCallback(async (e: Event) => {
         if (!navigator.serviceWorker || !('PushManager' in window)) {
             if (ref.current) {
-                ref.current.MDComponent.show({ message: 'your browser is not supported', timeout: 5000 });
+                ref.current.MDComponent.show({ message: 'your browser is not supported', timeout: 10000 });
             }
             return false;
         }
 
         toggleLoginStatus(e).catch(e => {
             if (ref.current) {
-                ref.current.MDComponent.show({ message: `unable to register device error: ${e.message}`, timeout: 5000 });
+                ref.current.MDComponent.show({ message: `unable to register device error: ${e.message}`, timeout: 10000 });
             }
             return false;
         }).then((isLoggedIn: boolean) => {

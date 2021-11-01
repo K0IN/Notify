@@ -14,8 +14,15 @@ export async function login(): Promise<boolean> {
     }
 
     const endpoint = subscription.endpoint;
-    const key = subscription.getKey('p256dh') as ArrayBuffer;
-    const auth = subscription.getKey('auth') as ArrayBuffer;
+    const key = subscription.getKey('p256dh');
+    if (!key) {
+        throw new Error('Could not get key');
+    }
+
+    const auth = subscription.getKey('auth');
+    if (!auth) {
+        throw new Error('Could not get auth');
+    }
 
     const userData = await createDevice({
         endpoint,
@@ -28,14 +35,11 @@ export async function login(): Promise<boolean> {
 }
 
 export async function logoff(): Promise<boolean> {
-    if (!localStorage.userData) {
-        return false;
-    }
+    localStorage.removeItem('userData');
     const sw = await navigator.serviceWorker.ready;
     const sub = await sw.pushManager.getSubscription();
     if (sub) {
         await sub.unsubscribe();
     }
-    localStorage.removeItem('userData');
     return false;
 }
