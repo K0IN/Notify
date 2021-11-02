@@ -4,6 +4,8 @@
 
 ### 1. Generate your kv namespace
 
+https://developers.cloudflare.com/workers/platform/environment-variables#adding-secrets-via-wrangler
+
 use wrangler to create your namespace.
 
 > npx wrangler kv:namespace create "NOTIFY_USERS"
