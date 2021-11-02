@@ -6,6 +6,7 @@ test.beforeEach((t) => {
     const mf = new Miniflare({
         buildCommand: undefined,
         kvPersist: false,
+        envPath: './test.env'
     });
     t.context = { mf };
 });

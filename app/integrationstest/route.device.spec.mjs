@@ -6,6 +6,7 @@ test.beforeEach((t) => {
         buildCommand: undefined,
         kvNamespaces: ['NOTIFY_USERS'],
         kvPersist: false,
+        envPath: './test.env'
     });
     t.context = { mf };
 });
