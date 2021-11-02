@@ -7,7 +7,7 @@
 
 Clone this Repository and set your work dir to `app`
 
-> git clone https://github.com/K0IN/Notify.git
+> git clone <https://github.com/K0IN/Notify.git>
 
 > cd app
 
@@ -17,7 +17,7 @@ create a namespace
 
 > npx wrangler kv:namespace create "NOTIFY_USERS"
 
-set the result of the command [wrangler file](/app/wrangler.toml) inside the `kv_namespaces` section.
+set the result of the command inside your [wrangler file](/app/wrangler.toml) at the `kv_namespaces` section.
 
 example:
 
@@ -37,7 +37,15 @@ You will need to set the resulting string inside your secrets,
 
 ## Step 3. Setup your settings
 
-todo inside your wrangler setting set the setting lol
+These are environment variables that can be set inside your `wrangler.toml` file or in the (cloudflare) webinterface.
+All of them need to be set to work.
+
+    * `SUB`: set this to the email of the person in charge for notifcations - this will be sent to the push server.
+    * `SERVERPWD`: the password to send notifications.
+    * `CORS_ORIGIN`: enables cors for the supplied domain(s) - empty if none.
+    * `SERVE_FRONTEND`: boolean to enable the frontend - empty if it should not be served.
+
+for more information's on how to set env variables, see the [documentation](https://developers.cloudflare.com/workers/platform/environment-variables)
 
 ## Step 4. deploy to cloudflare
 
@@ -46,3 +54,12 @@ Deploy the app to cloudflare.
 > cd src
 
 > npx wrangler publish
+
+## Step 5. Ready to go
+
+you can now use the webhooks to send notifications to your users.
+Add a device and send this request to the worker:
+
+> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://yourendpoint/api/notify
+
+for a in depth explanation of the webhooks, see the [api documentation](../api.md).
