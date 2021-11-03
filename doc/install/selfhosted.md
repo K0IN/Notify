@@ -21,13 +21,14 @@ All of them need to be set to work.
     * `SERVE_FRONTEND`: boolean to enable the frontend - empty if it should not be served.
     * `SERVER_KEY` set the secret to the value of the server key.
 
-for more information's on how to set env variables also all variables can be found [here]/app/src/globals.d.ts)
+for more information's on  all variables can be found [here]/app/src/globals.d.ts)
+Example of a env [file](../../app/integrationstest/test.env)
 
 ## Step 3. start the container
 
 Deploy run the container with your mapped env file (or use parameters).
 
-> docker run -p 8787:8787 -v ${pwd}/.env:/usr/app/.env -v ${pwd}/persistance:/usr/app/data ghcr.io/k0in/notify:main
+> docker run -p 8787:8787 -v $(pwd)/app.env:/usr/app/app.env -v ${pwd}/persistance:/usr/app/data ghcr.io/k0in/notify:main
 
 ## Step 5. Ready to go
 
