@@ -42,7 +42,7 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
 export async function generateV1Headers(endpoint: string, applicationServerKeys: JWK, sub: string): Promise<{ [headerName: string]: string }> {
     const headers = await generateHeaders(endpoint, applicationServerKeys, sub);
     return {
-        Authorization: `WebPush ${headers.token}`,
+        'Authorization': `WebPush ${headers.token}`,
         'Crypto-Key': `p256ecdsa=${headers.serverKey}`
     };
 }

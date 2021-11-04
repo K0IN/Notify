@@ -102,7 +102,7 @@ async function generateServerKey(): Promise<mKeyPair> {
     return await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']) as unknown as mKeyPair;
 }
 
-export async function generateEncryptedMessage(payloadText: string, subscription: WebPushInfos): Promise<{
+export async function generateAESGCMEncryptedMessage(payloadText: string, subscription: WebPushInfos): Promise<{
     cipherText: ArrayBuffer;
     salt: string;
     publicServerKey: string;
@@ -128,7 +128,7 @@ export async function generateEncryptedMessage(payloadText: string, subscription
             name: 'AES-GCM',
             tagLength: 128,
             iv: encryptionKeys.nonce
-        }, 
+        },
         contentEncryptionCryptoKey, recordUint8Array
     );
 

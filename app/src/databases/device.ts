@@ -1,8 +1,8 @@
 import type { IDevice } from '../types/database/device';
 
 export async function createDevice(device: Readonly<IDevice>): Promise<void> {
-    const deviceExists = await NOTIFY_USERS.get(device.id);
-    if (deviceExists) {
+    const deviceData = await NOTIFY_USERS.get(device.id);
+    if (deviceData) {
         throw new Error('Device already exists');
     }
     await NOTIFY_USERS.put(device.id, JSON.stringify(device));

@@ -2,6 +2,7 @@ export interface WebPushInfos {
     endpoint: string; 
     key: string;
     auth: string;
+    // supportedAlgorithms: string[]; 
 }
 
 type Urgency = 'very-low' | 'low' | 'normal' | 'high';
@@ -13,7 +14,6 @@ export interface WebPushMessage {
     ttl: number;
 }
 
-// todo move this to own errors
 export enum WebPushResult {
     Success = 0,
     Error = 1,

@@ -1,12 +1,11 @@
 import { FunctionalComponent, h } from 'preact';
+import 'preact-material-components/Theme/style.css';
 import { useEffect, useState } from 'preact/hooks';
 import { getOfflineDb } from '../../services/messagedb';
 import { MessageType } from '../../types/messagetype';
 import { PushMessage } from '../../types/postmassage';
-
-import style from './messages.css';
 import Message from '../message/message';
-import 'preact-material-components/Theme/style.css';
+import style from './messages.css';
 
 const sortMessages = (messages: MessageType[]) => {
     return messages.sort((a, b) => b.receivedAt - a.receivedAt);

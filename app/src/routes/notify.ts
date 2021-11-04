@@ -6,10 +6,12 @@ import { compareStringSafe } from '../crypto';
 
 export const notificationRouter = Router({ base: '/api/notify' });
 
+type headers = { get: (name: string) => string | undefined; };
+
 function auth(req: Request) {
     if (SERVERPWD && SERVERPWD !== '') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const header = (req as any).headers.get('authorization');
+        const header = (req as unknown as { headers: headers }).headers.get('authorization');
         if (!header) {
             return failure<string>('No authorization header (please provide a authorization with a bearer token)', { status: 401 });
         }
@@ -21,12 +23,8 @@ function auth(req: Request) {
 }
 
 export async function readBodyAs<T>(request: Request): Promise<Partial<T>> {
-    const body = request.text ? await request.text() : undefined;
-    try {
-        return JSON.parse(body);
-    } catch (e) {
-        return {} as T;
-    }
+    const bodyPromise = request.text ? request.text() : Promise.resolve(undefined);
+    return await bodyPromise.then((body) => JSON.parse(body)).catch(() => ({})) as Partial<T>;
 }
 
 notificationRouter.post('/', auth,
