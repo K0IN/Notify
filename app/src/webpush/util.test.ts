@@ -9,7 +9,7 @@ test('b64ToUrlEncoded', () => {
     expect(b64ToUrlEncoded(input)).toBe('aGFsbG8gd2VsdA');
 });
 
-test('base64UrlToUint8Array', () => {
+test('b64ToUrlEncodedNoPadding', () => {
     const input = 'aGFsbG8gd2VsdA'; // btoa('hallo welt') - padding removed
     expect(b64ToUrlEncoded(input)).toBe('aGFsbG8gd2VsdA');
 });
