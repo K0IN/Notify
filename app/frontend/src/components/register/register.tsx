@@ -26,6 +26,8 @@ const Register: FunctionalComponent = () => {
         }
         const userData = JSON.parse(localStorage.userData) as Device;
         checkIfDeviceExists(userData.id).then(setLoginStatus);
+        
+        navigator && (navigator as any).clearAppBadge && (navigator as any).clearAppBadge();
     }, []);
 
     const loginCb = useCallback(async (e: Event) => {
