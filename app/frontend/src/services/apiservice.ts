@@ -22,7 +22,7 @@ function parseResponse<T>(response: IApiResponse<T, string>): T {
     }
     throw new Error(response.error);
 }
-
+// todo use a reducer 
 export async function getVapidData(): Promise<string> {
     const fetchPromise = await fetch(`${apiBase}/keys`).then(r => r.json());
     return parseResponse<string>(fetchPromise);

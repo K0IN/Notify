@@ -4,6 +4,7 @@ import 'preact-material-components/Snackbar/style.css';
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import { useLoginState } from '../../hooks/use-loginstate';
 import { checkIfDeviceExists } from '../../services/apiservice';
 import { login, logoff } from '../../services/loginservice';
 import type { Device } from '../../types/localdevice';
@@ -17,19 +18,12 @@ const toggleLoginStatus = async (event: any /* Event */): Promise<boolean> => {
 }
 
 const Register: FunctionalComponent = () => {
-    const [isLoggedIn, setLoginStatus] = useState<boolean>(!!localStorage.userData);
     const ref = useRef<Snackbar>();
+    const isLoggedIn = useLoginState();
+    const loginCb = useCallback(toggleLoginStatus, []);
 
-    useEffect(() => {
-        if (!localStorage.userData) {
-            return;
-        }
-        const userData = JSON.parse(localStorage.userData) as Device;
-        checkIfDeviceExists(userData.id).then(setLoginStatus);
-        
-        navigator && (navigator as any).clearAppBadge && (navigator as any).clearAppBadge();
-    }, []);
-
+    // todo
+    /*
     const loginCb = useCallback(async (e: Event) => {
         if (!navigator.serviceWorker || !('PushManager' in window)) {
             if (ref.current) {
@@ -43,14 +37,14 @@ const Register: FunctionalComponent = () => {
                 ref.current.MDComponent.show({ message: `unable to register device error: ${e.message}`, timeout: 10000 });
             }
             return false;
-        }).then((isLoggedIn: boolean) => {
-            setLoginStatus(isLoggedIn);
+        }).then((isLoggedIn: boolean) => {           
             if (isLoggedIn) {
                 location.reload()
             }
         });
 
     }, []);
+    */
 
     return (
         <div>
