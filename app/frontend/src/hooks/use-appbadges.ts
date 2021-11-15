@@ -1,6 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-import type { Device } from '../types/localdevice';
-
 export const useAppBadges = (badges: number) => {
    /*
     return useCallback(() => {        

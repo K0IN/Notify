@@ -1,55 +1,33 @@
 import { FunctionalComponent, h } from 'preact';
-import Snackbar from 'preact-material-components/Snackbar';
-import 'preact-material-components/Snackbar/style.css';
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import Snackbar from 'preact-material-components/Snackbar';
+import 'preact-material-components/Snackbar/style.css';
+import { useCallback, useRef, useState } from 'preact/hooks';
+import useLogin from '../../hooks/use-login';
 import { useLoginState } from '../../hooks/use-loginstate';
-import { checkIfDeviceExists } from '../../services/apiservice';
-import { login, logoff } from '../../services/loginservice';
-import type { Device } from '../../types/localdevice';
 
-const toggleLoginStatus = async (event: any /* Event */): Promise<boolean> => {
-    if (event.target && event.target.checked) {
-        return await login();
-    } else {
-        return await logoff();
-    }
-}
 
 const Register: FunctionalComponent = () => {
-    const ref = useRef<Snackbar>();
+    const dialogRef = useRef<Snackbar>();
     const isLoggedIn = useLoginState();
-    const loginCb = useCallback(toggleLoginStatus, []);
+    const setLoginState = useLogin();
+    const [loginFailed, setLoginFailed] = useState(false);
 
-    // todo
-    /*
-    const loginCb = useCallback(async (e: Event) => {
-        if (!navigator.serviceWorker || !('PushManager' in window)) {
-            if (ref.current) {
-                ref.current.MDComponent.show({ message: 'your browser is not supported', timeout: 10000 });
-            }
-            return false;
+    const callback = useCallback(async (e: any) => {
+        setLoginFailed(false);
+        try {
+            await setLoginState(e.target.checked);
+        } catch (e: any) {
+            dialogRef.current?.MDComponent.show({ message: `unable to register device error: ${e.message}`, timeout: 10000 });
+            setLoginFailed(true);
         }
-
-        toggleLoginStatus(e).catch(e => {
-            if (ref.current) {
-                ref.current.MDComponent.show({ message: `unable to register device error: ${e.message}`, timeout: 10000 });
-            }
-            return false;
-        }).then((isLoggedIn: boolean) => {           
-            if (isLoggedIn) {
-                location.reload()
-            }
-        });
-
-    }, []);
-    */
+    }, [isLoggedIn, loginFailed]);
 
     return (
         <div>
-            Subscribe to notifications <Switch onChange={loginCb} checked={isLoggedIn} />
-            <Snackbar ref={ref} />
+            Subscribe to notifications <Switch onChange={callback} checked={isLoggedIn && !loginFailed} />
+            <Snackbar ref={dialogRef} />
         </div>
     );
 };

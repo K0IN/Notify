@@ -1,18 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-import type { Device } from '../types/localdevice';
+import { useEffect, useState } from 'preact/hooks';
 
 export const useLoginState = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.userData));
+    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
 
     useEffect(() => {
-        if (!localStorage.userData) {
-            return;
-        }
-        const userData = JSON.parse(localStorage.userData) as Device;
-        // checkIfDeviceExists(userData.id).then(setLoginStatus);
-        setIsLoggedIn(true); //todo 
-       
+        const callback = (e: any) => {
+            setIsLoggedIn(Boolean(localStorage.getItem('userData')));
+        };
+        window.addEventListener('storage', callback);
+        return () => window.removeEventListener('storage', callback);
     }, [isLoggedIn]);
 
-    return [isLoggedIn, setIsLoggedIn];
+    return isLoggedIn;
 };
