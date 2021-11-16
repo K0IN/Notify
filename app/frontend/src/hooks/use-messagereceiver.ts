@@ -24,7 +24,6 @@ export const useMessageReceiver = () => {
                 setMessages(old => sortMessages([data.data, ...old]));
             }
         }
-
         navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
         return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
     }, []);

@@ -22,9 +22,9 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
     const [receiveTimeStamp, setReceiveTimestamp] = useState(format(message.receivedAt));
 
     useEffect(() => {
-        const id = setTimeout(() => setReceiveTimestamp(format(message.receivedAt)), 1000);
-        return () => clearTimeout(id);
-    }, [receiveTimeStamp]);
+        const id = setInterval(() => setReceiveTimestamp(format(message.receivedAt)), 1000);
+        return () => clearInterval(id);
+    }, [message]);
 
     // todo:
     // - add a delete button

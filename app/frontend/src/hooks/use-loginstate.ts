@@ -4,7 +4,7 @@ export const useLoginState = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
 
     useEffect(() => {
-        const callback = (e: any) => {
+        const callback = () => {
             setIsLoggedIn(Boolean(localStorage.getItem('userData')));
         };
         window.addEventListener('storage', callback);
