@@ -15,7 +15,7 @@ type MessageProps = {
 
 function timestampToString(timestamp: number): string {
     const date = new Date(timestamp);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
 
 const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) => {

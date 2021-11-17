@@ -12,13 +12,11 @@ export const useMessageReceiver = () => {
     const [messages, setMessages] = useState<MessageType[]>([]);
 
     useEffect(() => {
-        database && console.log("loading data from storage", database);
         database && database.getAll('messages').then(savedMessages => setMessages(sortMessages(savedMessages))).catch(console.warn);
     }, [database]);
 
     useEffect(() => {
         const onMessageInternalCallback = (messageData: MessageEvent) => {
-            console.log('new message received' , messageData);
             const { data } = messageData as { data: PushMessage };
             if (data.type === 'notification') {
                 setMessages(old => sortMessages([data.data, ...old]));

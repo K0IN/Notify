@@ -48,8 +48,8 @@ async function logoff(): Promise<boolean> {
     return false;
 }
 
-export default function useLogin() {    
-    return useCallback( async (loginState: boolean) => {
+export default function useLogin() {
+    return useCallback(async (loginState: boolean) => {
         loginState ? await login() : await logoff();
     }, [])
 }
