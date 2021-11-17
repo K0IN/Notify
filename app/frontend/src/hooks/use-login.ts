@@ -1,8 +1,5 @@
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useCallback } from 'preact/hooks';
 import { arraybuffer2base64, createDevice, getVapidData } from '../services/apiservice';
-
-
-
 
 async function login(): Promise<boolean> {
     const serverKey = await getVapidData();
