@@ -6,7 +6,7 @@ RUN npm run build_all
 
 FROM node:16-alpine
 WORKDIR /usr/app
-USER notify
+
 RUN npm install -g miniflare
 
 COPY --from=builder /usr/src/dist /usr/app/dist
