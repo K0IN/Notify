@@ -15,7 +15,7 @@ type MessageProps = {
 
 function timestampToString(timestamp: number): string {
     const date = new Date(timestamp);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
 
 const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) => {
@@ -24,7 +24,7 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
     useEffect(() => {
         const id = setInterval(() => setReceiveTimestamp(format(message.receivedAt)), 1000);
         return () => clearInterval(id);
-    });
+    }, [message]);
 
     // todo:
     // - add a delete button

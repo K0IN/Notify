@@ -7,7 +7,7 @@
         "build_all": "npm i && webpack && cd frontend && npm i && npm run build",
         "build": "webpack",
         "serve": "miniflare dist/worker.js --kv-persist --wrangler-config wrangler.toml",
-        "dev": "miniflare dist/worker.js --kv-persist --wrangler-config wrangler.toml --watch",
+        "dev": "miniflare dist/worker.js --kv-persist --wrangler-config wrangler.toml --watch --env dev.env ",
         "publish": "wrangler publish",
         "integrationstest": "ava --verbose integrationstest/*.spec.mjs",
         "unittest": "jest",

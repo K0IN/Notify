@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-    * npm
-    * node
+* npm
+* node
 
 Clone this Repository and set your work dir to `app`
 
@@ -40,10 +40,10 @@ You will need to set the resulting string inside your secrets,
 These are environment variables that can be set inside your `wrangler.toml` file or in the (cloudflare) webinterface.
 All of them need to be set to work.
 
-    * `SUB`: set this to the email of the person in charge for notifcations - this will be sent to the push server.
-    * `SERVERPWD`: the password to send notifications - this should be a secret.
-    * `CORS_ORIGIN`: enables cors for the supplied domain(s) - empty if none.
-    * `SERVE_FRONTEND`: boolean to enable the frontend - empty if it should not be served.
+* `SUB`: set this to the email of the person in charge for notifcations - this will be sent to the push server.
+* `SERVERPWD`: the password to send notifications - this should be a secret.
+* `CORS_ORIGIN`: enables cors for the supplied domain(s) - empty if none.
+* `SERVE_FRONTEND`: boolean to enable the frontend - empty if it should not be served.
 
 for more information's on how to set env variables, see the [documentation](https://developers.cloudflare.com/workers/platform/environment-variables)
 also all variables can be found [here]/app/src/globals.d.ts)

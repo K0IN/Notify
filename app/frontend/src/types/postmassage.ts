@@ -1,4 +1,4 @@
-import { MessageType } from './messagetype';
+import type { MessageType } from './messagetype';
 
 export interface BasePushMessage<T> {
     type: string;

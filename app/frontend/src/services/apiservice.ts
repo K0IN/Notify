@@ -1,5 +1,5 @@
 import { apiBase } from '../staticsettings';
-import type { IApiResponse } from '../types/apiresponse';
+import type { IApiResponse, SuccessResponse } from '../types/apiresponse';
 import type { Device } from '../types/localdevice';
 import type { WebPushData } from '../types/webpushdata';
 
@@ -12,22 +12,24 @@ export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
     return btoa(binary);
 }
 
-function parseResponse<T>(promise: Promise<IApiResponse<T>>): Promise<T> {
-    return promise.then((response: IApiResponse<T>) => {
-        if (!response.successful) {
-            throw new Error(response.error);
-        }
-        return response.data as T;
-    });
+function isSuccess<T>(response: IApiResponse<T, unknown>): response is SuccessResponse<T> {
+    return response.successful;
 }
 
-export function getVapidData(): Promise<string> {
-    const fetchPromise = fetch(`${apiBase}/keys`).then(r => r.json());
+function parseResponse<T>(response: IApiResponse<T, string>): T {
+    if (isSuccess(response)) {
+        return response.data;
+    }
+    throw new Error(response.error);
+}
+// todo use a reducer 
+export async function getVapidData(): Promise<string> {
+    const fetchPromise = await fetch(`${apiBase}/keys`).then(r => r.json());
     return parseResponse<string>(fetchPromise);
 }
 
-export function createDevice(webPushData: WebPushData): Promise<Device> {
-    const fetchPromise = fetch(`${apiBase}/device`, {
+export async function createDevice(webPushData: WebPushData): Promise<Device> {
+    const fetchPromise = await fetch(`${apiBase}/device`, {
         method: 'POST',
         body: JSON.stringify({
             web_push_data: webPushData
@@ -36,7 +38,7 @@ export function createDevice(webPushData: WebPushData): Promise<Device> {
     return parseResponse<Device>(fetchPromise);
 }
 
-export function checkIfDeviceExists(deviceId: string): Promise<boolean> {
-    const fetchPromise = fetch(`${apiBase}/device/${deviceId}`).then(r => r.json());
+export async function checkIfDeviceExists(deviceId: string): Promise<boolean> {
+    const fetchPromise = await fetch(`${apiBase}/device/${deviceId}`).then(r => r.json());
     return parseResponse<boolean>(fetchPromise);
 }

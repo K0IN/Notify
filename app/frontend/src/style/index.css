@@ -10,7 +10,7 @@ html, body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-    --mdc-theme-primary: white !important;
+    --mdc-theme-primary: black !important;
     --mdc-theme-secondary: black !important;
 }
 

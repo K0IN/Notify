@@ -11,6 +11,7 @@
 }
 
 .headeritem {
+    padding: 10px;
     grid-area: header;
 }
 

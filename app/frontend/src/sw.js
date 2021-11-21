@@ -1,8 +1,8 @@
-import { getFiles, setupPrecaching } from 'preact-cli/sw/';
+import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
 import { dbName, dbVersion } from './staticsettings';
 import { openDB } from "idb";
 
-// setupRouting();
+setupRouting();
 const urlsToCache = getFiles();
 urlsToCache.push({ url: '/favicon.ico', revision: null });
 setupPrecaching(urlsToCache);
@@ -52,8 +52,7 @@ self.addEventListener('push', (event) => {
     event.waitUntil(Promise.allSettled([
         self.registration.showNotification(title, { body, image: icon, tag }).catch(), // first show notification
         addMessageToDB(messageData).catch(),                                           // save message to db
-        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch(),  // send a event to main window to update the notification
-        navigator && navigator.setAppBadge && navigator.setAppBadge(1)                 // add a badge
+        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch()  // send a event to main window to update the notification
     ]));
 });
 

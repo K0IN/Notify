@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from 'preact';
+import { DatabaseProvider } from '../context/database';
 
 import Messages from './messages/messages';
 import Register from './register/register';
@@ -11,7 +12,9 @@ const App: FunctionalComponent = () => (<div>
             <Register />
         </div>
         <div class={style.main}>
-            <Messages />
+            <DatabaseProvider>
+                <Messages />
+            </DatabaseProvider>
         </div>
     </div>
 </div>);

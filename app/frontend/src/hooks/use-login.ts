@@ -1,6 +1,7 @@
-import { arraybuffer2base64, createDevice, getVapidData } from './apiservice';
+import { useCallback } from 'preact/hooks';
+import { arraybuffer2base64, createDevice, getVapidData } from '../services/apiservice';
 
-export async function login(): Promise<boolean> {
+async function login(): Promise<boolean> {
     const serverKey = await getVapidData();
 
     const sw = await navigator.serviceWorker.ready;
@@ -30,11 +31,11 @@ export async function login(): Promise<boolean> {
         auth: arraybuffer2base64(auth)
     });
 
-    localStorage.userData = JSON.stringify(userData);
+    localStorage.setItem('userData', JSON.stringify(userData));
     return true;
 }
 
-export async function logoff(): Promise<boolean> {
+async function logoff(): Promise<boolean> {
     localStorage.removeItem('userData');
     const sw = await navigator.serviceWorker.ready;
     const sub = await sw.pushManager.getSubscription();
@@ -42,4 +43,10 @@ export async function logoff(): Promise<boolean> {
         await sub.unsubscribe();
     }
     return false;
+}
+
+export default function useLogin() {
+    return useCallback(async (loginState: boolean) => {
+        loginState ? await login() : await logoff();
+    }, [])
 }
