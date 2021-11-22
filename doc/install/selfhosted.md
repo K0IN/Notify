@@ -28,7 +28,7 @@ Example of a env [file](../../app/integrationstest/test.env)
 
 Deploy run the container with your mapped env file (or use parameters).
 
-> docker run -p 8787:8787 -v $(pwd)/app.env:/usr/app/app.env -v ${pwd}/persistance:/usr/app/data ghcr.io/k0in/notify:main
+> docker run -p 8787:8787 -v ${pwd}/app.env:/usr/app/app.env -v ${pwd}/persistance:/usr/app/data ghcr.io/k0in/notify:main
 
 ## Step 5. Ready to go
 
