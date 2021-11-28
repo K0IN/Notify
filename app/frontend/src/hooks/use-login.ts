@@ -1,8 +1,36 @@
-import { useCallback } from 'preact/hooks';
 import { arraybuffer2base64, createDevice, getVapidData } from '../services/apiservice';
+
+import { useEffect, useState, useCallback } from 'preact/hooks';
+import { checkIfDeviceExists } from '../services/apiservice';
+
+// todo refactor this mess
+export const useLoginState = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
+
+    const callback = () => {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            const user = JSON.parse(userData);
+            checkIfDeviceExists(user.id).then((e) => setIsLoggedIn(e)).catch(() => setIsLoggedIn(false));
+        } else {
+            setIsLoggedIn(false);
+        }
+    }
+
+    useEffect(() => {
+        callback();
+        window.addEventListener('storage', callback);
+        return () => window.removeEventListener('storage', callback);
+    }, []);
+
+    return isLoggedIn;
+};
+
 
 async function login(): Promise<boolean> {
     const serverKey = await getVapidData();
+
+    console.warn("You connected to Server with the key", serverKey);
 
     const sw = await navigator.serviceWorker.ready;
     if (!sw.pushManager) {

@@ -28,11 +28,12 @@ export async function getVapidData(): Promise<string> {
     return parseResponse<string>(fetchPromise);
 }
 
-export async function createDevice(webPushData: WebPushData): Promise<Device> {
+export async function createDevice(webPushData: WebPushData, registerToken?: string): Promise<Device> {
     const fetchPromise = await fetch(`${apiBase}/device`, {
         method: 'POST',
         body: JSON.stringify({
-            web_push_data: webPushData
+            web_push_data: webPushData,
+            secret: registerToken
         })
     }).then(r => r.json());
     return parseResponse<Device>(fetchPromise);
