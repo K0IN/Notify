@@ -1,0 +1,14 @@
+.offline {
+    text-align: center;
+    color: white;
+    background-color: black;
+    padding: 2px;
+}
+
+.online {
+    padding: 10px;
+}
+
+.padding {
+    padding-right: 10px;
+}

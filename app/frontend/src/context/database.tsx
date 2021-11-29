@@ -6,7 +6,6 @@ import type { MessageType } from "../types/messagetype";
 import { dbName, dbVersion } from "../staticsettings";
 
 export const DataBaseContext = createContext<IDBPDatabase<MessageType> | null>(null);
-
 export const DatabaseProvider = ({ children }: any) => {
     const [db, setDb] = useState<IDBPDatabase<MessageType> | null>(null);
 
