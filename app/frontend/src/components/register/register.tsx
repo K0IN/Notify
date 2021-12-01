@@ -1,13 +1,12 @@
 import { FunctionalComponent, h } from 'preact';
 
-
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
 import Snackbar from 'preact-material-components/Snackbar';
 import 'preact-material-components/Snackbar/style.css';
 import { useCallback, useRef, useState } from 'preact/hooks';
 
-import useLogin from '../../hooks/use-login';
+import { useLogin } from '../../hooks/use-login';
 
 import Button from 'preact-material-components/Button';
 import 'preact-material-components/Button/style.css';
@@ -23,43 +22,59 @@ import style from './register.css';
 const Register: FunctionalComponent = () => {
     const snackbarRef = useRef<Snackbar>();
     const isOnline = useOnline();
-    const setLoginState = useLogin();
+    const [isLoggedIn, setLoginState] = useLogin();
+    
 
     const showSnackbar = useCallback((message: string, timeout: number = 7000) => {
         snackbarRef.current?.MDComponent.show({ message, timeout });
     }, [snackbarRef]);
 
-    
 
-    const [isLoading, setLoading] = useState<boolean>(Boolean(localStorage.userData));
+
+    const [isLoading, setLoading] = useState<boolean>(false);
+    
+    
+    
     const [isLoginFailed, setLoginFailed] = useState<boolean>(false);
     const [showReloadButton, setShowReloadButton] = useState<boolean>(false);
     const [showDialog, setDialog] = useState<boolean>(false);
     const [apiKey, setApiKey] = useState<string | undefined>(undefined);
 
-    const setLogin = useCallback((e: Event) => {
-        // try login
+
+
+
+    const setLogin = useCallback(async (shouldDoLogin: boolean) => {
+        setLoading(true);
+        try {
+            await setLoginState(shouldDoLogin, apiKey);
+        } catch (e: any) {
+            // find out if password was wrong 
+            showSnackbar(`Login action failed`);
+            console.warn(e);
+        }
+        setLoading(false);        
+        // try login (use apiKey)
         // if login failed show snackbar
         // if login failed due to wrong password show dialog
-        setDialog(true);
-    }, [showDialog]);
+        // setDialog(true);
+    }, [setLoginState, setLoading, apiKey]);
 
     const onDialogExit = useCallback((e: string) => {
         // console.log("onDialogExit", e);
         setApiKey(e);
         setDialog(false);
-    }, [showDialog]);
+        // call setLogin 
+    }, [setLogin]);
 
     return (
         <div>
             {(!isOnline) ?
                 <div class={style.offline}>Offline</div> :
                 <div class={style.online}>
-                    <Switch class={style.padding} onChange={(e: any) => setLogin(e.target.checked)} checked={false && !isLoginFailed} />
+                    <Switch class={style.padding} onChange={(e: any) => setLogin(e.target.checked)} checked={isLoggedIn} />
                     {isLoading && "loading"}
                     {showReloadButton && <Button onClick={() => location.reload()}>reload please</Button>}
                 </div>}
-
             <PasswordDialog isOpened={showDialog} setPassword={onDialogExit} />
             <Snackbar ref={snackbarRef} />
         </div>

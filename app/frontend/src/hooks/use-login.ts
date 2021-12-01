@@ -4,28 +4,6 @@ import { useEffect, useState, useCallback } from 'preact/hooks';
 import { checkIfDeviceExists } from '../services/apiservice';
 
 // todo refactor this mess
-export const useLoginState = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
-
-    const callback = () => {
-        const userData = localStorage.getItem('userData');
-        if (userData) {
-            const user = JSON.parse(userData);
-            checkIfDeviceExists(user.id).then((e) => setIsLoggedIn(e)).catch(() => setIsLoggedIn(false));
-        } else {
-            setIsLoggedIn(false);
-        }
-    }
-
-    useEffect(() => {
-        callback();
-        window.addEventListener('storage', callback);
-        return () => window.removeEventListener('storage', callback);
-    }, []);
-
-    return isLoggedIn;
-};
-
 
 async function login(): Promise<boolean> {
     const serverKey = await getVapidData();
@@ -73,8 +51,32 @@ async function logoff(): Promise<boolean> {
     return false;
 }
 
-export default function useLogin() {
-    return useCallback(async (loginState: boolean) => {
-        loginState ? await login() : await logoff();
-    }, [])
+export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => void] {
+    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
+    
+    const callback = () => {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            const user = JSON.parse(userData);
+            checkIfDeviceExists(user.id).then((e) => setIsLoggedIn(e)).catch(() => setIsLoggedIn(false));
+        } else {
+            setIsLoggedIn(false);
+        }
+    }
+
+    useEffect(() => {
+        callback();
+        window.addEventListener('storage', callback);
+        return () => window.removeEventListener('storage', callback);
+    }, []);
+
+    const startLogin = useCallback(async (loginState: boolean, apiKey?: string) => {
+        await (loginState ? login() : logoff())
+        setIsLoggedIn(loginState);
+    }, [setIsLoggedIn]);
+
+    return [
+        isLoggedIn,
+        startLogin
+    ];
 }
