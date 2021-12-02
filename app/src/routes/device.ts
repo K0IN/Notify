@@ -12,12 +12,12 @@ deviceRouter.post('/',
         if (!request.json) {
             return failure<string>('body not set');
         }
-        const { web_push_data } = await request.json() as { secret: string, web_push_data: WebPushInfos };
+        const { web_push_data, api_password } = await request.json() as { web_push_data: WebPushInfos, api_password?: string };
         return await create({
             auth: String(web_push_data.auth),
             endpoint: String(web_push_data.endpoint),
             key: String(web_push_data.key)
-        })
+        }, api_password)
             .then((device) => success<{ id: string, secret: string }>({ id: device.id, secret: device.secret }))
             .catch((error: Error) => failure<string>(error.message));
     });

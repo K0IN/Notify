@@ -24,7 +24,7 @@ function auth(req: Request) {
 
 export async function readBodyAs<T>(request: Request): Promise<Partial<T>> {
     const bodyPromise = request.text ? request.text() : Promise.resolve(undefined);
-    return await bodyPromise.then((body) => JSON.parse(body)).catch(() => ({})) as Partial<T>;
+    return await bodyPromise.then((body: string /* | undefined*/) => JSON.parse(body)).catch(() => ({})) as Partial<T>;
 }
 
 notificationRouter.post('/', auth,

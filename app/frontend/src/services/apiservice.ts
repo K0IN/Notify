@@ -1,28 +1,8 @@
 import { apiBase } from '../staticsettings';
-import type { IApiResponse, SuccessResponse } from '../types/apiresponse';
+import { parseResponse } from '../types/apiresponse';
 import type { Device } from '../types/localdevice';
 import type { WebPushData } from '../types/webpushdata';
 
-export const arraybuffer2base64 = (arraybuffer: ArrayBuffer) => {
-    let binary = '';
-    const bytes = new Uint8Array(arraybuffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
-}
-
-function isSuccess<T>(response: IApiResponse<T, unknown>): response is SuccessResponse<T> {
-    return response.successful;
-}
-
-function parseResponse<T>(response: IApiResponse<T, string>): T {
-    if (isSuccess(response)) {
-        return response.data;
-    }
-    throw new Error(response.error);
-}
-// todo use a reducer 
 export async function getVapidData(): Promise<string> {
     const fetchPromise = await fetch(`${apiBase}/keys`).then(r => r.json());
     return parseResponse<string>(fetchPromise);
