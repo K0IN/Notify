@@ -42,7 +42,7 @@ const Register: FunctionalComponent = () => {
         } catch (e: any) {
             showSnackbar(`Login action failed: ${e}`);
             console.warn(e);
-            
+
             // todo find out if password was rejected / required
             shouldDoLogin && setDialog(true);
         }

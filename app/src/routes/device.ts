@@ -11,7 +11,7 @@ export const deviceRouter = Router({ base: '/api/device' });
 deviceRouter.post('/', auth,
     async (request: Request): Promise<Response> => {
         if (!request.json) {
-            return failure<string>('body not set');
+            return failure({ type: 'missing_data', message: 'body not set' });
         }
         const { web_push_data } = await request.json() as { web_push_data: WebPushInfos };
         return await create({
@@ -20,7 +20,7 @@ deviceRouter.post('/', auth,
             key: String(web_push_data.key)
         })
             .then((device) => success<{ id: string, secret: string }>({ id: device.id, secret: device.secret }))
-            .catch((error: Error) => failure<string>(error.message));
+            .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
     });
 
 
@@ -29,7 +29,7 @@ deviceRouter.get('/:device_id',
         const { device_id } = request.params as { device_id: string };
         return await checkDevice(String(device_id))
             .then((exists) => success<boolean>(exists))
-            .catch((error: Error) => failure<string>(error.message));
+            .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
     });
 
 deviceRouter.delete('/:device_id',
@@ -39,7 +39,7 @@ deviceRouter.delete('/:device_id',
         return await deleteDevice(String(device_id), String(secret))
             .then((deletionPromise) => event.waitUntil(deletionPromise))
             .then(() => success<string>('device deleted'))
-            .catch((error: Error) => failure<string>(error.message));
+            .catch((error: Error) => failure({ type: 'missing_data', message: error.message }));
     });
 
 

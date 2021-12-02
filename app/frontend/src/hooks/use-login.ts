@@ -1,27 +1,27 @@
 import { createDevice, getVapidData } from '../services/apiservice';
-
 import { useEffect, useState, useCallback } from 'preact/hooks';
 import { checkIfDeviceExists } from '../services/apiservice';
 import { arraybuffer2base64 } from '../util/arraybufferutil';
 import { createSubscription, deleteSubscription } from '../services/webpush';
-
-// todo refactor this mess
+import { isSuccess, parseResponse } from '../types/apiresponse';
 
 async function login(password?: string): Promise<boolean> {
-    const serverKey = await getVapidData();
-
+    const serverKey = parseResponse(await getVapidData());
     console.warn("You connected to Server with the key", serverKey);
-
-    const {endpoint, key, auth} = await createSubscription(serverKey);
-    
+    const { endpoint, key, auth } = await createSubscription(serverKey);
     const userData = await createDevice({
         endpoint,
         key: arraybuffer2base64(key),
         auth: arraybuffer2base64(auth)
     }, password);
 
-    localStorage.setItem('userData', JSON.stringify(userData));
-    return true;
+    if (isSuccess(userData)) {
+        localStorage.setItem('userData', JSON.stringify(userData.data));
+        return true;
+    }
+
+    // todo use return value as login required
+    return false;
 }
 
 async function logoff(): Promise<void> {
@@ -31,18 +31,17 @@ async function logoff(): Promise<void> {
 
 export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => void] {
     const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
-    
+
     useEffect(() => {
         const updateFn = () => {
             const userData = localStorage.getItem('userData');
             if (userData) {
                 const user = JSON.parse(userData);
-                checkIfDeviceExists(user.id).then((e) => setIsLoggedIn(e)).catch(() => setIsLoggedIn(false));
+                checkIfDeviceExists(user.id).then(parseResponse).then(setIsLoggedIn).catch(() => setIsLoggedIn(false)); // todo handle error
             } else {
                 setIsLoggedIn(false);
             }
-        }
-
+        };
         updateFn();
         window.addEventListener('storage', updateFn);
         return () => window.removeEventListener('storage', updateFn);

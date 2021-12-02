@@ -19,7 +19,7 @@ export const DatabaseProvider = ({ children }: any) => {
         });
     }, []);
 
-    return (<DataBaseContext.Provider value={db}> 
+    return (<DataBaseContext.Provider value={db}>
         {children}
     </DataBaseContext.Provider>)
 }
