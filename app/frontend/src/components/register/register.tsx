@@ -23,55 +23,43 @@ const Register: FunctionalComponent = () => {
     const snackbarRef = useRef<Snackbar>();
     const isOnline = useOnline();
     const [isLoggedIn, setLoginState] = useLogin();
-    
 
     const showSnackbar = useCallback((message: string, timeout: number = 7000) => {
         snackbarRef.current?.MDComponent.show({ message, timeout });
     }, [snackbarRef]);
 
-
-
     const [isLoading, setLoading] = useState<boolean>(false);
-    
-    
-    
-    const [isLoginFailed, setLoginFailed] = useState<boolean>(false);
     const [showReloadButton, setShowReloadButton] = useState<boolean>(false);
     const [showDialog, setDialog] = useState<boolean>(false);
-    const [apiKey, setApiKey] = useState<string | undefined>(undefined);
 
-
-
-
-    const setLogin = useCallback(async (shouldDoLogin: boolean) => {
+    const setLogin = useCallback(async (shouldDoLogin: boolean, password?: string) => {
         setLoading(true);
+        console.log('setLogin', shouldDoLogin, password);
         try {
-            await setLoginState(shouldDoLogin, apiKey);
-        } catch (e: any) {
-            // find out if password was wrong 
-            showSnackbar(`Login action failed`);
-            console.warn(e);
-        }
-        setLoading(false);        
-        // try login (use apiKey)
-        // if login failed show snackbar
-        // if login failed due to wrong password show dialog
-        // setDialog(true);
-    }, [setLoginState, setLoading, apiKey]);
+            await setLoginState(shouldDoLogin, password);
+            setShowReloadButton(true);
 
-    const onDialogExit = useCallback((e: string) => {
-        // console.log("onDialogExit", e);
-        setApiKey(e);
+        } catch (e: any) {
+            showSnackbar(`Login action failed: ${e}`);
+            console.warn(e);
+            
+            // todo find out if password was rejected / required
+            shouldDoLogin && setDialog(true);
+        }
+        setLoading(false);
+    }, [setLoginState, setLoading, setDialog]);
+
+    const onDialogExit = useCallback((key?: string) => {
         setDialog(false);
-        // call setLogin 
-    }, [setLogin]);
+        key && setLogin(true, key);
+    }, [setLogin, setDialog]);
 
     return (
         <div>
             {(!isOnline) ?
                 <div class={style.offline}>Offline</div> :
                 <div class={style.online}>
-                    <Switch class={style.padding} onChange={(e: any) => setLogin(e.target.checked)} checked={isLoggedIn} />
+                    <Switch class={style.padding} onChange={(e: any) => setLogin(e.target.checked, undefined)} checked={isLoggedIn} />
                     {isLoading && "loading"}
                     {showReloadButton && <Button onClick={() => location.reload()}>reload please</Button>}
                 </div>}

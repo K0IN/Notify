@@ -12,9 +12,11 @@ export async function createDevice(webPushData: WebPushData, registerToken?: str
     const fetchPromise = await fetch(`${apiBase}/device`, {
         method: 'POST',
         body: JSON.stringify({
-            web_push_data: webPushData,
-            secret: registerToken
-        })
+            web_push_data: webPushData
+        }),
+        headers: registerToken ? {
+            'Authorization': `Bearer ${registerToken}`
+        } : undefined
     }).then(r => r.json());
     return parseResponse<Device>(fetchPromise);
 }

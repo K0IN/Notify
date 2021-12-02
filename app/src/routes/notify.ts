@@ -1,26 +1,10 @@
 import { Request, Router } from 'itty-router';
 import { corsHeaders } from '../cors';
 import { notifyAll } from '../logic/project/notify';
+import { auth } from '../middleware/auth';
 import { failure, success } from '../types/apiresponse';
-import { compareStringSafe } from '../crypto';
 
 export const notificationRouter = Router({ base: '/api/notify' });
-
-type headers = { get: (name: string) => string | undefined; };
-
-function auth(req: Request) {
-    if (SERVERPWD && SERVERPWD !== '') {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const header = (req as unknown as { headers: headers }).headers.get('authorization');
-        if (!header) {
-            return failure<string>('No authorization header (please provide a authorization with a bearer token)', { status: 401 });
-        }
-        const tokenMatch = /^[B|b]earer (.*)$/.exec(header);
-        if (!tokenMatch || !tokenMatch[1] || !compareStringSafe(tokenMatch[1], SERVERPWD)) {
-            return failure<string>('Invalid authorization', { status: 401 });
-        }
-    }
-}
 
 export async function readBodyAs<T>(request: Request): Promise<Partial<T>> {
     const bodyPromise = request.text ? request.text() : Promise.resolve(undefined);
