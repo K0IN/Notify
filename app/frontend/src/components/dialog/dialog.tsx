@@ -1,8 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
-
 import 'preact-material-components/Snackbar/style.css';
-
 import 'preact-material-components/Button/style.css';
 import TextField from 'preact-material-components/TextField';
 import 'preact-material-components/TextField/style.css';
@@ -20,10 +18,8 @@ const PasswordDialog: FunctionalComponent<Props> = ({ isOpened, setPassword }) =
 
     useEffect(() => {
         setPasswordValue('');
-        if (isOpened) {
-            dialog.current?.MDComponent.show();
-        }
-    }, [isOpened, dialog]);
+        isOpened && dialog.current?.MDComponent.show();        
+    }, [isOpened, dialog, setPasswordValue]);
 
     return (
         <div>

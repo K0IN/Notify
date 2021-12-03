@@ -1,19 +1,21 @@
 import { FunctionalComponent, h } from 'preact';
-import Switch from 'preact-material-components/Switch';
-import 'preact-material-components/Switch/style.css';
-import Snackbar from 'preact-material-components/Snackbar';
-import 'preact-material-components/Snackbar/style.css';
 import { useCallback, useRef, useState } from 'preact/hooks';
+
 import { useLogin } from '../../hooks/use-login';
+
+import PasswordDialog from '../dialog/dialog';
+import style from './register.css';
+
 import Button from 'preact-material-components/Button';
 import 'preact-material-components/Button/style.css';
-import PasswordDialog from '../dialog/dialog';
-import 'preact-material-components/LinearProgress/style.css';
-import style from './register.css';
+import Snackbar from 'preact-material-components/Snackbar';
+import 'preact-material-components/Snackbar/style.css';
+import Switch from 'preact-material-components/Switch';
+import 'preact-material-components/Switch/style.css';
+
 
 const Register: FunctionalComponent = () => {
     const snackbarRef = useRef<Snackbar>();
-
     const [isLoggedIn, setLoginState] = useLogin();
 
     const showSnackbar = useCallback((message: string, timeout: number = 7000) => {
@@ -30,15 +32,15 @@ const Register: FunctionalComponent = () => {
             const loginSuccess = await setLoginState(shouldDoLogin, password);
             if (!loginSuccess && shouldDoLogin) {
                 setDialog(true);
-            } else {
-                setShowReloadButton(true);
             }
+            
+            setShowReloadButton(true);            
         } catch (e: any) {
             showSnackbar(`Login action failed: ${e}`);
             console.warn(e);
         }
         setLoading(false);
-    }, [setLoginState, setLoading, setDialog]);
+    }, [setLoginState, setLoading, setDialog, setShowReloadButton, showSnackbar]);
 
     const onDialogExit = useCallback((key?: string) => {
         setDialog(false);

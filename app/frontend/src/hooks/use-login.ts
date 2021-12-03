@@ -20,8 +20,7 @@ async function login(password?: string): Promise<boolean> {
         return true;
     }
 
-    // todo use return value as login required
-    return false;
+    return false; // login required
 }
 
 async function logoff(): Promise<boolean> {
@@ -38,7 +37,7 @@ export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => 
             const userData = localStorage.getItem('userData');
             if (userData) {
                 const user = JSON.parse(userData);
-                checkIfDeviceExists(user.id).then(parseResponse).then(setIsLoggedIn).catch(() => setIsLoggedIn(false)); // todo handle error
+                checkIfDeviceExists(user.id).then(parseResponse).then(setIsLoggedIn).catch(() => setIsLoggedIn(false));
             } else {
                 setIsLoggedIn(false);
             }

@@ -1,11 +1,16 @@
-export async function createSubscription(serverKey: string) {
+
+async function getWebPushManger() {
     const sw = await navigator.serviceWorker.ready;
     if (!sw.pushManager) {
         throw new Error('Your device does not support webpush');
     }
+    return sw.pushManager;
+}
 
+export async function createSubscription(serverKey: string) {
+    const pushManager = await getWebPushManger();
     const subscribeParams = { userVisibleOnly: true, applicationServerKey: serverKey };
-    const subscription = await sw.pushManager.subscribe(subscribeParams);
+    const subscription = await pushManager.subscribe(subscribeParams);
     if (!subscription) {
         throw new Error('Could not subscribe to push service');
     }
@@ -26,12 +31,7 @@ export async function createSubscription(serverKey: string) {
 
 
 export async function deleteSubscription() {
-    const sw = await navigator.serviceWorker.ready;
-    if (!sw.pushManager) {
-        throw new Error('Your device does not support webpush');
-    }
-    const sub = await sw.pushManager.getSubscription();
-    if (sub) {
-        await sub.unsubscribe();
-    }
+    const pushManager = await getWebPushManger();
+    const sub = await pushManager.getSubscription();
+    sub?.unsubscribe();
 }
