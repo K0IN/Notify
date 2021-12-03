@@ -20,5 +20,5 @@ export async function createDevice(webPushData: WebPushData, registerToken?: str
 }
 
 export async function checkIfDeviceExists(deviceId: string): Promise<IApiResponse<boolean>> {
-    return fetch(`${apiBase}/device/${deviceId}`).then(r => r.json());
+    return await fetch(`${apiBase}/device/${deviceId}`).then(r => r.json());
 }

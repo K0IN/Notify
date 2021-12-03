@@ -1,11 +1,4 @@
-.offline {
-    text-align: center;
-    color: white;
-    background-color: black;
-    padding: 2px;
-}
-
-.online {
+.headline {
     padding: 10px;
 }
 

@@ -24,12 +24,13 @@ async function login(password?: string): Promise<boolean> {
     return false;
 }
 
-async function logoff(): Promise<void> {
+async function logoff(): Promise<boolean> {
     localStorage.removeItem('userData');
     await deleteSubscription();
+    return true;
 }
 
-export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => void] {
+export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => Promise<boolean>] {
     const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
 
     useEffect(() => {
@@ -47,9 +48,10 @@ export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => 
         return () => window.removeEventListener('storage', updateFn);
     }, [setIsLoggedIn]);
 
-    const startLogin = useCallback(async (loginState: boolean, apiKey?: string) => {
-        await (loginState ? login(apiKey) : logoff())
+    const startLogin = useCallback(async (loginState: boolean, apiKey?: string): Promise<boolean> => {
+        const res = await (loginState ? login(apiKey) : logoff())
         setIsLoggedIn(loginState);
+        return res;
     }, [setIsLoggedIn]);
 
     return [

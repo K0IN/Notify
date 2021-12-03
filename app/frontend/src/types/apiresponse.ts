@@ -1,7 +1,7 @@
 type ApiErrorTypes = 'auth_required' | 'missing_data' | 'internal_error' | 'not_found';
 
 export type ApiError = {
-    type: ApiErrorTypes, 
+    type: ApiErrorTypes,
     message: string
 };
 
@@ -17,11 +17,10 @@ export interface ErrorResponse {
 
 export type IApiResponse<T = never> = SuccessResponse<T> | ErrorResponse;
 
-export function isSuccess<T>(response: IApiResponse<T>): response is SuccessResponse<T> {
-    return response.successful;
-}
+export const isSuccess = <T = never>(response: IApiResponse<T>): 
+    response is SuccessResponse<T> => response.successful;
 
-export function parseResponse<T>(response: IApiResponse<T>): T {
+export function parseResponse<T = never>(response: IApiResponse<T>): T {
     if (isSuccess(response)) {
         return response.data;
     }
