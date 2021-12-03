@@ -19,7 +19,7 @@ All of them need to be set to work.
 * `SERVERPWD`: the password to send notifications - this should be a secret.
 * `CORS_ORIGIN`: enables cors for the supplied domain(s) - empty if none.
 * `SERVE_FRONTEND`: boolean to enable the frontend - empty if it should not be served.
-* `SERVER_KEY` set the secret to the value of the server key.
+* `VAPID_SERVER_KEY` set the secret to the value of the server key.
 
 for more information's on  all variables can be found [here]/app/src/globals.d.ts)
 Example of a env [file](../../app/integrationstest/test.env)
