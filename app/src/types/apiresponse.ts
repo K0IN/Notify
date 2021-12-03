@@ -1,3 +1,5 @@
+import { ApiError } from './failiures';
+
 export function success<T>(data: T, additions?: unknown): Response {
     const responseMetaData = Object.assign({
         status: 200,
@@ -9,7 +11,7 @@ export function success<T>(data: T, additions?: unknown): Response {
     return new Response(JSON.stringify({ successful: true, data }), responseMetaData);
 }
 
-export function failure<E>(error: E, additions?: unknown): Response {
+export function failure(error: ApiError, additions?: unknown): Response {
     const responseMetaData = Object.assign({
         status: 500,
         headers: {

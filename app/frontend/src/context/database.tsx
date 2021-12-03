@@ -5,10 +5,9 @@ import { useEffect, useState } from "preact/hooks";
 import type { MessageType } from "../types/messagetype";
 import { dbName, dbVersion } from "../staticsettings";
 
-export const DataBaseContext = createContext<IDBPDatabase<MessageType> | null>(null);
-
+export const DataBaseContext = createContext<IDBPDatabase<MessageType> | undefined>(undefined);
 export const DatabaseProvider = ({ children }: any) => {
-    const [db, setDb] = useState<IDBPDatabase<MessageType> | null>(null);
+    const [db, setDb] = useState<IDBPDatabase<MessageType> | undefined>(undefined);
 
     useEffect(() => {
         openDB<MessageType>(dbName, dbVersion, {
@@ -20,7 +19,7 @@ export const DatabaseProvider = ({ children }: any) => {
         });
     }, []);
 
-    return (<DataBaseContext.Provider value={db}> 
+    return (<DataBaseContext.Provider value={db}>
         {children}
     </DataBaseContext.Provider>)
 }

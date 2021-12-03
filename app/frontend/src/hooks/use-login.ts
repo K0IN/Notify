@@ -1,52 +1,60 @@
-import { useCallback } from 'preact/hooks';
-import { arraybuffer2base64, createDevice, getVapidData } from '../services/apiservice';
+import { createDevice, getVapidData } from '../services/apiservice';
+import { useEffect, useState, useCallback } from 'preact/hooks';
+import { checkIfDeviceExists } from '../services/apiservice';
+import { arraybuffer2base64 } from '../util/arraybufferutil';
+import { createSubscription, deleteSubscription } from '../services/webpush';
+import { isSuccess, parseResponse } from '../types/apiresponse';
 
-async function login(): Promise<boolean> {
-    const serverKey = await getVapidData();
-
-    const sw = await navigator.serviceWorker.ready;
-    if (!sw.pushManager) {
-        throw new Error('Your device does not support webpush');
-    }
-    const subscribeParams = { userVisibleOnly: true, applicationServerKey: serverKey };
-    const subscription = await sw.pushManager.subscribe(subscribeParams);
-    if (!subscription) {
-        throw new Error('Could not subscribe to push service');
-    }
-
-    const endpoint = subscription.endpoint;
-    const key = subscription.getKey('p256dh');
-    if (!key) {
-        throw new Error('Could not get key');
-    }
-
-    const auth = subscription.getKey('auth');
-    if (!auth) {
-        throw new Error('Could not get auth');
-    }
-
+async function login(password?: string): Promise<boolean> {
+    const serverKey = parseResponse(await getVapidData());
+    console.warn("You connected to Server with the key", serverKey);
+    const { endpoint, key, auth } = await createSubscription(serverKey);
     const userData = await createDevice({
         endpoint,
         key: arraybuffer2base64(key),
         auth: arraybuffer2base64(auth)
-    });
+    }, password);
 
-    localStorage.setItem('userData', JSON.stringify(userData));
-    return true;
+    if (isSuccess(userData)) {
+        localStorage.setItem('userData', JSON.stringify(userData.data));
+        return true;
+    }
+
+    return false; // login required
 }
 
 async function logoff(): Promise<boolean> {
     localStorage.removeItem('userData');
-    const sw = await navigator.serviceWorker.ready;
-    const sub = await sw.pushManager.getSubscription();
-    if (sub) {
-        await sub.unsubscribe();
-    }
-    return false;
+    await deleteSubscription();
+    return true;
 }
 
-export default function useLogin() {
-    return useCallback(async (loginState: boolean) => {
-        loginState ? await login() : await logoff();
-    }, [])
+export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => Promise<boolean>] {
+    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
+
+    useEffect(() => {
+        const updateFn = () => {
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                const user = JSON.parse(userData);
+                checkIfDeviceExists(user.id).then(parseResponse).then(setIsLoggedIn).catch(() => setIsLoggedIn(false));
+            } else {
+                setIsLoggedIn(false);
+            }
+        };
+        updateFn();
+        window.addEventListener('storage', updateFn);
+        return () => window.removeEventListener('storage', updateFn);
+    }, [setIsLoggedIn]);
+
+    const startLogin = useCallback(async (loginState: boolean, apiKey?: string): Promise<boolean> => {
+        const res = await (loginState ? login(apiKey) : logoff())
+        setIsLoggedIn(loginState);
+        return res;
+    }, [setIsLoggedIn]);
+
+    return [
+        isLoggedIn,
+        startLogin
+    ];
 }

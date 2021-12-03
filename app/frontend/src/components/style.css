@@ -3,6 +3,7 @@
     grid-template-areas: 
         "header header header"
         "x content y";
+
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
 }
 
@@ -11,10 +12,8 @@
 }
 
 .headeritem {
-    padding: 10px;
     grid-area: header;
 }
-
 
 /* make the grid responsive */
 @media (max-width: 768px) {

@@ -3,7 +3,7 @@ import type { IDevice } from '../../types/database/device';
 import { generateRandomId } from '../../webpush/util';
 import { WebPushInfos } from '../../webpush/webpushinfos';
 
-export async function create(webPushData: WebPushInfos): Promise<IDevice> {
+export async function create(webPushData: WebPushInfos): Promise<IDevice> {        
     const device: IDevice = {
         id: generateRandomId(),
         secret: generateRandomId(),

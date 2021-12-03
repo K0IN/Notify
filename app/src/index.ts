@@ -10,12 +10,11 @@ const apiRouter = Router({ base: '/api' });
 apiRouter.all('/keys/*', keysRouter.handle);
 apiRouter.all('/device/*', deviceRouter.handle);
 apiRouter.all('/notify/*', notificationRouter.handle);
-
-apiRouter.all('*', () => failure<string>('method not found', { status: 404 }));
+apiRouter.all('*', () => failure({ type: 'not_found', message: 'method not found' }, { status: 404 }));
 
 const errorHandler = (error: Error) => {
     console.error('global error handler catched', error);
-    return failure<string>(error.message, { headers: CORS_ORIGIN ? corsHeaders : {} });
+    return failure({ type: 'internal_error', message: error.message }, { headers: CORS_ORIGIN ? corsHeaders : {} });
 };
 
 const handleRequest = async (event: FetchEvent): Promise<Response> => {
