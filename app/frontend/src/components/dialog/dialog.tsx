@@ -8,7 +8,7 @@ import Dialog from 'preact-material-components/Dialog';
 import 'preact-material-components/Dialog/style.css';
 
 type Props = {
-    setPassword: (password: string) => void;
+    setPassword: (password: string | undefined) => void;
     isOpened: boolean;
 };
 
@@ -26,7 +26,7 @@ const PasswordDialog: FunctionalComponent<Props> = ({ isOpened, setPassword }) =
             <Dialog
                 ref={dialog}
                 onAccept={() => setPassword(password)}
-                onCancel={() => setPassword("")}>
+                onCancel={() => setPassword(undefined)}>
                 <Dialog.Header>Warning you need a Key to join this Notify instance</Dialog.Header>
                 <Dialog.Body>
                     <TextField
