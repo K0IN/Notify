@@ -16,6 +16,6 @@ COPY --from=builder /usr/src/frontend/build /usr/app/frontend/build
 COPY --from=builder /usr/src/package.json /usr/app/package.json 
 COPY --from=builder /usr/src/wrangler.toml /usr/app/wrangler.toml 
 
-HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:8787 || exit 1
 
 ENTRYPOINT [ "miniflare", "./dist/worker.js", "--wrangler-config", "wrangler.toml", "--env", "app.env", "--build-command", ""]
