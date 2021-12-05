@@ -59,10 +59,6 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
     console.log('On notification click: ', event.notification);
 
-    // Android doesn’t close the notification when you click on it
-    // See: http://crbug.com/463146
-    event.notification.close();
-
     event.waitUntil(async () => {
         const clientList = await clients.matchAll({ type: 'window' });
         for (let i = 0; i < clientList.length; i++) {
@@ -74,6 +70,8 @@ self.addEventListener('notificationclick', (event) => {
         if (clients.openWindow) {
             return clients.openWindow('/');
         }
+
+        event.notification.close();
     });
 });
 
