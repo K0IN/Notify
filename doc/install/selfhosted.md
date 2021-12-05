@@ -1,5 +1,7 @@
 # Deploy Notify with docker
 
+[see this exmaple](../example/readme.md)
+
 ## Prerequisites
 
 * docker
