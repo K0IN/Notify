@@ -52,7 +52,7 @@ self.addEventListener('push', (event) => {
     event.waitUntil(Promise.allSettled([
         self.registration.showNotification(title, { body, image: icon, tag }).catch(), // first show notification
         addMessageToDB(messageData).catch(),                                           // save message to db
-        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch()  // send a event to main window to update the notification
+        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch()   // send a event to main window to update the notification
     ]));
 });
 

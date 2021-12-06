@@ -64,28 +64,24 @@ function base64UrlToUint8Array(base64UrlData: string): Uint8Array {
     return stringToU8Array(rawData);
 }
 
-export async function cryptoKeysToUint8Array(publicKey: CryptoKey, privateKey?: CryptoKey): Promise<{ publicKey: Uint8Array, privateKey?: Uint8Array }> {
-    const exportedKeys = [];
-    const jwk = await crypto.subtle.exportKey('jwk', publicKey);
+export async function cryptoKeysToUint8Array(pubKey: CryptoKey, privKey?: CryptoKey): Promise<{ publicKey: Uint8Array, privateKey?: Uint8Array }> {
+    const jwk = await crypto.subtle.exportKey('jwk', pubKey);
     const x = base64UrlToUint8Array(jwk.x as string);
     const y = base64UrlToUint8Array(jwk.y as string);
 
-    const pubJwk = new Uint8Array(65);
-    pubJwk.set([0x04], 0);
-    pubJwk.set(x, 1);
-    pubJwk.set(y, 33);
-    exportedKeys.push(pubJwk);
+    const publicKey = new Uint8Array(65);
+    publicKey.set([0x04], 0);
+    publicKey.set(x, 1);
+    publicKey.set(y, 33);
 
-    if (privateKey) {
-        const jwk = await crypto.subtle.exportKey('jwk', privateKey);
+    if (privKey) {
+        const jwk = await crypto.subtle.exportKey('jwk', privKey);
         if (!jwk.d) {
             throw new Error('Private key has no private key component');
         }
-        exportedKeys.push(base64UrlToUint8Array(jwk.d));        
+        const privateKey = base64UrlToUint8Array(jwk.d);
+        return { publicKey, privateKey };
     }
 
-    return {
-        publicKey: exportedKeys[0],
-        privateKey: exportedKeys.length > 1 ? exportedKeys[1] : undefined,
-    };
+    return { publicKey };
 }
