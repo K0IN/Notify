@@ -1,6 +1,6 @@
 # Deploy Notify with docker
 
-[see this exmaple](../example/readme.md)
+just want to see a example see a [example](../example/readme.md)?
 
 ## Prerequisites
 
