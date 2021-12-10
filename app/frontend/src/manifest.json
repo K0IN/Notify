@@ -8,7 +8,7 @@
     "theme_color": "#000",
     "icons": [
         {
-            "src": "/assets/icons/outline_info_black_48dp.png",
+            "src": "/assets/icons/notify_big.png",
             "type": "image/png",
             "sizes": "768x768"
         }
