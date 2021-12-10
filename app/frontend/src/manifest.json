@@ -10,7 +10,7 @@
         {
             "src": "/assets/icons/notify_big.png",
             "type": "image/png",
-            "sizes": "768x768"
+            "sizes": "512x512"
         }
     ]
 }
