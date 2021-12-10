@@ -8,6 +8,7 @@ services:
       # this is a example how your settings fike coud look like
       # see the install docs for more info
       - ./prod.env:/usr/app/app.env:ro
+      # ./users:/usr/app/data # this is an example how you can persist your user
 
     ports:
       - "8787:8787" 
