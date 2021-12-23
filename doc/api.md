@@ -34,7 +34,7 @@ All routes are prefixed with `/api`
 
 **Method** : `POST`
 
-**Auth required** : No
+**Auth required** : no (only if the serverpassword is set) Authentication header must be `Bearer <serverpassword>`
 
 **Description** : create a new device and return the device id with a secret that can be used to delete it later
 
@@ -116,7 +116,7 @@ All routes are prefixed with `/api`
 
 **Method** : `POST`
 
-**Auth required** : yes (only if the serverpassword is set see [wrangler](./wrangler.md)) Authentication header must be `Bearer <serverpassword>`
+**Auth required** : yes (only if the serverpassword is set) Authentication header must be `Bearer <serverpassword>`
 
 **Description** : send a notification to all devices
 

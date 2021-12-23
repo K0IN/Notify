@@ -1,6 +1,11 @@
 # notify_frontend
 
+## setup for dev
+
+set `apiBase` to `http://localhost:8787/api` in [settings file](src/staticsettings.js) and set cors header in backend.
+
 ## CLI Commands
+
 *   `npm install`: Installs dependencies
 
 *   `npm run dev`: Run a development, HMR server

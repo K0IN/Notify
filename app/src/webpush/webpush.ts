@@ -10,6 +10,8 @@ export async function generateWebPushMessage(message: WebPushMessage,
         return WebPushResult.NoDataProvided;
     }
     
+    // those todos are about a future, with other encryption algorithms
+
     const [headers, encryptedPayloadDetails] = await Promise.all([
         generateV2Headers(deviceData.endpoint, applicationServerKeys, message.sub),
         generateAESGCMEncryptedMessage(message.data, deviceData as Required<WebPushInfos>) // TODO: switch this according to supportedAlgorithms
