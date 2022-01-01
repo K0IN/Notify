@@ -53,7 +53,7 @@ jobs:
                   builder: ${{ steps.buildx.outputs.name }}
                   platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
                   context: .
-                  push: ${{ GITHUB_REF_NAME == 'main' }}
+                  push: ${{ github.ref_name == 'refs/heads/main' }}
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
                     
