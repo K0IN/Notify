@@ -17,7 +17,7 @@ const errorHandler = (error: Error) => {
     return failure({ type: 'internal_error', message: error.message }, { headers: CORS_ORIGIN ? corsHeaders : {} });
 };
 
-const handleRequest = async (event: FetchEvent): Promise<Response> => {
+export const handleRequest = async (event: FetchEvent): Promise<Response> => {
     const response: Response = await apiRouter.handle(event.request, event).catch(console.error);
     if (response) {
         return CORS_ORIGIN ?
