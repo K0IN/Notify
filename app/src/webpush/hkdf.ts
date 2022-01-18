@@ -1,4 +1,4 @@
-async function hmacSign(ikm: Uint8Array | ArrayBuffer, input: ArrayBuffer): Promise<ArrayBuffer> {
+export async function hmacSign(ikm: Uint8Array | ArrayBuffer, input: ArrayBuffer): Promise<ArrayBuffer> {
     const key = await crypto.subtle.importKey('raw', ikm, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
     return await crypto.subtle.sign('HMAC', key, input);
 }
