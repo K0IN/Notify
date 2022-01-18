@@ -4,10 +4,9 @@ export default {
     // `wrangler.toml` files by default, but you can pass any additional Miniflare
     // API options here:
     // load env file
-    
     testEnvironmentOptions: {
-        bindings: { CORS_ORIGIN: "false" },
-        kvNamespaces: ["TEST_NAMESPACE"],
+        bindings: { },
+        kvNamespaces: [],
     },
     preset: "ts-jest/presets/default-esm",
     globals: {
