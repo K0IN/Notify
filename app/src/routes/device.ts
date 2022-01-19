@@ -2,13 +2,13 @@ import { Request, Router } from 'itty-router';
 import { checkDevice } from '../logic/device/check';
 import { create } from '../logic/device/create';
 import { deleteDevice } from '../logic/device/delete';
-import { auth } from '../middleware/auth';
+import { authFactory } from '../middleware/auth';
 import { failure, success } from '../types/apiresponse';
 import type { WebPushInfos } from '../webpush/webpushinfos';
 
 export const deviceRouter = Router({ base: '/api/device' });
 
-deviceRouter.post('/', auth,
+deviceRouter.post('/', authFactory(SERVERPWD),
     async (request: Request): Promise<Response> => {
         if (!request.json) {
             return failure({ type: 'missing_data', message: 'body not set' });
