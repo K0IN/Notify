@@ -1,4 +1,4 @@
-import { hmacSign, hkdfGenerate } from '../src/webpush/hkdf';
+import { hmacSign, hkdfGenerate } from '../../src/webpush/hkdf';
 
 describe('webpush helper hkdfGenerate and hmacSign', () => {
     test('hmacSign data', async () => {

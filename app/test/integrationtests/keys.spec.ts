@@ -1,8 +1,9 @@
-import { handleApiRequest } from '../src/index';
+import { handleApiRequest } from '../../src/index';
 
 test('responds with url', async () => {
     const req = new Request('https://localhost/api/keys/');
     const res = await handleApiRequest(req);
+    expect(res).toBeTruthy();
     if (!res) { throw new Error('No response'); }
     // response check
     expect(res.status).toBe(200);
