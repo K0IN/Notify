@@ -39,12 +39,12 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
     return { token, serverKey };
 }
 
-export async function generateV1Headers(endpoint: string, applicationServerKeys: JWK, sub: string): Promise<{ [headerName: string]: string }> {
+export async function generateV1Headers(endpoint: string, applicationServerKeys: JWK, sub: string): Promise<{ [headerName in 'Crypto-Key' | 'Authorization']: string }> {
     const headers = await generateHeaders(endpoint, applicationServerKeys, sub);
     return { 'Authorization': `WebPush ${headers.token}`, 'Crypto-Key': `p256ecdsa=${headers.serverKey}` };
 }
 
-export async function generateV2Headers(endpoint: string, applicationServerKeys: JWK, sub: string): Promise<{ [headerName: string]: string }> {
+export async function generateV2Headers(endpoint: string, applicationServerKeys: JWK, sub: string): Promise<{ [headerName in 'Authorization']: string }> {
     const headers = await generateHeaders(endpoint, applicationServerKeys, sub);
     return { Authorization: `vapid t=${headers.token}, k=${headers.serverKey}` };
 }
