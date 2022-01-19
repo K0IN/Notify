@@ -8,8 +8,8 @@ function ArrayToHex(byteArray: Uint8Array): string {
     }).join('');
 }
 
-export function generateRandomId(): string {
-    const buffer = new Uint8Array(16);
+export function generateRandomId(size = 16): string {
+    const buffer = new Uint8Array(size);
     crypto.getRandomValues(buffer);
     return ArrayToHex(buffer);
 }
@@ -46,9 +46,6 @@ export function exportPublicKeyPair<T extends { x: string; y: string }>(key: T):
 
 export function joinUint8Arrays(allUint8Arrays: Array<Uint8Array>): Uint8Array {
     return allUint8Arrays.reduce(function (cumulativeValue, nextValue) {
-        if (!(nextValue instanceof Uint8Array)) {
-            throw new Error('Received an non-Uint8Array value.');
-        }
         const joinedArray = new Uint8Array(
             cumulativeValue.byteLength + nextValue.byteLength
         );
@@ -68,20 +65,14 @@ export async function cryptoKeysToUint8Array(pubKey: CryptoKey, privKey?: Crypto
     const jwk = await crypto.subtle.exportKey('jwk', pubKey);
     const x = base64UrlToUint8Array(jwk.x as string);
     const y = base64UrlToUint8Array(jwk.y as string);
-
     const publicKey = new Uint8Array(65);
     publicKey.set([0x04], 0);
     publicKey.set(x, 1);
     publicKey.set(y, 33);
-
     if (privKey) {
         const jwk = await crypto.subtle.exportKey('jwk', privKey);
-        if (!jwk.d) {
-            throw new Error('Private key has no private key component');
-        }
-        const privateKey = base64UrlToUint8Array(jwk.d);
+        const privateKey = base64UrlToUint8Array(jwk.d as string);
         return { publicKey, privateKey };
     }
-
     return { publicKey };
 }
