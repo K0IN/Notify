@@ -13,7 +13,8 @@
         "lint": "eslint src/",
         "integrationstest": "ava --verbose integrationstest/*.spec.mjs",
         "unittest": "jest",
-        "test": "npm run lint && npm run build && npm run unittest && npm run integrationstest"
+        "test": "npm run lint && npm run build && npm run unittest && npm run integrationstest",
+        "cover": "jest --collectCoverage"
     },
     "eslintConfig": {
         "root": true,
