@@ -1,8 +1,9 @@
 import { generateV1Headers, generateV2Headers } from '../../src/webpush/vapid';
 
-describe('test webpush vapid header generation functions', () => {
+describe('test vapid header generation functions', () => {
     let dateNowSpy: any = null;
     beforeAll(() => dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000));
+    afterAll(() => dateNowSpy.mockRestore());
 
     test('generateV1Headers', async () => {
         const vapidKeys = { 'crv': 'P-256', 'd': 'MM3IEY73Br5_Hdtfknab6QIXqCHXv7S5cZrlD3lrjuk', 'ext': true, 'key_ops': ['sign'], 'kty': 'EC', 'x': 'YNEmMB5QyQULW4WepHQvn5WWrBXpHGFB51eJ3oJj3k4', 'y': 'NU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ' };
@@ -34,5 +35,4 @@ describe('test webpush vapid header generation functions', () => {
         expect(signature).toBeTruthy();
     });
 
-    afterAll(() => dateNowSpy.mockRestore());
 });
