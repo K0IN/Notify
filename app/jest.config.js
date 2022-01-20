@@ -1,18 +1,18 @@
 export default {
-    testEnvironment: "miniflare",
+    testEnvironment: 'miniflare',
     // Configuration is automatically loaded from `.env`, `package.json` and
     // `wrangler.toml` files by default, but you can pass any additional Miniflare
     // API options here:
     // load env file
     testEnvironmentOptions: {
         bindings: { },
-        kvNamespaces: [],
+        kvNamespaces: ['NOTIFY_USERS'],
     },
-    preset: "ts-jest/presets/default-esm",
+    preset: 'ts-jest/presets/default-esm',
     globals: {
         modules: true,
-        "ts-jest": {
-            tsconfig: "test/tsconfig.json",
+        'ts-jest': {
+            tsconfig: 'test/tsconfig.json',
             useESM: true,
         },
     },
