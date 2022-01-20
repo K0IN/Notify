@@ -150,7 +150,7 @@ describe('test webpush util functions', () => {
 
             expect(x.privateKey).toBe(undefined);
         });
-        test('check private key only', async () => {
+        test('check public and private key', async () => {
             const publicKeyData = {
                 x: '_rmBAhCctcJ_rPNinU33moOR6hYvDMjT8UQKWRjo15U',
                 y: '4xEKAirqkfa0QNXq3H6zWRFen0J0_VWE_lwDrK1t1HA'
