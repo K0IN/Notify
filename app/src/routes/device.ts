@@ -14,6 +14,10 @@ deviceRouter.post('/', authFactory(SERVERPWD),
             return failure({ type: 'missing_data', message: 'body not set' });
         }
         const { web_push_data } = await request.json() as { web_push_data: WebPushInfos };
+        if (!web_push_data || !web_push_data.endpoint || !web_push_data.key || !web_push_data.auth) {
+            return failure({ type: 'missing_data', message: 'missing web_push_data' });
+        }
+        
         return await create({
             auth: String(web_push_data.auth),
             endpoint: String(web_push_data.endpoint),
