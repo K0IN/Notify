@@ -1,7 +1,7 @@
 import { arrayBufferToBase64, b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, generateRandomId, joinUint8Arrays, stringToU8Array, u8ToString, urlEncodedToB64 } from '../../src/webpush/util';
 
 describe('test webpush util functions', () => {
-    describe('ArrayToHex', () => {
+    describe('generateRandomId', () => {
         test('check default', () => {
             const id = generateRandomId();
             expect(id.length).toEqual(32);
@@ -17,6 +17,14 @@ describe('test webpush util functions', () => {
             expect(id.length).toEqual(18);
             expect(id).toMatch(/^[0-9a-f]{18}$/);
         });
+        test('check custom odd length', () => {
+            const ids = [];
+            for (let x = 0; x < 100; x++) {
+                ids.push(generateRandomId(9));
+            }
+            // check if there is any duplicate id 
+            expect([...new Set(ids)].length).toEqual(100);
+        });
     });
 
     describe('arrayBufferToBase64', () => {
@@ -24,6 +32,7 @@ describe('test webpush util functions', () => {
             const exampleData = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
             const base64 = arrayBufferToBase64(exampleData.buffer);
             expect(base64).toEqual('AQIDBAUGBwgJCg==');
+            expect(atob(base64)).toEqual('\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a');
         });
         test('check empty string', () => {
             const exampleData = new Uint8Array([]);
@@ -34,6 +43,7 @@ describe('test webpush util functions', () => {
             const exampleData = new Uint8Array([0xff, 0x7f, 0xf7, 0xff, 0x00]);
             const base64 = arrayBufferToBase64(exampleData.buffer);
             expect(base64).toEqual('/3/3/wA=');
+            expect(atob(base64)).toEqual('\xff\x7f\xf7\xff\x00');
         });
     });
 
@@ -47,6 +57,7 @@ describe('test webpush util functions', () => {
             const urlEncoded = b64ToUrlEncoded('');
             expect(urlEncoded).toEqual('');
         });
+        
     });
 
     describe('urlEncodedToB64', () => {
@@ -60,6 +71,23 @@ describe('test webpush util functions', () => {
             expect(b64String).toEqual('');
         });
     });
+
+    describe('b64ToUrlEncoded and urlEncodedToB64', () => {
+        test('full circle', () => {
+            // a string with every byte value at it's index
+            const input = new Array(255).fill(0).map((x, i) => String.fromCharCode(i)).join();
+            const b64In = btoa(input);
+            const urlEncodedIn = b64ToUrlEncoded(b64In);            
+            expect(urlEncodedIn).toMatch(/^[a-zA-Z0-9_-]*$/);
+
+            const base64EncodedOut = urlEncodedToB64(urlEncodedIn);
+            expect(b64In).toEqual(base64EncodedOut);
+
+            const output = atob(base64EncodedOut);
+            expect(output).toEqual(input);
+        });
+    });
+
 
     describe('stringToU8Array', () => {
         test('check default', () => {
