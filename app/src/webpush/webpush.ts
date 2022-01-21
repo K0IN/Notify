@@ -4,7 +4,7 @@ import { generateAESGCMEncryptedMessage } from './message';
 import { generateV2Headers } from './vapid';
 
 export async function generateWebPushMessage(message: WebPushMessage,
-    deviceData: Partial<WebPushInfos>, applicationServerKeys: JWK): Promise<WebPushResult> {
+    deviceData: WebPushInfos, applicationServerKeys: JWK): Promise<WebPushResult> {
 
     if (!deviceData.endpoint || !deviceData.key || !deviceData.auth) {
         return WebPushResult.NoDataProvided;
