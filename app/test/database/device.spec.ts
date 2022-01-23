@@ -111,7 +111,7 @@ describe('test device database', () => {
         }
     });
 
-    test('check if get ides pages works', async () => {
+    test('check if huge get ids works', async () => {
         for (let i = 0; i < 10_000; i++) {
             const device: IDevice = {
                 id: String(i),
