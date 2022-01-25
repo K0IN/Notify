@@ -7,11 +7,7 @@ export async function create(webPushData: WebPushInfos): Promise<IDevice> {
     const device: IDevice = {
         id: generateRandomId(),
         secret: generateRandomId(),
-        pushData: { 
-            auth: String(webPushData.auth), 
-            endpoint: new URL(webPushData.endpoint).toString(), 
-            key: String(webPushData.key)
-        }
+        pushData: webPushData
     };
     await createDevice(device);
     return device;
