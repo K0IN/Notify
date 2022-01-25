@@ -18,7 +18,7 @@ const errorHandler = (error: Error) => {
 };
 
 export const handleApiRequest = async (request: Request): Promise<Response | undefined> => {
-    const response: Response = await apiRouter.handle(request).catch(console.error);
+    const response: Response | undefined = await apiRouter.handle(request).catch((error: Error) => errorHandler(error));
     return response ? (
         CORS_ORIGIN ?
             new Response(response.body, { headers: { ...response.headers, ...corsHeaders }, status: response.status }) :
