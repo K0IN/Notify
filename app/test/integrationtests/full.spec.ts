@@ -26,15 +26,15 @@ test('responds with url', async () => {
 
     // click on the button
     await page.waitForTimeout(5000);
-    await page.screenshot({ path: './images/step_init.png' });
+    // await page.screenshot({ path: './images/step_init.png' });
     await page.click('input');
     await page.waitForTimeout(5000);
-    await page.screenshot({ path: './images/step_clicked.png' });
+    // await page.screenshot({ path: './images/step_clicked.png' });
 
     // reload the page
     await page.reload();
     await page.waitForTimeout(5000);
-    await page.screenshot({ path: './images/step_reload.png' });
+    // await page.screenshot({ path: './images/step_reload.png' });
 
     // send a notification
     const res = await fetch('http://localhost:5000/api/notify', {
@@ -52,11 +52,10 @@ test('responds with url', async () => {
         data: expect.any(String)
     });
 
-
+    // this will throw if we do not receive a notification
     await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 5000 });
 
-    // this will throw if we do not receive a notification
-    await page.screenshot({ path: './images/step_message.png' });
+    // await page.screenshot({ path: './images/step_message.png' });
 
     (await server).close();
     await browser.close();
