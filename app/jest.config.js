@@ -13,9 +13,9 @@ export default {
         modules: true,
         'ts-jest': {
             tsconfig: 'test/tsconfig.json',
-            useESM: true,
-        },
-    },
+            useESM: true
+        }
+    }
 };
 
 // find more at
