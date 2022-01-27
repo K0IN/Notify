@@ -1,7 +1,10 @@
 import pup from 'puppeteer';
 import { Miniflare } from 'miniflare';
 
-jest.setTimeout(120_000);
+// this test does not work with headless mode see
+// https://github.com/puppeteer/puppeteer/issues/3461
+
+jest.setTimeout(60_000); // 60 seconds timeout
 
 test('responds with url', async () => { 
     const mf = new Miniflare({  
@@ -14,7 +17,7 @@ test('responds with url', async () => {
         kvNamespaces: ['NOTIFY_USERS'],
     });
     const server = mf.startServer();
-    const browser = await pup.launch({ headless: false });
+    const browser = await pup.launch({ headless: true });
     const context = browser.defaultBrowserContext();
     context.overridePermissions('http://localhost:5000', ['notifications']);
  
