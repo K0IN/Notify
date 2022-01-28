@@ -37,6 +37,5 @@ jobs:
           args: cd app && npm test
 
       - name: Cover Code
-        if:
-          - ref: 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: cd app && npm install && npm run cover
