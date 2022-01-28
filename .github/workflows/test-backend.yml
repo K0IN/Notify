@@ -29,15 +29,13 @@ jobs:
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
-      # - name: Test Code
-      #   uses: mujo-code/puppeteer-headful@v2
-      #   env:
-      #     CI: 'true'
-      #   with:
-      #     args: npm --prefix ./app/ test
       - name: Test Code
-        run: npm test
-
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          CI: 'true'
+        with:
+          args: npm test
+      
       - name: Cover Code
         if: github.ref == 'refs/heads/main'
         run: npm run cover
