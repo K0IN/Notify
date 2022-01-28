@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app/
 
     steps:
       - name: Checkout repository
@@ -22,17 +25,19 @@ jobs:
           node-version: "16.7.0"
 
       - name: install dependencies
-        run: cd app && npm install 
+        run: npm install 
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
+      # - name: Test Code
+      #   uses: mujo-code/puppeteer-headful@v2
+      #   env:
+      #     CI: 'true'
+      #   with:
+      #     args: npm --prefix ./app/ test
       - name: Test Code
-        uses: mujo-code/puppeteer-headful@v2
-        env:
-          CI: 'true'
-        with:
-          args: npm --prefix ./app/ test
+        run: npm test
 
       - name: Cover Code
         if: github.ref == 'refs/heads/main'
-        run: cd app && npm install && npm run cover
+        run: npm run cover
