@@ -13,6 +13,7 @@ test('responds with url', async () => {
         wranglerConfigPath: true,
         scriptPath: 'dist/index.js',
         port: 5000,
+        executablePath: process.env.PUPPETEER_EXEC_PATH, 
         buildCommand: '',
         kvNamespaces: ['NOTIFY_USERS'],
     });
