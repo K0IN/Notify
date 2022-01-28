@@ -34,7 +34,7 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: cd app && npm test
+          args: (cd app && npm test)
 
       - name: Cover Code
         if: github.ref == 'refs/heads/main'

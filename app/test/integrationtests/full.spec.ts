@@ -57,7 +57,7 @@ test('responds with url', async () => {
     await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 5000 });
 
     // await page.screenshot({ path: './images/step_message.png' });
-
+    expect(false).toBe(true);
     (await server).close();
     await browser.close();
 });
