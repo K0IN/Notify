@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node environment
         uses: actions/setup-node@v2.4.0
         with:
-          node-version: "16.x"       
+          node-version: "16.7.0"       
           args: install   
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
@@ -34,7 +34,7 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: npm run --prefix ./app/ test
+          args: npm --prefix ./app/ test
 
       - name: Cover Code
         if: github.ref == 'refs/heads/main'
