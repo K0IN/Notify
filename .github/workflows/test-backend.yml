@@ -26,7 +26,6 @@ jobs:
 
       - name: Test Code
         uses: mujo-code/puppeteer-headful@v2
-        working-directory: app
         env:
           CI: 'true'
         with:
