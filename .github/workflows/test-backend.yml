@@ -25,7 +25,7 @@ jobs:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
       - name: install dependencies
-        run: cd app && npm install # && npm test
+        run: cd app && npm install
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
@@ -34,7 +34,7 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: (cd app && npm test)
+          args: npm run --prefix app/ test
 
       - name: Cover Code
         if: github.ref == 'refs/heads/main'
