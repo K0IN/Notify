@@ -17,13 +17,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Node environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2.4.0
         with:
-          node-version: "16.7.0"       
-          args: install   
+          node-version: "16.7.0"
+
+      - name: install dependencies
+        run: cd app && npm install 
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-
 
       - name: Test Code
         uses: mujo-code/puppeteer-headful@v2
