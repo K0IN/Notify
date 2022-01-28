@@ -25,7 +25,7 @@ jobs:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
       - name: install dependencies
-        run: cd app && npm install
+        run: cd app && npm install 
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 

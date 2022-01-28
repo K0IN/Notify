@@ -12,7 +12,7 @@
         "publish": "wrangler publish",
         "lint": "eslint src/",
         "run_tests": "jest",
-        "test": "npm run lint && npm run build && npm run run_tests",
+        "test": "npm run lint && npm run build_all && npm run run_tests",
         "cover": "jest --collectCoverage"
     },
     "eslintConfig": {
