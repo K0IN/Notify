@@ -21,5 +21,11 @@ jobs:
         with:
           node-version: "16.x"          
       
-      - name: run tests
-        run: cd app && npm install && npm test
+      # - name: run tests
+      #   run: cd app && npm install && npm test
+      - name: Test Code
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          CI: 'true'
+        with:
+          args: cd app && npm install && npm test
