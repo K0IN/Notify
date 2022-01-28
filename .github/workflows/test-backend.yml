@@ -34,7 +34,7 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: npm run --prefix app/ test
+          args: ./run_tests.sh # npm run --prefix app/ test
 
       - name: Cover Code
         if: github.ref == 'refs/heads/main'
