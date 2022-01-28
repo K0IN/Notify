@@ -30,4 +30,4 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: npm test
+          args: cd app && npm test
