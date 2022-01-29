@@ -8,9 +8,9 @@ describe('auth middleware', () => {
         const authFn = authFactory(SERVERPWD);
         const res = await authFn(req);
         expect(res).toBeTruthy();
-        if (!res) { throw new Error('No response'); }
-        expect(res.status).toBe(401);
-        expect(await res.json()).toMatchObject({ successful: false, error: { type: 'auth_required' } });
+        expect(res).toBeTruthy();
+        expect(res?.status).toBe(401);
+        expect(await res?.json()).toMatchObject({ successful: false, error: { type: 'auth_required' } });
     });
 
     test('check no auth password', async () => {
@@ -42,8 +42,8 @@ describe('auth middleware', () => {
         const authFn = authFactory(password);
         const res = await authFn(req);
         expect(res).toBeTruthy();
-        if (!res) { throw new Error('No response'); }
-        expect(res.status).toBe(401);
-        expect(await res.json()).toMatchObject({ successful: false, error: { type: 'auth_required' } });
+        expect(res).toBeTruthy();
+        expect(res?.status).toBe(401);
+        expect(await res?.json()).toMatchObject({ successful: false, error: { type: 'auth_required' } });
     });
 });

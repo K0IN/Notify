@@ -15,8 +15,8 @@ describe('device endpoints', () => {
                 body: JSON.stringify(requestData)
             });
             const res = await handleApiRequest(req);
-            if (!res) { throw new Error('no response'); }
-            expect(res.status).toBe(200);
+            expect(res).toBeTruthy();
+            expect(res?.status).toBe(200);
             const body = await res?.json();
             expect(body).toMatchObject({
                 successful: true,
@@ -32,8 +32,8 @@ describe('device endpoints', () => {
                 body: 'dwau2y17{}dwd'
             });
             const res = await handleApiRequest(req);
-            if (!res) { throw new Error('no response'); }
-            expect(res.status).toBe(400);
+            expect(res).toBeTruthy();
+            expect(res?.status).toBe(400);
             const body = await res?.json();
             expect(body).toMatchObject({
                 successful: false,
@@ -56,8 +56,8 @@ describe('device endpoints', () => {
                     body: JSON.stringify(requestData)
                 });
                 const res = await handleApiRequest(req);
-                if (!res) { throw new Error('no response'); }
-                expect(res.status).toBe(400);
+                expect(res).toBeTruthy();
+                expect(res?.status).toBe(400);
                 const body = await res?.json();
                 expect(body).toMatchObject({
                     successful: false,
@@ -79,8 +79,8 @@ describe('device endpoints', () => {
                     body: JSON.stringify(requestData)
                 });
                 const res = await handleApiRequest(req);
-                if (!res) { throw new Error('no response'); }
-                expect(res.status).toBe(400);
+                expect(res).toBeTruthy();
+                expect(res?.status).toBe(400);
                 const body = await res?.json();
                 expect(body).toMatchObject({
                     successful: false,
@@ -102,8 +102,8 @@ describe('device endpoints', () => {
                     body: JSON.stringify(requestData)
                 });
                 const res = await handleApiRequest(req);
-                if (!res) { throw new Error('no response'); }
-                expect(res.status).toBe(400);
+                expect(res).toBeTruthy();
+                expect(res?.status).toBe(400);
                 const body = await res?.json();
                 expect(body).toMatchObject({
                     successful: false,
@@ -128,8 +128,8 @@ describe('device endpoints', () => {
                 body: JSON.stringify(requestData)
             });
             const res = await handleApiRequest(req);
-            if (!res) { throw new Error('no response'); }
-            expect(res.status).toBe(400);
+            expect(res).toBeTruthy();
+            expect(res?.status).toBe(400);
             const body = await res?.json();
             expect(body).toMatchObject({
                 successful: false,
@@ -154,8 +154,8 @@ describe('device endpoints', () => {
                     body: JSON.stringify(requestData)
                 });
                 const res = await handleApiRequest(req);
-                if (!res) { throw new Error('no response'); }
-                expect(res.status).toBe(400);
+                expect(res).toBeTruthy();
+                expect(res?.status).toBe(400);
                 const body = await res?.json();
                 expect(body).toMatchObject({
                     successful: false,
@@ -178,8 +178,8 @@ describe('device endpoints', () => {
                     body: JSON.stringify(requestData)
                 });
                 const res = await handleApiRequest(req);
-                if (!res) { throw new Error('no response'); }
-                expect(res.status).toBe(400);
+                expect(res).toBeTruthy();
+                expect(res?.status).toBe(400);
                 const body = await res?.json();
                 expect(body).toMatchObject({
                     successful: false,
@@ -202,8 +202,8 @@ describe('device endpoints', () => {
                     body: JSON.stringify(requestData)
                 });
                 const res = await handleApiRequest(req);
-                if (!res) { throw new Error('no response'); }
-                expect(res.status).toBe(400);
+                expect(res).toBeTruthy();
+                expect(res?.status).toBe(400);
                 const body = await res?.json();
                 expect(body).toMatchObject({
                     successful: false,
