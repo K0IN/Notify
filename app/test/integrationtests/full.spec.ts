@@ -57,7 +57,7 @@ test('responds with url', async () => {
     });
 
     // this will throw if we do not receive a notification
-    await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 60000 });
+    await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
 
     // await page.screenshot({ path: './images/step_message.png' });
 
