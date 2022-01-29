@@ -26,8 +26,8 @@ jobs:
 
       - name: install dependencies
         run: npm install 
-        env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+        # env:
+        #   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
       # - name: Test Code
       #   uses: mujo-code/puppeteer-headful@v2
