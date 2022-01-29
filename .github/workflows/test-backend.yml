@@ -42,6 +42,3 @@ jobs:
         env:
           DISPLAY: :99.0
           PUPPETEER_EXEC_PATH: "google-chrome-stable"
-
-      - name: Cover Code
-        run: npm run cover
