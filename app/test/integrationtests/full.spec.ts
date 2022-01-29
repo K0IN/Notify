@@ -8,6 +8,7 @@ jest.setTimeout(60_000); // 60 seconds timeout
 
 test('responds with url', async () => {
     const mf = new Miniflare({
+        args: ['--no-sandbox'],
         envPath: true,
         // packagePath: true,
         wranglerConfigPath: true,
