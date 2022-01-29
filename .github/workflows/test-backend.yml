@@ -26,17 +26,8 @@ jobs:
 
       - name: install dependencies
         run: npm install 
-        # env:
-        #   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
-      # - name: Test Code
-      #   uses: mujo-code/puppeteer-headful@v2
-      #   env:
-      #     CI: 'true'
-      #   with:
-      #     args: npm run --prefix ./app/ test
-      
-      - name: install puppeteer
+      - name: install puppeteer and run tests
         run: |
                 sudo apt-get update
                 sudo apt-get install -yq libgconf-2-4
@@ -52,7 +43,5 @@ jobs:
           DISPLAY: :99.0
           PUPPETEER_EXEC_PATH: "google-chrome-stable"
 
-                      
       - name: Cover Code
-        if: github.ref == 'refs/heads/main'
         run: npm run cover
