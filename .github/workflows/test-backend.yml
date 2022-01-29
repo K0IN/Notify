@@ -49,8 +49,8 @@ jobs:
                 && Xvfb -ac :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
                 && npm run test
         env:
-          DISPLAY=:99.0
-          PUPPETEER_EXEC_PATH="google-chrome-stable"
+          DISPLAY: :99.0
+          PUPPETEER_EXEC_PATH: "google-chrome-stable"
 
                       
       - name: Cover Code
