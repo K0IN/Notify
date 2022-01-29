@@ -14,6 +14,8 @@ jobs:
     defaults:
       run:
         working-directory: ./app/
+    container:
+      options: --user 1001
 
     steps:
       - name: Checkout repository
@@ -37,17 +39,16 @@ jobs:
       #     args: npm run --prefix ./app/ test
       
       - name: install puppeteer
-        run: | 
-                sudo apt-get update \
-                && sudo apt-get install -yq libgconf-2-4 \
-                && sudo apt-get install -y wget xvfb --no-install-recommends \
-                && sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-                && sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-                && sudo apt-get update \
-                && sudo apt-get install -y google-chrome-stable --no-install-recommends \
-                && sudo rm -rf /var/lib/apt/lists/*
-                && sudo Xvfb -ac :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
-                && sudo npm run test
+        run: |
+                sudo apt-get update
+                sudo apt-get install -yq libgconf-2-4
+                sudo apt-get install -y wget xvfb --no-install-recommends
+                sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+                sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+                sudo apt-get install -y google-chrome-stable --no-install-recommends
+                sudo rm -rf /var/lib/apt/lists/*
+                sudo Xvfb -ac :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
+                sudo npm run test
         env:
           DISPLAY: :99.0
           PUPPETEER_EXEC_PATH: "google-chrome-stable"
