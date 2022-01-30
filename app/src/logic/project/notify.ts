@@ -31,5 +31,5 @@ export async function notifyAll(data: string): Promise<Promise<void>> {
         return result;
     });
 
-    return Promise.all(promises) as unknown as Promise<void>;
+    return Promise.allSettled(promises) as unknown as Promise<void>;
 }
