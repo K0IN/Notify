@@ -3,20 +3,16 @@ import { WebPushInfos, WebPushMessage, WebPushResult } from './webpushinfos';
 import { generateAESGCMEncryptedMessage } from './message';
 import { generateV2Headers } from './vapid';
 
-export async function generateWebPushMessage(message: WebPushMessage, 
-    deviceData: Partial<WebPushInfos>, applicationServerKeys: JWK): Promise<WebPushResult> {
+export async function generateWebPushMessage(message: WebPushMessage,
+    deviceData: WebPushInfos, applicationServerKeys: JWK): Promise<WebPushResult> {
 
-    if (!deviceData.endpoint || !deviceData.key || !deviceData.auth) {
-        return WebPushResult.NoDataProvided;
-    }
-    
     // those todos are about a future, with other encryption algorithms
 
-    const [headers, encryptedPayloadDetails] = await Promise.all([
+    const [authHeaders, encryptedPayloadDetails] = await Promise.all([
         generateV2Headers(deviceData.endpoint, applicationServerKeys, message.sub),
-        generateAESGCMEncryptedMessage(message.data, deviceData as Required<WebPushInfos>) // TODO: switch this according to supportedAlgorithms
+        generateAESGCMEncryptedMessage(message.data, deviceData) // TODO: switch this according to supportedAlgorithms
     ]);
-
+    const headers: { [headerName: string]: string } = { ...authHeaders };
     // TODO: set this accroding to the selected/supported Algorithm
     headers['Encryption'] = `salt=${encryptedPayloadDetails.salt}`;
     headers['Crypto-Key'] = `dh=${encryptedPayloadDetails.publicServerKey}`;

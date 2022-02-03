@@ -5,3 +5,5 @@ dist
 app/.mf
 app/data
 app/frontend/size-plugin.json
+coverage
+images/

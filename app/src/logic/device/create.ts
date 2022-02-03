@@ -3,15 +3,11 @@ import type { IDevice } from '../../types/database/device';
 import { generateRandomId } from '../../webpush/util';
 import { WebPushInfos } from '../../webpush/webpushinfos';
 
-export async function create(webPushData: WebPushInfos): Promise<IDevice> {        
+export async function create(webPushData: WebPushInfos): Promise<IDevice> {  
     const device: IDevice = {
         id: generateRandomId(),
         secret: generateRandomId(),
-        pushData: { 
-            auth: String(webPushData.auth), 
-            endpoint: new URL(webPushData.endpoint).toString(), 
-            key: String(webPushData.key) 
-        }
+        pushData: webPushData
     };
     await createDevice(device);
     return device;

@@ -18,4 +18,4 @@ COPY --from=builder /usr/src/wrangler.toml /usr/app/wrangler.toml
 
 HEALTHCHECK CMD curl --fail http://localhost:8787 || exit 1
 
-ENTRYPOINT [ "miniflare", "./dist/worker.js", "--wrangler-config", "wrangler.toml", "--env", "app.env", "--build-command", ""]
+ENTRYPOINT [ "miniflare", "./dist/index.js", "--wrangler-config", "wrangler.toml", "--env", "app.env", "--build-command", ""]
