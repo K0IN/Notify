@@ -1,9 +1,11 @@
 FROM node:16-alpine AS builder
 WORKDIR /usr/src
 COPY app .
+# dont install puppeteer in container
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
 RUN npm install
 RUN npm run build_all
-
 
 FROM node:16-alpine
 WORKDIR /usr/app
