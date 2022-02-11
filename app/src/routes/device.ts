@@ -19,9 +19,9 @@ deviceRouter.post('/', authFactory(SERVERPWD),
 
         const { endpoint, key, auth } = web_push_data;
 
-        if (String(endpoint).length > 255
-            || String(key).length > 100
-            || String(auth).length > 50) {
+        if (String(endpoint).length > 1024
+            || String(key).length > 256
+            || String(auth).length > 64) {
             return failure({ type: 'invalid_data', message: 'web_push_data member too long' }, { status: 400 });
         }
 
