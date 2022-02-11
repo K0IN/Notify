@@ -17,8 +17,8 @@ const errorHandler = (error: Error) => {
     return failure({ type: 'internal_error', message: error.message }, { headers: CORS_ORIGIN ? corsHeaders : {} });
 };
 
-export const handleApiRequest = async (request: Request): Promise<Response | undefined> => {
-    const response: Response | undefined = await apiRouter.handle(request).catch((error: Error) => errorHandler(error));
+export const handleApiRequest = async (request: Request, event?: FetchEvent): Promise<Response | undefined> => {
+    const response: Response | undefined = await apiRouter.handle(request, event).catch((error: Error) => errorHandler(error));
     return response ? (
         CORS_ORIGIN ?
             new Response(response.body, { headers: { ...response.headers, ...corsHeaders }, status: response.status }) :
@@ -27,7 +27,7 @@ export const handleApiRequest = async (request: Request): Promise<Response | und
 };
 
 const handleRequest = async (event: FetchEvent): Promise<Response> => {
-    const res = await handleApiRequest(event.request);
+    const res = await handleApiRequest(event.request, event);
     return res ?? ((SERVE_FRONTEND && SERVE_FRONTEND != '') ?
         await getAssetFromKV(event, { mapRequestToAsset: serveSinglePageApp }) :
         new Response('not found', { status: 404 }));
