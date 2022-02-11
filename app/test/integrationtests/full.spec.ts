@@ -23,44 +23,45 @@ test('responds with url', async () => {
     const browser = await pup.launch({ headless: false });
     const context = browser.defaultBrowserContext();
     context.overridePermissions('http://localhost:5000', ['notifications']);
+    try {
+        const [page] = await browser.pages();
+        await page.goto('http://localhost:5000');
 
-    const [page] = await browser.pages();
-    await page.goto('http://localhost:5000');
+        // click on the button
+        await page.waitForNetworkIdle({ idleTime: 1000 });
+        // await page.screenshot({ path: './images/step_init.png' });
+        await page.click('input');
+        await page.waitForTimeout(10000);
+        //await page.waitForNetworkIdle({ idleTime: 1000 });
+        // await page.screenshot({ path: './images/step_clicked.png' });
 
-    // click on the button
-    await page.waitForNetworkIdle({ idleTime: 1000 });
-    // await page.screenshot({ path: './images/step_init.png' });
-    await page.click('input');
-    await page.waitForTimeout(10000);
-    //await page.waitForNetworkIdle({ idleTime: 1000 });
-    // await page.screenshot({ path: './images/step_clicked.png' });
+        // reload the page
+        await page.reload();
+        await page.waitForNetworkIdle({ idleTime: 1000 });
+        // await page.screenshot({ path: './images/step_reload.png' });
 
-    // reload the page
-    await page.reload();
-    await page.waitForNetworkIdle({ idleTime: 1000 });
-    // await page.screenshot({ path: './images/step_reload.png' });
+        // send a notification
+        const res = await fetch('http://localhost:5000/api/notify', {
+            body: JSON.stringify({
+                title: 'test',
+                message: 'test'
+            }),
+            method: 'POST'
+        });
+        expect(res.status).toBe(200);
+        const body = await res.json();
+        expect(body).toMatchObject({
+            successful: true,
+            // any string
+            data: expect.any(String)
+        });
 
-    // send a notification
-    const res = await fetch('http://localhost:5000/api/notify', {
-        body: JSON.stringify({
-            title: 'test',
-            message: 'test'
-        }),
-        method: 'POST'
-    });
-    expect(res.status).toBe(200);
-    const body = await res.json();
-    expect(body).toMatchObject({
-        successful: true,
-        // any string
-        data: expect.any(String)
-    });
+        // this will throw if we do not receive a notification
+        await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
 
-    // this will throw if we do not receive a notification
-    await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
-
-    // await page.screenshot({ path: './images/step_message.png' });
-
-    (await server).close();
-    await browser.close();
+        // await page.screenshot({ path: './images/step_message.png' });
+    } finally {
+        (await server).close();
+        await browser.close();
+    }
 });

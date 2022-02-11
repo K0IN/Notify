@@ -12,7 +12,7 @@ export async function readBodyAs<T>(request: Request): Promise<Partial<T>> {
 }
 
 notificationRouter.post('/', authFactory(SERVERPWD),
-    async (request: Required<Request>): Promise<Response> => {
+    async (request: Required<Request>, event?: FetchEvent): Promise<Response> => {
         const { title, message, icon = '', tags = [] } = await readBodyAs<{ title: string, message: string, icon?: string, tags?: Array<string> }>(request);
 
         if (!title || !message) {
@@ -43,7 +43,7 @@ notificationRouter.post('/', authFactory(SERVERPWD),
         }
 
         return await notifyAll(data)
-            // todo handle event correctly .then((messagePromise: Promise<void>) => event.waitUntil(messagePromise))
+            .then(async (messagePromise: Promise<void>) => event?.waitUntil(messagePromise) ?? await messagePromise)
             .then(() => success<string>('notified', { headers: corsHeaders }))
             .catch((error: Error) => failure({ type: 'internal_error', message: error.message }, { headers: corsHeaders }));
     });
