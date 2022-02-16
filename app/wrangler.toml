@@ -5,7 +5,7 @@ account_id = ""
 workers_dev = true
 
 kv_namespaces = [
-    { binding = "NOTIFY_USERS", id = "" }
+    { binding = "NOTIFY_USERS", id = "00000000000000000000000000000000" } # your kv id here
 ]
 
 [build]
@@ -13,6 +13,11 @@ command = "npm install && cd frontend && npm install && cd .. && npm run build_a
 
 [build.upload]
 format = "service-worker"
+
+[env.demo]
+kv_namespaces = [
+    { binding = "NOTIFY_USERS", id = "5df92089b8ea45e68592058740136ce1" }
+]
 
 # See doc/wrangler.md to learn more about the wrangler section
 # [vars]
