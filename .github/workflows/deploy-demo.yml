@@ -16,6 +16,9 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v2
 
+            - name: install dependencies
+              run: 'npm i'
+
             - name: Build site
               run: 'npm run build_all'
 
