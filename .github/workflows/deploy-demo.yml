@@ -16,12 +16,6 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v2
 
-            - name: install dependencies
-              run: 'npm i'
-
-            - name: Build site
-              run: 'npm run build_all'
-
             - name: Deploy app to cloudflare
               uses: cloudflare/wrangler-action@1.3.0
               with:
