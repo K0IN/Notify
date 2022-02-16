@@ -23,5 +23,5 @@ jobs:
               uses: cloudflare/wrangler-action@1.3.0
               with:
                 apiToken: ${{ secrets.CF_TOKEN }}
-                environment: 'production'
+                # environment: 'production'
                 workingDirectory: 'app'
