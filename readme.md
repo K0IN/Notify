@@ -13,7 +13,14 @@ It comes with a offline installable pwa for all time access to your latest notif
 
 ## Install
 
-see [installation documentation](doc/install.md)
+See [installation documentation](doc/install.md)
+
+## Example
+
+There is a [demo instance](https://notify_app-demo.thisk0in.workers.dev/) hosted on cloudflare workers.
+You can send a notification to all your devices using this command (note you should unsubscribe from the demo instance to avoid spamming):
+
+> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://notify_app-demo.thisk0in.workers.dev/api/notify
 
 ## How to send a notification
 
