@@ -34,6 +34,11 @@ entry-point = "."
 [miniflare]
 kv_persist = "./data/"
 
+[env.demo]
+kv_namespaces = [
+    { binding = "NOTIFY_USERS", id = "5df92089b8ea45e68592058740136ce1" }
+]
+
 [env.demo.vars]
 VAPID_SERVER_KEY = "{\"crv\":\"P-256\",\"d\":\"MM3IEY73Br5_Hdtfknab6QIXqCHXv7S5cZrlD3lrjuk\",\"ext\":true,\"key_ops\":[\"sign\"],\"kty\":\"EC\",\"x\":\"YNEmMB5QyQULW4WepHQvn5WWrBXpHGFB51eJ3oJj3k4\",\"y\":\"NU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ\"}"
 SUB = "thisk0in@gmail.com"
