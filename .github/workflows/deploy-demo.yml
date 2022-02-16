@@ -6,11 +6,15 @@ on:
             - 'main'
 
 jobs:
-    build-and-deploy-worker:
+    build-and-deploy-worker:        
+        environment: deploy
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
               uses: actions/checkout@v2
+
+            - name: Build site
+              run: 'npm run build_all'
 
             - name: Deploy app to cloudflare
               uses: cloudflare/wrangler-action@1.3.0
