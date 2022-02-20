@@ -7,19 +7,22 @@ import { dbName, dbVersion } from "../staticsettings";
 
 export const DataBaseContext = createContext<IDBPDatabase<MessageType> | undefined>(undefined);
 export const DatabaseProvider = ({ children }: any) => {
-    const [db, setDb] = useState<IDBPDatabase<MessageType> | undefined>(undefined);
+    const [database, setDb] = useState<IDBPDatabase<MessageType> | undefined>(undefined);
 
     useEffect(() => {
         openDB<MessageType>(dbName, dbVersion, {
-            upgrade(db) {
-                db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+            upgrade(db: IDBPDatabase<MessageType>) {
+                db.createObjectStore('messages', {
+                    keyPath: 'id',
+                    autoIncrement: true
+                });
             }
-        }).then(db => {
+        }).then((db: IDBPDatabase<MessageType>) => {
             setDb(db);
         });
     }, []);
 
-    return (<DataBaseContext.Provider value={db}>
+    return (<DataBaseContext.Provider value={database}>
         {children}
     </DataBaseContext.Provider>)
 }
