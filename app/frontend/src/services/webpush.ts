@@ -1,3 +1,5 @@
+import type { ExtendedSubscription, ExtractedWebPushData } from "../types/webpushdata";
+import { getWebPushData } from "../util/webpushutil";
 
 async function getWebPushManger() {
     const sw = await navigator.serviceWorker.ready;
@@ -7,28 +9,17 @@ async function getWebPushManger() {
     return sw.pushManager;
 }
 
-type ExtendedSubscription = PushSubscription & { expirationTime?: number };
-
-export async function createSubscription(serverKey: string): Promise<{ endpoint: string, key: ArrayBuffer, auth: ArrayBuffer, expirationTime?: number }> {
+export async function createSubscription(serverKey: string): Promise<ExtractedWebPushData> {
     const pushManager = await getWebPushManger();
-    const subscription: ExtendedSubscription = await pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: serverKey })
-        .catch((_e) => { 
-            throw new Error('Could not subscribe to push service');
-        });
-    
+    const subscription: ExtendedSubscription = await pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: serverKey
+    }).catch((_e) => {
+        throw new Error('Could not subscribe to push service');
+    });
     console.warn("using subscription", subscription.toJSON());
-
-    const { endpoint, expirationTime } = subscription;
-    const key = subscription.getKey('p256dh');
-    const auth = subscription.getKey('auth');
-
-    if (!key || !auth) {
-        throw new Error('Could not get subscription data');
-    }
-
-    return { endpoint, key, auth, expirationTime };
+    return getWebPushData(subscription);
 }
-
 
 export async function deleteSubscription() {
     const pushManager = await getWebPushManger();

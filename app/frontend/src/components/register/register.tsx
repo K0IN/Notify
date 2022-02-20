@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
-import { useCallback, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
-import { useLogin } from '../../hooks/use-login';
+import { LoginStatus, useLogin } from '../../hooks/use-login';
 
 import PasswordDialog from '../dialog/dialog';
 import style from './register.css';
@@ -16,7 +16,13 @@ import 'preact-material-components/Switch/style.css';
 
 const Register: FunctionalComponent = () => {
     const snackbarRef = useRef<Snackbar>();
-    const [isLoggedIn, setLoginState] = useLogin();
+    const [isLoggedIn, setLoginState, hasTimeout] = useLogin();
+
+    useEffect(() => {
+        if (hasTimeout) {
+            showSnackbar(`WARNING: your subscription has a expired date set! (Auto renew is still in Beta!)`, 20000);
+        }
+    }, [hasTimeout]);
 
     const showSnackbar = useCallback((message: string, timeout: number = 7000) => {
         snackbarRef.current?.MDComponent.show({ message, timeout });
@@ -30,11 +36,10 @@ const Register: FunctionalComponent = () => {
         setLoading(true);
         try {
             const loginSuccess = await setLoginState(shouldDoLogin, password);
-            if (!loginSuccess && shouldDoLogin) {
+            if (LoginStatus.LOGIN_PASSWORD_REQUIRED === loginSuccess && shouldDoLogin) {
                 setDialog(true);
             }
-            
-            setShowReloadButton(true);            
+            setShowReloadButton(true);
         } catch (e: any) {
             showSnackbar(`Login action failed: ${e}`);
             console.warn(e);

@@ -1,6 +1,7 @@
 import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
-import { dbName, dbVersion } from './staticsettings';
-import { openDB } from "idb";
+import { getDatabase } from './database/message';
+import { updateDevice } from './services/apiservice';
+import { getWebPushData } from './util/webpushutil';
 
 setupRouting();
 const urlsToCache = getFiles();
@@ -8,11 +9,7 @@ urlsToCache.push({ url: '/favicon.ico', revision: null });
 setupPrecaching(urlsToCache);
 
 const addMessageToDB = async (messageData) => {
-    await openDB(dbName, dbVersion, {
-        upgrade(db) {
-            db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
-        }
-    }).then(db => db.add('messages', messageData)).catch(err => console.log(err));
+    getDatabase().then(db => db.add('messages', messageData)).catch(err => console.log(err));
 }
 
 const sendMessageToMainWindow = async (messageData) => {
@@ -24,11 +21,7 @@ const sendMessageToMainWindow = async (messageData) => {
 }
 
 self.addEventListener('activate', (event) => {
-    event.waitUntil(openDB(dbName, dbVersion, {
-        upgrade(db) {
-            db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
-        }
-    }).catch(error => console.warn(error)));
+    event.waitUntil(getDatabase().catch(error => console.warn(error)));
 });
 
 self.addEventListener('install', (event) => {
@@ -36,7 +29,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('push', (event) => {
-    if (!event.data) {
+    if (!event.data || !event.data.text) {
         throw new Error('No data in push event');
     }
 
@@ -50,9 +43,9 @@ self.addEventListener('push', (event) => {
     };
 
     event.waitUntil(Promise.allSettled([
-        self.registration.showNotification(title, { body, image: icon, tag }).catch(), // first show notification
-        addMessageToDB(messageData).catch(),                                           // save message to db
-        sendMessageToMainWindow({ type: 'notification', data: messageData }).catch()   // send a event to main window to update the notification
+        self.registration.showNotification(title, { body, image: icon, tag }), // first show notification
+        addMessageToDB(messageData),                                           // save message to db
+        sendMessageToMainWindow({ type: 'notification', data: messageData })   // send a event to main window to update the notification
     ]));
 });
 
@@ -60,6 +53,8 @@ self.addEventListener('notificationclick', (event) => {
     console.log('On notification click: ', event.notification);
 
     event.waitUntil(async () => {
+        event.notification.close();
+
         const clientList = await clients.matchAll({ type: 'window' });
         for (let i = 0; i < clientList.length; i++) {
             const client = clientList[i];
@@ -67,18 +62,28 @@ self.addEventListener('notificationclick', (event) => {
                 return client.focus();
             }
         }
-        if (clients.openWindow) {
-            return clients.openWindow('/');
-        }
 
-        event.notification.close();
+        return clients.openWindow && clients.openWindow('/');
     });
 });
 
-// todo: update this to the api with your secret
 self.addEventListener("pushsubscriptionchange", event => {
-    // const promise = self.registration.pushManager.subscribe(event.oldSubscription.options).then(subscription => {
-    //  console.log('pushsubscriptionchange', subscription);
-    // })
-    // event.waitUntil(promise);
+    const { oldSubscription, newSubscription  } = event;
+
+    console.log("pushsubscriptionchange", oldSubscription, newSubscription);
+
+    const upgradeSubscription = async () => {
+        const database = await getDatabase();
+        const users = await database.getAll('users');
+        const user = users.filter(Boolean)[0];
+        if (!user) {
+            throw new Error('No user found');
+        }
+        let newSub = newSubscription ?? await registration.pushManager.subscribe(oldSubscription.options);
+        let webPushData = getWebPushData(newSub);
+        const response = await updateDevice(user.id, user.secret, encodeWebPushData(webPushData));
+        console.log("pushsubscriptionchange", response);
+    };
+    
+    event.waitUntil(upgradeSubscription());
 });
