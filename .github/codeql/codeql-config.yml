@@ -1,0 +1,10 @@
+name: "Notify config"
+
+paths:
+  - app/src
+  - app/frontend/src
+  
+paths-ignore: 
+  - app/node_modules
+  - app/frontend/src/node_modules
+  - '**/*.test.js'
