@@ -15,6 +15,8 @@ export async function createSubscription(serverKey: string): Promise<{ endpoint:
         .catch((_e) => { 
             throw new Error('Could not subscribe to push service');
         });
+    
+    console.warn("using subscription", subscription.toJSON());
 
     const { endpoint, expirationTime } = subscription;
     const key = subscription.getKey('p256dh');
