@@ -40,4 +40,4 @@ for more info see [the documentation](doc/api.md)
 
 ## Credits
 
-most of the webpush code is a port of [simple-push-demo](https://github.com/gauntface/simple-push-demo) by [gauntface](https://github.com/gauntface)
+most of the webpush code is a port of [simple-push-demo](https://github.com/gauntface/simple-push-demo) by [gauntface](https://github.com/gauntface) and icons from [google icon](https://fonts.google.com/icons) font.

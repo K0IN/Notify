@@ -17,8 +17,17 @@ const errorHandler = (error: Error) => {
     return failure({ type: 'internal_error', message: error.message }, { headers: CORS_ORIGIN ? corsHeaders : {} });
 };
 
+const handleCors = (request: Request): Response | undefined => {
+    if (!CORS_ORIGIN || request.method !== 'OPTIONS') {
+        return undefined;
+    }
+    const response = new Response('', { status: 204 });
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    return response;
+};
+
 export const handleApiRequest = async (request: Request, event?: FetchEvent): Promise<Response | undefined> => {
-    const response: Response | undefined = await apiRouter.handle(request, event).catch((error: Error) => errorHandler(error));
+    const response: Response | undefined = handleCors(request) ?? await apiRouter.handle(request, event).catch((error: Error) => errorHandler(error));
     return response ? (
         CORS_ORIGIN ?
             new Response(response.body, { headers: { ...response.headers, ...corsHeaders }, status: response.status }) :
