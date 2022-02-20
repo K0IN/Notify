@@ -74,7 +74,7 @@ self.addEventListener("pushsubscriptionchange", event => {
 
     const upgradeSubscription = async () => {
         const database = await getDatabase();
-        const users = await database.getAll('users');
+        const users = await database.getAll('user');
         const user = users.filter(Boolean)[0];
         if (!user) {
             throw new Error('No user found');

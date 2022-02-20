@@ -5,6 +5,7 @@ import { createSubscription, deleteSubscription } from '../services/webpush';
 import { isSuccess, parseResponse } from '../types/apiresponse';
 import { encodeWebPushData } from '../util/webpushutil';
 import type { Device } from '../types/localdevice';
+import { getDatabase } from '../database/message';
 
 export enum LoginStatus {
     LOGGED_IN,
@@ -22,6 +23,9 @@ async function login(password?: string): Promise<LoginStatus> {
 
     if (isSuccess(userData)) {
         localStorage.setItem('userData', JSON.stringify(parseResponse(userData)));
+        const db = await getDatabase();
+        await db.clear('user');
+        await db.add('user', parseResponse(userData));
         return webPushData.expirationTime ? LoginStatus.LOGGED_IN_WITH_TIMEOUT : LoginStatus.LOGGED_IN;
     }
     console.log(httpStatus, userData);
@@ -36,7 +40,11 @@ async function logoff(): Promise<LoginStatus> {
     const { id, secret } = JSON.parse(localStorage.getItem('userData') ?? '{}') as Device;   
     await Promise.allSettled([
         deleteSubscription(),
-        deleteDevice(id, secret)
+        deleteDevice(id, secret),
+        async () => {
+            const db = await getDatabase();
+            await db.clear('user');
+        }
     ]);
     localStorage.removeItem('userData');
     return LoginStatus.LOGGED_OUT;
