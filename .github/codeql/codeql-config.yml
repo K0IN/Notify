@@ -1,7 +1,7 @@
 name: "Notify config"
 
 paths:
-  - app
+  - app/src
   - app/frontend/src
   
 paths-ignore: 
