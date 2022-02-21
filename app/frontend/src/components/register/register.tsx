@@ -31,13 +31,16 @@ const Register: FunctionalComponent = () => {
         if (isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT) {
             showSnackbar(`WARNING: your subscription has a expired date set! (Auto renew is still in Beta!)`, 20000);
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, showSnackbar]);
 
     const setLogin = useCallback(async (shouldDoLogin: boolean, password?: string) => {
         setLoading(true);
         try {
             const loginSuccess = await setLoginState(shouldDoLogin, password);
             setDialog(LoginStatus.LOGIN_PASSWORD_REQUIRED === loginSuccess && shouldDoLogin);
+            if (isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT) {
+                await new Promise((r) => setTimeout(r, 5000));
+            }
             setShowReloadButton(true);
         } catch (e: any) {
             showSnackbar(`Login action failed: ${e}`);

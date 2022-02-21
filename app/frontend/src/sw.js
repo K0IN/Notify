@@ -3,6 +3,7 @@ import { getDatabase } from './database/message';
 import { updateDevice } from './services/apiservice';
 import { getWebPushData } from './util/webpushutil';
 
+
 setupRouting();
 const urlsToCache = getFiles();
 urlsToCache.push({ url: '/favicon.ico', revision: null });
