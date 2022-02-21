@@ -1,85 +1,47 @@
-import { createDevice, deleteDevice, getVapidData } from '../services/apiservice';
 import { useEffect, useState, useCallback } from 'preact/hooks';
 import { checkIfDeviceExists } from '../services/apiservice';
-import { createSubscription, deleteSubscription } from '../services/webpush';
-import { isSuccess, parseResponse } from '../types/apiresponse';
-import { encodeWebPushData } from '../util/webpushutil';
-import type { Device } from '../types/localdevice';
+import { parseResponse } from '../types/apiresponse';
 import { getDatabase } from '../database/message';
+import { login, LoginStatus, logoff } from '../services/loginservice';
 
-export enum LoginStatus {
-    LOGGED_IN,
-    LOGIN_PASSWORD_REQUIRED,
-    LOGGED_IN_WITH_TIMEOUT,
-    LOGGED_OUT
-}
-
-async function login(password?: string): Promise<LoginStatus> {
-    const serverKey = parseResponse(await getVapidData());
-
-    console.warn("You connected to Server with the key", serverKey);
-    const webPushData = await createSubscription(serverKey);
-    const [httpStatus, userData] = await createDevice(encodeWebPushData(webPushData), password);
-
-    if (isSuccess(userData)) {
-        localStorage.setItem('userData', JSON.stringify(parseResponse(userData)));
-        const db = await getDatabase();
-        await db.clear('user');
-        await db.add('user', parseResponse(userData));
-        return webPushData.expirationTime ? LoginStatus.LOGGED_IN_WITH_TIMEOUT : LoginStatus.LOGGED_IN;
-    }
-    console.log(httpStatus, userData);
-    if (httpStatus === 401) {
-        return LoginStatus.LOGIN_PASSWORD_REQUIRED;
-    }
-
-    throw new Error(`Login failed with status ${httpStatus}`);
-}
-
-async function logoff(): Promise<LoginStatus> {
-    const { id, secret } = JSON.parse(localStorage.getItem('userData') ?? '{}') as Device;   
-    await Promise.allSettled([
-        deleteSubscription(),
-        deleteDevice(id, secret),
-        async () => {
-            const db = await getDatabase();
-            await db.clear('user');
-        }
-    ]);
-    localStorage.removeItem('userData');
-    return LoginStatus.LOGGED_OUT;
-}
-
-export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => Promise<LoginStatus>, boolean] {
-    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
-    const [hasTimeout, setHasTimeout] = useState(false);
+export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string) => Promise<LoginStatus>] {
+    const [isLoggedIn, setIsLoggedIn] = useState(LoginStatus.LOGGED_OUT);
 
     useEffect(() => {
-        const updateFn = () => {
-            const userData = localStorage.getItem('userData');
-            if (userData) {
-                const user = JSON.parse(userData);
-                checkIfDeviceExists(user.id).then(parseResponse).then(setIsLoggedIn).catch(() => setIsLoggedIn(false));
+        const updateFn = async () => {
+            const database = await getDatabase();
+            const users = await database?.getAll('user');
+            database.close();
+            if (users[0]?.id) {
+                const { id } = users[0];
+                const existsResponse = await checkIfDeviceExists(id);
+                const exists = parseResponse(existsResponse);
+                exists && setIsLoggedIn(LoginStatus.LOGGED_IN);
             } else {
-                setIsLoggedIn(false);
+                setIsLoggedIn(LoginStatus.LOGGED_OUT);
             }
         };
-
-        updateFn();
-        window.addEventListener('storage', updateFn);
-        return () => window.removeEventListener('storage', updateFn);
+        // todo use BroadcastChannel to sync tabs / login status
+        updateFn().catch((e) => console.warn("error inside useLogin", e));
     }, [setIsLoggedIn]);
 
+
     const startLogin = useCallback(async (loginState: boolean, apiKey?: string): Promise<LoginStatus> => {
-        const res = await (loginState ? login(apiKey) : logoff())
-        setIsLoggedIn((res === LoginStatus.LOGGED_IN || res === LoginStatus.LOGGED_IN_WITH_TIMEOUT));
-        setHasTimeout(res === LoginStatus.LOGGED_IN_WITH_TIMEOUT);
+        if (loginState) {
+            const [res, device] = await login(apiKey);
+            // clear all users and save the new one if login was successful
+            const db = await getDatabase();
+            await db.clear('user');
+            await db.add('user', device);
+            db.close();
+            // after it was successful saved, set the logged in state
+            setIsLoggedIn(res);
+            return res;
+        }
+        const res = await logoff();
+        setIsLoggedIn(res);
         return res;
     }, [setIsLoggedIn]);
 
-    return [
-        isLoggedIn,
-        startLogin,
-        hasTimeout
-    ];
+    return [isLoggedIn, startLogin];
 }

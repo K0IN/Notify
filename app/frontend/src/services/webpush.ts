@@ -17,7 +17,7 @@ export async function createSubscription(serverKey: string): Promise<ExtractedWe
     }).catch((_e) => {
         throw new Error('Could not subscribe to push service');
     });
-    console.warn("using subscription", subscription.toJSON());
+    console.warn("using subscription:", subscription.toJSON());
     return getWebPushData(subscription);
 }
 

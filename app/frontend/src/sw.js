@@ -13,11 +13,17 @@ const addMessageToDB = async (messageData) => {
 }
 
 const sendMessageToMainWindow = async (messageData) => {
-    return await new Promise(async (resolve) => {
-        const clientList = await clients.matchAll({ type: 'window' });
-        clientList.map(client => client.postMessage(messageData));
-        resolve();
-    });
+    if (BroadcastChannel) {
+        const bc = new BroadcastChannel('notify-channel');
+        bc.postMessage(messageData);
+        bc.close();
+    } else { 
+        return await new Promise(async (resolve) => {
+            const clientList = await clients.matchAll({ type: 'window' });
+            clientList.map(client => client.postMessage(messageData));
+            resolve();
+        });
+    }   
 }
 
 self.addEventListener('activate', (event) => {
@@ -68,22 +74,18 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 self.addEventListener("pushsubscriptionchange", event => {
-    const { oldSubscription, newSubscription  } = event;
-
+    const { oldSubscription, newSubscription } = event;
     console.log("pushsubscriptionchange", oldSubscription, newSubscription);
-
     const upgradeSubscription = async () => {
         const database = await getDatabase();
         const users = await database.getAll('user');
-        const user = users.filter(Boolean)[0];
-        if (!user) {
-            throw new Error('No user found');
+        if (user[0]?.id) {
+            const { id, secret } = users[0];
+            let newSub = newSubscription ?? await registration.pushManager.subscribe(oldSubscription.options);
+            let webPushData = getWebPushData(newSub);
+            const response = await updateDevice(id, secret, encodeWebPushData(webPushData));
+            console.log("pushsubscriptionchange", response);
         }
-        let newSub = newSubscription ?? await registration.pushManager.subscribe(oldSubscription.options);
-        let webPushData = getWebPushData(newSub);
-        const response = await updateDevice(user.id, user.secret, encodeWebPushData(webPushData));
-        console.log("pushsubscriptionchange", response);
     };
-    
     event.waitUntil(upgradeSubscription());
 });
