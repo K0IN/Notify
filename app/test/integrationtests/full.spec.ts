@@ -4,6 +4,7 @@ import { Miniflare } from 'miniflare';
 // this test does not work with headless mode see
 // https://github.com/puppeteer/puppeteer/issues/3461
 
+
 jest.setTimeout(100_000); // 100 seconds timeout
 
 test('responds with url', async () => {
@@ -23,6 +24,7 @@ test('responds with url', async () => {
     const browser = await pup.launch({ headless: false });
     const context = browser.defaultBrowserContext();
     context.overridePermissions('http://localhost:5000', ['notifications']);
+
     try {
         const [page] = await browser.pages();
         await page.goto('http://localhost:5000');
@@ -39,7 +41,8 @@ test('responds with url', async () => {
         await page.reload();
         await page.waitForNetworkIdle({ idleTime: 10_000 });
         // await page.screenshot({ path: './images/step_reload.png' });
-
+        await page.waitForTimeout(10_000);
+        console.log('sending notification');
         // send a notification
         const res = await fetch('http://localhost:5000/api/notify', {
             body: JSON.stringify({
@@ -50,6 +53,7 @@ test('responds with url', async () => {
         });
         expect(res.status).toBe(200);
         const body = await res.json();
+
         expect(body).toMatchObject({
             successful: true,
             // any string

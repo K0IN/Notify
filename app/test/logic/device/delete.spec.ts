@@ -1,4 +1,4 @@
-import { createDevice } from '../../../src/databases/device';
+import { databaseCreateDevice, databaseGetDevice } from '../../../src/databases/device';
 import { deleteDevice } from '../../../src/logic/device/delete';
 import { IDevice } from '../../../src/types/database/device';
 
@@ -13,35 +13,16 @@ describe('device delete tests', () => {
             },
             secret: 'test-device-secret'
         };
-        await createDevice(device);
-        await deleteDevice('test-device-id', 'test-device-secret');
+        await databaseCreateDevice(device);
+        await deleteDevice('test-device-id');
+        await expect(async () => {
+            await databaseGetDevice('test-device-id');
+        }).rejects.toThrow('Device not found');
     });
 
     test('delete invalid device', async () => {
-
         await expect(async () => {
-            await deleteDevice('test-device-id', 'test-device-secret');
-        })
-            .rejects
-            .toThrow('Device not found');
-    });
-
-    test('delete device with wrong password', async () => {
-        const device: IDevice = {
-            id: 'test-device-id',
-            pushData: {
-                auth: 'test',
-                endpoint: 'test',
-                key: 'test',
-            },
-            secret: 'test-device-secret'
-        };
-        await createDevice(device);
-        await expect(async () => {
-            await deleteDevice('test-device-id', 'another-device-secret');
-        })
-            .rejects
-            .toThrow('Invalid secret');
-
+            await deleteDevice('test-device-id');
+        }).rejects.toThrow('Device not found');
     });
 });

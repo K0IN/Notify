@@ -8,6 +8,10 @@ export async function databaseCreateDevice(device: Readonly<IDevice>): Promise<v
     await NOTIFY_USERS.put(device.id, JSON.stringify(device));
 }
 
+export async function databaseUpdateDevice(device: Readonly<IDevice>): Promise<void> {
+    await NOTIFY_USERS.put(device.id, JSON.stringify(device));
+}
+
 export async function databaseDeleteDevice(deviceId: string): Promise<void> {
     await NOTIFY_USERS.delete(deviceId);
 }

@@ -1,9 +1,10 @@
-import { createDevice, deleteDeviceFromDatabase, getAllDevicesIDs, getDevice } from '../../src/databases/device';
+import { databaseCreateDevice, databaseGetAllDeviceIDs, databaseGetDevice } from '../../src/databases/device';
+import { deleteDevice } from '../../src/logic/device/delete';
 import type { IDevice } from '../../src/types/database/device';
 
 describe('test device database', () => {
     test('check if list is empty', async () => {
-        const devices = await getAllDevicesIDs();
+        const devices = await databaseGetAllDeviceIDs();
         expect(devices).toEqual([]);
         expect(devices.length).toBe(0);
     });
@@ -18,8 +19,8 @@ describe('test device database', () => {
             },
             secret: 'test'
         };
-        await createDevice(device);
-        const devices = await getAllDevicesIDs();
+        await databaseCreateDevice(device);
+        const devices = await databaseGetAllDeviceIDs();
         expect(devices.length).toBe(1);
     });
 
@@ -33,10 +34,10 @@ describe('test device database', () => {
             },
             secret: 'test'
         };
-        await createDevice(device);
-        const devices = await getAllDevicesIDs();
+        await databaseCreateDevice(device);
+        const devices = await databaseGetAllDeviceIDs();
         expect(devices.length).toBe(1);
-        const deviceFromDatabase = await getDevice(device.id);
+        const deviceFromDatabase = await databaseGetDevice(device.id);
         expect(deviceFromDatabase).toEqual(device);
     });
 
@@ -50,17 +51,17 @@ describe('test device database', () => {
             },
             secret: 'test'
         };
-        await createDevice(device);
-        const devices = await getAllDevicesIDs();
+        await databaseCreateDevice(device);
+        const devices = await databaseGetAllDeviceIDs();
         expect(devices.length).toBe(1);
-        await deleteDeviceFromDatabase(device.id);
-        const devices2 = await getAllDevicesIDs();
+        await deleteDevice(device.id);
+        const devices2 = await databaseGetAllDeviceIDs();
         expect(devices2.length).toBe(0);
     });
 
     test('check if undefined device throws', async () => {
         await expect(async () => {
-            await getDevice('none existing device');
+            await databaseGetDevice('none existing device');
         })
             .rejects
             .toThrow('Device not found');
@@ -77,15 +78,15 @@ describe('test device database', () => {
             secret: 'test'
         };
 
-        await createDevice(device);
-        const devices = await getAllDevicesIDs();
+        await databaseCreateDevice(device);
+        const devices = await databaseGetAllDeviceIDs();
         expect(devices.length).toBe(1);
 
         await expect(async () => {
-            await createDevice(device);
+            await databaseCreateDevice(device);
         }).rejects.toThrow('Device already exists');
 
-        const devices2 = await getAllDevicesIDs();
+        const devices2 = await databaseGetAllDeviceIDs();
         expect(devices2.length).toBe(1);
     });
 
@@ -101,12 +102,12 @@ describe('test device database', () => {
                 secret: 'test'
             };
             
-            await createDevice(device);
+            await databaseCreateDevice(device);
 
-            const devices = await getAllDevicesIDs();
+            const devices = await databaseGetAllDeviceIDs();
             expect(devices.length).toBe(i + 1);
             
-            const deviceFromDatabase = await getDevice(device.id);
+            const deviceFromDatabase = await databaseGetDevice(device.id);
             expect(deviceFromDatabase).toEqual(device);
         }
     });
@@ -122,11 +123,9 @@ describe('test device database', () => {
                 },
                 secret: 'test'
             };            
-            await createDevice(device);
+            await databaseCreateDevice(device);
         }
-        const devices = await getAllDevicesIDs();
+        const devices = await databaseGetAllDeviceIDs();
         expect(devices.length).toBe(10000);
     });
-
-
 });

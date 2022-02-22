@@ -6,8 +6,7 @@ import { updateDevice } from '../logic/device/update';
 import { authFactory } from '../middleware/auth';
 import { secretAuthFactory } from '../middleware/secret';
 import { failure, success } from '../types/apiresponse';
-import { headers } from '../types/headers';
-import { validateSecret } from '../util/secrets';
+import { headers } from '../util/headers';
 import { validateWebPushData } from '../util/webpush';
 import type { WebPushInfos } from '../webpush/webpushinfos';
 

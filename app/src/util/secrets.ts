@@ -3,5 +3,5 @@ export function validateSecret(secret?: string): boolean {
         return false; // missing data
     }
     const deviceSecret = String(secret);
-    return deviceSecret.length === 32 && Boolean(/^[a-z0-9]{32}$/.exec(deviceSecret)); // validate secret
+    return deviceSecret.length === 32 && Boolean(/^[a-f0-9]{32}$/.exec(deviceSecret)); // validate secret
 }
