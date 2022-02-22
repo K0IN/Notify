@@ -4,7 +4,7 @@ import { Miniflare } from 'miniflare';
 // this test does not work with headless mode see
 // https://github.com/puppeteer/puppeteer/issues/3461
 
-jest.setTimeout(60_000); // 60 seconds timeout
+jest.setTimeout(100_000); // 100 seconds timeout
 
 test('responds with url', async () => {
     const mf = new Miniflare({
@@ -28,16 +28,16 @@ test('responds with url', async () => {
         await page.goto('http://localhost:5000');
 
         // click on the button
-        await page.waitForNetworkIdle({ idleTime: 1000 });
+        await page.waitForNetworkIdle({ idleTime: 10_000 });
         // await page.screenshot({ path: './images/step_init.png' });
         await page.click('input');
-        await page.waitForTimeout(10000);
+        await page.waitForTimeout(10_000);
         //await page.waitForNetworkIdle({ idleTime: 1000 });
         // await page.screenshot({ path: './images/step_clicked.png' });
 
         // reload the page
         await page.reload();
-        await page.waitForNetworkIdle({ idleTime: 1000 });
+        await page.waitForNetworkIdle({ idleTime: 10_000 });
         // await page.screenshot({ path: './images/step_reload.png' });
 
         // send a notification

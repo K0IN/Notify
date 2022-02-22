@@ -1,4 +1,4 @@
-import { compareStringSafe } from '../src/crypto';
+import { compareStringSafe } from '../src/util/crypto';
 
 describe('crypto string helpers', () => {
     test('check if two normal strings are the same', () => {

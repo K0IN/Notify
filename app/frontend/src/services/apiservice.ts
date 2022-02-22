@@ -20,21 +20,30 @@ export async function createDevice(webPushData: WebPushData, registerToken?: str
     return [res.status, await res.json()];
 }
 
-export async function checkIfDeviceExists(deviceId: string): Promise<IApiResponse<boolean>> {
-    return await fetch(`${APIBASE}/device/${deviceId}`).then(r => r.json());
+export async function checkIfDeviceExists(deviceId: string, secret: string): Promise<IApiResponse<boolean>> {
+    return await fetch(`${APIBASE}/device/${deviceId}`, {
+        headers: {
+            'Authorization': `Bearer ${secret}`
+        }
+    }).then(r => r.json());
 }
 
 export async function deleteDevice(deviceId: string, secret: string): Promise<IApiResponse<string>> {
     return await fetch(`${APIBASE}/device/${deviceId}`, {
         method: 'DELETE',
-        body: JSON.stringify({ secret })
+        headers: {
+            'Authorization': `Bearer ${secret}`
+        }
     }).then(r => r.json());
 }
 
 export async function updateDevice(deviceId: string, secret: string, webPushData: WebPushData): Promise<IApiResponse> {
     const res = await fetch(`${APIBASE}/device/${deviceId}`, {
         method: 'PATCH',
-        body: JSON.stringify({ web_push_data: webPushData, secret })
+        body: JSON.stringify({ web_push_data: webPushData }),
+        headers: {
+            'Authorization': `Bearer ${secret}`
+        }
     });
     return await res.json();
 }

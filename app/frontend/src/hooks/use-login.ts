@@ -13,16 +13,20 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
             const users = await database?.getAll('user');
             database.close();
             if (users[0]?.id) {
-                const { id } = users[0];
-                const existsResponse = await checkIfDeviceExists(id);
+                const { id, secret } = users[0];
+                const existsResponse = await checkIfDeviceExists(id, secret);
                 const exists = parseResponse(existsResponse);
                 exists && setIsLoggedIn(LoginStatus.LOGGED_IN);
             } else {
                 setIsLoggedIn(LoginStatus.LOGGED_OUT);
             }
         };
+        
         // todo use BroadcastChannel to sync tabs / login status
-        updateFn().catch((e) => console.warn("error inside useLogin", e));
+        updateFn().catch((e) => {
+            console.warn("error inside useLogin", e);
+            setIsLoggedIn(LoginStatus.LOGGED_OUT);
+        });
     }, [setIsLoggedIn]);
 
 
