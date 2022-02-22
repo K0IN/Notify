@@ -19,10 +19,4 @@ describe('device delete tests', () => {
             await databaseGetDevice('test-device-id');
         }).rejects.toThrow('Device not found');
     });
-
-    test('delete invalid device', async () => {
-        await expect(async () => {
-            await deleteDevice('test-device-id');
-        }).rejects.toThrow('Device not found');
-    });
 });

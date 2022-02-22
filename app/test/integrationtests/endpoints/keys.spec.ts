@@ -1,4 +1,4 @@
-import { handleApiRequest } from '../../src/index';
+import { handleApiRequest } from '../../../src';
 
 test('responds with url', async () => {
     const req = new Request('https://localhost/api/keys/');

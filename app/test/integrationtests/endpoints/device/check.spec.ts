@@ -1,23 +1,21 @@
 import { handleApiRequest } from '../../../../src';
-import { WebPushInfos } from '../../../../src/webpush/webpushinfos';
+import { createDevice } from '../../../../src/logic/device/create';
 
-describe('get device', () => {
+describe('check if device exists', () => {
     test('successful get', async () => {
-        const requestData: { web_push_data: WebPushInfos } = {
-            web_push_data: {
-                endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-                key: 'key',
-                auth: 'auth'
-            }
-        };
-        const createRequest = new Request('https://localhost/api/device/', {
-            method: 'POST',
-            body: JSON.stringify(requestData)
+        // create a test device
+        const device = await createDevice({
+            endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
+            key: 'key',
+            auth: 'auth'
         });
-        const createResponse = await handleApiRequest(createRequest);
-        expect(createResponse?.status).toBe(200);
-        const body = await createResponse?.json();
-        const getRequest = new Request(`https://localhost/api/device/${body.data.id}`);
+
+        const getRequest = new Request(`https://localhost/api/device/${device.id}`, {
+            headers: {
+                'authorization': `Bearer ${device.secret}`
+            }
+        });
+
         const getResponse = await handleApiRequest(getRequest);
         expect(getResponse?.status).toBe(200);
         const getBody = await getResponse?.json();
@@ -26,6 +24,7 @@ describe('get device', () => {
             data: true
         });
     });
+
     test('get invalid id', async () => {
         const getRequest = new Request('https://localhost/api/device/1');
         const getResponse = await handleApiRequest(getRequest);
@@ -39,14 +38,18 @@ describe('get device', () => {
             }
         });
     });
+
     test('get invalid device', async () => {
         const getRequest = new Request('https://localhost/api/device/12345678901234567890123456789012');
         const getResponse = await handleApiRequest(getRequest);
-        expect(getResponse?.status).toBe(200);
+        expect(getResponse?.status).toBe(401);
         const getBody = await getResponse?.json();
         expect(getBody).toMatchObject({
-            successful: true,
-            data: false
+            successful: false,
+            error: {
+                type: 'auth_required',
+                message: expect.any(String)
+            }
         });
     });
 });

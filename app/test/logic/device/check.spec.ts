@@ -9,10 +9,10 @@ describe('device check tests', () => {
             key: 'test',
         });
         const exists = await checkDevice(createdDev.id);
-        expect(exists).toBe(true);
+        expect(exists).toBeTruthy();
     });
     test('check unknown successful', async () => {       
         const exists = await checkDevice('unknown-device-id');
-        expect(exists).toBe(true);
+        expect(exists).not.toBeTruthy();
     });
 });

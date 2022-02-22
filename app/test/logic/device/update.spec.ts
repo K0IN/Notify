@@ -21,25 +21,4 @@ describe('device update tests', () => {
         expect(dev.pushData.key).toBe('new');
     });
 
-    test('delete invalid device', async () => {
-        await expect(async () => {
-            await updateDevice('test-device-id', 'test-device-secret', { auth: 'new', endpoint: 'new', key: 'new' });
-        }).rejects.toThrow('Device not found');
-    });
-
-    test('delete device with wrong password', async () => {
-        const device: IDevice = {
-            id: 'test-device-id',
-            pushData: {
-                auth: 'test',
-                endpoint: 'test',
-                key: 'test',
-            },
-            secret: 'test-device-secret'
-        };
-        await databaseCreateDevice(device);
-        await expect(async () => {
-            await updateDevice('test-device-id', 'wrong-device-secret', { auth: 'new', endpoint: 'new', key: 'new' });
-        }).rejects.toThrow('Invalid secret');
-    });
 });

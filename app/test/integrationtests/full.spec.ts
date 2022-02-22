@@ -5,9 +5,9 @@ import { Miniflare } from 'miniflare';
 // https://github.com/puppeteer/puppeteer/issues/3461
 
 
-jest.setTimeout(100_000); // 100 seconds timeout
+jest.setTimeout(400_000); // 100 seconds timeout
 
-test('responds with url', async () => {
+test('browser test', async () => {
     const mf = new Miniflare({
         args: ['--no-sandbox'],
         envPath: true,
