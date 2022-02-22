@@ -5,8 +5,6 @@ import { WebPushInfos } from '../../../../src/webpush/webpushinfos';
 describe('update device', () => {
     // todo add missing test cases
     test('successful update', async () => {
-        expect(true).toBeTruthy();
-        return;
         const device = await createDevice({
             endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
             key: 'key',
@@ -16,8 +14,8 @@ describe('update device', () => {
         const newRequestData: { web_push_data: WebPushInfos } = {
             web_push_data: {
                 endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-                key: 'key1',
-                auth: 'auth2'
+                key: 'dGVzdA==', // test as base64
+                auth: 'dGVzdA==' // test as base64
             }
         };
 
@@ -36,34 +34,25 @@ describe('update device', () => {
         });
     });
 
-    /*
     test('invalid secret update', async () => {
-        const requestData: { web_push_data: WebPushInfos } = {
-            web_push_data: {
-                endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-                key: 'key',
-                auth: 'auth'
-            }
-        };
-        const createRequest = new Request('https://localhost/api/device/', {
-            method: 'POST',
-            body: JSON.stringify(requestData)
+        const dev = await createDevice({
+            endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
+            key: 'dGVzdA==',
+            auth: 'dGVzdA=='
         });
-        const createResponse = await handleApiRequest(createRequest);
-        expect(createResponse?.status).toBe(200);
-        const body = await createResponse?.json();
-
+      
         const newRequestData: { web_push_data: WebPushInfos } = {
             web_push_data: {
                 endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-                key: 'key',
-                auth: 'auth'
+                key: 'dGVzdA==',
+                auth: 'dGVzdA=='
             }
         };
 
-        const deleteRequest = new Request(`https://localhost/api/device/${body.data.id}`, {
+        const deleteRequest = new Request(`https://localhost/api/device/${dev.id}`, {
             method: 'PATCH',
-            body: JSON.stringify({ secret: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', ...newRequestData })
+            body: JSON.stringify({ ...newRequestData }),
+            headers: { 'authorization': 'Bearer aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' }
         });
 
         const getResponse = await handleApiRequest(deleteRequest);
@@ -73,5 +62,4 @@ describe('update device', () => {
             successful: false
         });
     });
-    */
 });

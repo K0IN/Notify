@@ -2,23 +2,18 @@ import { handleApiRequest } from '../../../../src';
 import { WebPushInfos } from '../../../../src/webpush/webpushinfos';
 
 describe('create device', () => {
-    test('create device', async () => {
-        expect(true).toBeTruthy();
-    });
-    
-    /*
-    test('successful create', async () => {
-        const requestData: { web_push_data: WebPushInfos } = {
-            web_push_data: {
-                endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-                key: 'key',
-                auth: 'auth'
-            }
-        };
+    test('successful create', async () => {        
         const req = new Request('https://localhost/api/device/', {
             method: 'POST',
-            body: JSON.stringify(requestData)
+            body: JSON.stringify({
+                web_push_data: {
+                    endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
+                    key: 'dGVzdA==', // test as base64
+                    auth: 'dGVzdA==' // test as base64
+                }
+            })
         });
+
         const res = await handleApiRequest(req);
         expect(res).toBeTruthy();
         expect(res?.status).toBe(200);
@@ -220,5 +215,4 @@ describe('create device', () => {
             });
         }
     });
-    */
 });

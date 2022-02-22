@@ -26,7 +26,11 @@ describe('check if device exists', () => {
     });
 
     test('get invalid id', async () => {
-        const getRequest = new Request('https://localhost/api/device/1');
+        const getRequest = new Request('https://localhost/api/device/1', {
+            headers: {
+                'authorization': 'Bearer aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            }
+        });
         const getResponse = await handleApiRequest(getRequest);
         expect(getResponse?.status).toBe(400);
         const getBody = await getResponse?.json();
@@ -40,7 +44,11 @@ describe('check if device exists', () => {
     });
 
     test('get invalid device', async () => {
-        const getRequest = new Request('https://localhost/api/device/12345678901234567890123456789012');
+        const getRequest = new Request('https://localhost/api/device/12345678901234567890123456789012', {
+            headers: {
+                'authorization': 'Bearer aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            }
+        });
         const getResponse = await handleApiRequest(getRequest);
         expect(getResponse?.status).toBe(401);
         const getBody = await getResponse?.json();

@@ -22,12 +22,8 @@ export const secretAuthFactory = (deviceField: string) => async (req: Request): 
         return failure({ type: 'auth_required', message: 'invalid secret' }, { status: 401 });
     }
 
-    try {
-        const isValidSecret = compareStringSafe(secret, device.secret);
-        if (!isValidSecret) {
-            return failure({ type: 'auth_required', message: 'invalid secret' }, { status: 401 });
-        }
-    } catch (e: unknown) {
+    const isValidSecret = compareStringSafe(secret, device.secret);
+    if (!isValidSecret) {
         return failure({ type: 'auth_required', message: 'invalid secret' }, { status: 401 });
     }
 
