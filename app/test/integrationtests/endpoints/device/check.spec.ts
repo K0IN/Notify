@@ -6,8 +6,8 @@ describe('check if device exists', () => {
         // create a test device
         const device = await createDevice({
             endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-            key: 'key',
-            auth: 'auth'
+            key: 'dGVzdA==', // test as base64
+            auth: 'dGVzdA==' // test as base64
         });
 
         const getRequest = new Request(`https://localhost/api/device/${device.id}`, {

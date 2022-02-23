@@ -6,23 +6,28 @@ import { keysRouter } from './routes/keys';
 import { notificationRouter } from './routes/notify';
 import { failure } from './types/apiresponse';
 
+// todo check env variables here instead of in the code
+
+// if (!VAPID_SERVER_KEY) {
+//    throw new Error('VAPID_SERVER_KEY not set (please set your env)');
+//}
+
 const apiRouter = Router({ base: '/api' });
 apiRouter.all('/keys/*', keysRouter.handle);
 apiRouter.all('/device/*', deviceRouter.handle);
 apiRouter.all('/notify/*', notificationRouter.handle);
 apiRouter.all('*', () => failure({ type: 'not_found', message: 'method not found' }, { status: 404 }));
 
-const errorHandler = (error: Error) => {
+export const errorHandler = (error: Error) => {
     console.error('global error handler catched', error);
     return failure({ type: 'internal_error', message: error.message }, { headers: CORS_ORIGIN ? corsHeaders : {} });
 };
 
-const handleCors = (request: Request): Response | undefined => {
+export const handleCors = (request: Request): Response | undefined => {
     if (!CORS_ORIGIN || request.method !== 'OPTIONS') {
         return undefined;
     }
-    const response = new Response('', { status: 204 });
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    const response = new Response('', { status: 204, headers: corsHeaders });
     return response;
 };
 

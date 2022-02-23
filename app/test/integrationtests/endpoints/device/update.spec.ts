@@ -7,8 +7,8 @@ describe('update device', () => {
     test('successful update', async () => {
         const device = await createDevice({
             endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-            key: 'key',
-            auth: 'auth'
+            key: 'dGVzdA==', // test as base64
+            auth: 'dGVzdA==' // test as base64
         });
 
         const newRequestData: { web_push_data: WebPushInfos } = {
@@ -40,7 +40,7 @@ describe('update device', () => {
             key: 'dGVzdA==',
             auth: 'dGVzdA=='
         });
-      
+
         const newRequestData: { web_push_data: WebPushInfos } = {
             web_push_data: {
                 endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',

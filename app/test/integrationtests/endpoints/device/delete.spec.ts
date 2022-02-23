@@ -5,10 +5,10 @@ describe('delete device', () => {
     test('successful delete', async () => {
         const device = await createDevice({
             endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
-            key: 'key',
-            auth: 'auth'
+            key: 'dGVzdA==', // test as base64
+            auth: 'dGVzdA==' // test as base64
         });
-        
+
         const deleteRequest = new Request(`https://localhost/api/device/${device.id}`, {
             method: 'DELETE',
             headers: {
@@ -24,9 +24,9 @@ describe('delete device', () => {
             data: 'deleted'
         });
     });
-    
-    
-    test('delete invalid id', async () => {            
+
+
+    test('delete invalid id', async () => {
         const deleteRequest = new Request('https://localhost/api/device/1', {
             method: 'DELETE',
             headers: {
@@ -45,7 +45,7 @@ describe('delete device', () => {
         });
     });
 
-    test('delete invalid secret', async () => {            
+    test('delete invalid secret', async () => {
         const deleteRequest = new Request('https://localhost/api/device/12345678901234567890123456789012', {
             method: 'DELETE',
             headers: {
@@ -63,8 +63,8 @@ describe('delete device', () => {
             }
         });
     });
-    
-    test('delete without secret', async () => {            
+
+    test('delete without secret', async () => {
         const deleteRequest = new Request('https://localhost/api/device/12345678901234567890123456789012', {
             method: 'DELETE'
         });
@@ -79,5 +79,5 @@ describe('delete device', () => {
             }
         });
     });
-    
+
 });

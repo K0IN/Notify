@@ -1,8 +1,10 @@
 import { handleApiRequest } from '../../../../src';
 import { WebPushInfos } from '../../../../src/webpush/webpushinfos';
 
+// todo test password auth
+
 describe('create device', () => {
-    test('successful create', async () => {        
+    test('successful create', async () => {
         const req = new Request('https://localhost/api/device/', {
             method: 'POST',
             body: JSON.stringify({
@@ -44,6 +46,7 @@ describe('create device', () => {
             }
         });
     });
+
     test('partial json body', async () => {
         {
             const requestData: { web_push_data: Partial<WebPushInfos> } = {
