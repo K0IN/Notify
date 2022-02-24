@@ -4,7 +4,7 @@ import { Miniflare } from 'miniflare';
 // this test does not work with headless mode see
 // https://github.com/puppeteer/puppeteer/issues/3461
 
-jest.setTimeout(100_000); // 60 seconds timeout
+jest.setTimeout(100_000); // 100 seconds timeout
 jest.retryTimes(10); // retry 10 times
 
 describe('test browser', () => {
