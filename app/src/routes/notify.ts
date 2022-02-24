@@ -43,7 +43,7 @@ notificationRouter.post('/', authFactory(SERVERPWD),
         }
 
         return await notifyAll(data)
-            .then(async (messagePromise: Promise<void>) => event?.waitUntil(messagePromise) ?? await messagePromise)
-            .then(() => success<string>('notified', { headers: corsHeaders }))
-            .catch((error: Error) => failure({ type: 'internal_error', message: error.message }, { headers: corsHeaders }));
+            .then((messagePromise: Promise<unknown>) => event?.waitUntil(messagePromise) ?? messagePromise)
+            .then(() => success<string>('notified'))
+            .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
     });

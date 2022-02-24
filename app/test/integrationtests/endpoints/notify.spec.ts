@@ -118,6 +118,7 @@ describe('device endpoints', () => {
             data: 'notified'
         });
 
+        await new Promise(resolve => setTimeout(resolve, 10_000));
         const dev = await databaseGetDevice(id);
         expect(dev).not.toBeTruthy();
     });
@@ -142,6 +143,7 @@ describe('device endpoints', () => {
             data: 'notified'
         });
 
+        await new Promise(resolve => setTimeout(resolve, 10_000));
         const dev = await databaseGetDevice(id);
         expect(dev).not.toBeTruthy();
     });

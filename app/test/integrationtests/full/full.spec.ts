@@ -15,7 +15,7 @@ describe('test browser', () => {
     beforeEach(async () => {
         mf = new Miniflare({
             args: ['--no-sandbox'],
-            envPath: 'test/integrationtests/env/password.env',
+            envPath: 'test/integrationtests/env/default.env',
             // packagePath: true,
             wranglerConfigPath: true,
             scriptPath: 'dist/index.js',
@@ -63,7 +63,7 @@ describe('test browser', () => {
         });
         expect(res.status).toBe(200);
         const body = await res.json();
-        
+
         expect(body).toMatchObject({
             successful: true,
             // any string
