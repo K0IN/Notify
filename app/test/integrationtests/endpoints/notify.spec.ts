@@ -1,4 +1,6 @@
+import { databaseGetDevice } from '../../../src/databases/device';
 import { handleApiRequest } from '../../../src/index';
+import { createDevice } from '../../../src/logic/device';
 
 describe('device endpoints', () => {
 
@@ -91,5 +93,56 @@ describe('device endpoints', () => {
                 type: 'invalid_data'
             }
         });
+    });
+
+    test('send invalid device data notification', async () => {
+        const { id } = await createDevice({
+            endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
+            key: 'dGVzdA==', // test as base64
+            auth: 'dGVzdA==' // test as base64
+        });
+
+        const req = new Request('https://localhos/api/notify/', {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'title',
+                message: 'message',
+            })
+        });
+        const res = await handleApiRequest(req);
+        expect(res).toBeTruthy();
+        expect(res?.status).toBe(200);
+        const body = await res?.json();
+        expect(body).toMatchObject({
+            successful: true,
+            data: 'notified'
+        });
+
+        const dev = await databaseGetDevice(id);
+        expect(dev).not.toBeTruthy();
+    });
+
+    // this should be a edge case - but i just want to make sure it works
+    test('send remove device data notification', async () => {
+        const { id } = await createDevice(null as any); // empty device - this should not happen
+
+        const req = new Request('https://localhos/api/notify/', {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'title',
+                message: 'message',
+            })
+        });
+        const res = await handleApiRequest(req);
+        expect(res).toBeTruthy();
+        expect(res?.status).toBe(200);
+        const body = await res?.json();
+        expect(body).toMatchObject({
+            successful: true,
+            data: 'notified'
+        });
+
+        const dev = await databaseGetDevice(id);
+        expect(dev).not.toBeTruthy();
     });
 });

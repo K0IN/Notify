@@ -1,5 +1,5 @@
 import { getDatabase } from "../database/message";
-import { isSuccess, parseResponse } from "../types/apiresponse";
+import { parseResponse } from "../types/apiresponse";
 import { Device } from "../types/localdevice";
 import { encodeWebPushData } from "../util/webpushutil";
 import { createDevice, deleteDevice, getVapidData } from "./apiservice";
