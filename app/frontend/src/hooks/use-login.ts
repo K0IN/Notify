@@ -34,10 +34,12 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
         if (loginState) {
             const [res, device] = await login(apiKey);
             // clear all users and save the new one if login was successful
-            const db = await getDatabase();
-            await db.clear('user');
-            await db.add('user', device);
-            db.close();
+            if (device) {
+                const db = await getDatabase();
+                await db.clear('user');
+                await db.add('user', device);
+                db.close();
+            }           
             // after it was successful saved, set the logged in state
             setIsLoggedIn(res);
             return res;

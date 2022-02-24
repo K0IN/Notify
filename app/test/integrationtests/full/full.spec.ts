@@ -30,17 +30,13 @@ test('browser test', async () => {
         await page.goto('http://localhost:5000');
 
         // click on the button
-        await page.waitForNetworkIdle({ idleTime: 10_000 });
-        // await page.screenshot({ path: './images/step_init.png' });
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
         await page.click('input');
-        await page.waitForTimeout(10_000);
-        //await page.waitForNetworkIdle({ idleTime: 1000 });
-        // await page.screenshot({ path: './images/step_clicked.png' });
+        await page.waitForTimeout(5_000);
 
         // reload the page
         await page.reload();
-        await page.waitForNetworkIdle({ idleTime: 10_000 });
-        // await page.screenshot({ path: './images/step_reload.png' });
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
         
         // send a notification
         const res = await fetch('http://localhost:5000/api/notify', {
@@ -62,11 +58,10 @@ test('browser test', async () => {
         // this will throw if we do not receive a notification
         await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
     
-    } catch(e) {
-        console.error(e);
     } finally {
         (await server).close();
         await browser.close();
         await new Promise(resolve => setTimeout(resolve, 5000));
+        await mf.dispose(); // dispose miniflare
     }
 });

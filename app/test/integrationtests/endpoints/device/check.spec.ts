@@ -44,7 +44,13 @@ describe('check if device exists', () => {
     });
 
     test('get invalid device', async () => {
-        const getRequest = new Request('https://localhost/api/device/12345678901234567890123456789012', {
+        const device = await createDevice({
+            endpoint: 'https://fcm.googleapis.com/fcm/send/fcm-endpoint',
+            key: 'dGVzdA==', // test as base64
+            auth: 'dGVzdA==' // test as base64
+        });
+
+        const getRequest = new Request(`https://localhost/api/device/${device.id}`, {
             headers: {
                 'authorization': 'Bearer aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             }

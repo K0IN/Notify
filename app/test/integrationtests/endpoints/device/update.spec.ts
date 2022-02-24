@@ -49,13 +49,13 @@ describe('update device', () => {
             }
         };
 
-        const deleteRequest = new Request(`https://localhost/api/device/${dev.id}`, {
+        const updateRequest = new Request(`https://localhost/api/device/${dev.id}`, {
             method: 'PATCH',
             body: JSON.stringify({ ...newRequestData }),
             headers: { 'authorization': 'Bearer aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' }
         });
 
-        const getResponse = await handleApiRequest(deleteRequest);
+        const getResponse = await handleApiRequest(updateRequest);
         expect(getResponse?.status).toBe(401);
         const getBody = await getResponse?.json();
         expect(getBody).toMatchObject({

@@ -23,17 +23,13 @@ export async function login(password?: string): Promise<[LoginStatus, Device | n
         return [LoginStatus.LOGIN_PASSWORD_REQUIRED, null];
     }
 
-    if (isSuccess(userData)) {
-        const device = parseResponse<Device>(userData);
-        return [
-            webPushData.expirationTime
-                ? LoginStatus.LOGGED_IN_WITH_TIMEOUT
-                : LoginStatus.LOGGED_IN,
-            device
-        ];
-    }
-
-    throw new Error(`Login failed with status ${httpStatus}`);
+    const device = parseResponse<Device>(userData);
+    return [
+        webPushData.expirationTime
+            ? LoginStatus.LOGGED_IN_WITH_TIMEOUT
+            : LoginStatus.LOGGED_IN,
+        device
+    ];
 }
 
 export async function logoff(): Promise<LoginStatus> {

@@ -2,7 +2,7 @@ import { checkDevice } from '../../../src/logic/device/check';
 import { createDevice } from '../../../src/logic/device/create';
 
 describe('device check tests', () => {
-    test('check successful', async () => {       
+    test('check successful', async () => {
         const createdDev = await createDevice({
             auth: 'test',
             endpoint: 'test',
@@ -11,7 +11,7 @@ describe('device check tests', () => {
         const exists = await checkDevice(createdDev.id);
         expect(exists).toBeTruthy();
     });
-    test('check unknown successful', async () => {       
+    test('check unknown successful', async () => {
         const exists = await checkDevice('unknown-device-id');
         expect(exists).not.toBeTruthy();
     });
