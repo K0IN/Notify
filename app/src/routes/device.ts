@@ -1,8 +1,5 @@
 import { Request, Router } from 'itty-router';
-import { checkDevice } from '../logic/device/check';
-import { createDevice } from '../logic/device/create';
-import { deleteDevice } from '../logic/device/delete';
-import { updateDevice } from '../logic/device/update';
+import { checkDevice, createDevice, deleteDevice, updateDevice } from '../logic/device';
 import { authFactory } from '../middleware/auth';
 import { secretAuthFactory } from '../middleware/secret';
 import { failure, success } from '../types/apiresponse';
