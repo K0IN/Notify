@@ -1,5 +1,4 @@
 import { Request, Router } from 'itty-router';
-import { corsHeaders } from '../cors';
 import { notifyAll } from '../logic/project/notify';
 import { authFactory } from '../middleware/auth';
 import { failure, success } from '../types/apiresponse';
@@ -31,11 +30,11 @@ notificationRouter.post('/', authFactory(SERVERPWD),
             return failure({ type: 'invalid_data', message: 'icon is not a url' }, { status: 400 });
         }
 
-        const data = JSON.stringify({ 
-            body: String(message), 
-            icon: iconUrl, 
-            title: String(title), 
-            tags: tags.map((tag) => String(tag)) 
+        const data = JSON.stringify({
+            body: String(message),
+            icon: iconUrl,
+            title: String(title),
+            tags: tags.map((tag) => String(tag))
         });
 
         if (data.length > 1024) { // 1 kb

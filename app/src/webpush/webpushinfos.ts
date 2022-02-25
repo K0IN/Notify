@@ -19,5 +19,4 @@ export enum WebPushResult {
     Success = 0,
     Error = 1,
     NotSubscribed = 2,
-    NoDataProvided = 3,
 }

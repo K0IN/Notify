@@ -70,7 +70,7 @@ describe('test webpush functions', () => {
 
         fetchMock.mockResponseOnce(JSON.stringify({ data: 'user not found' }), { status: 404 }); 
         const result = await generateWebPushMessage(message, deviceData, applicationServerKeys);
-        expect(result).toBe(WebPushResult.Error);
+        expect(result).toBe(WebPushResult.NotSubscribed);
         expect(fetchMock.mock.calls.length).toEqual(1); // one call 
         expect(fetchMock.mock.calls[0][0]).toEqual(deviceData.endpoint); // the call endpoint was the device endpoint
         expect(fetchMock.mock.calls[0][1]?.method).toEqual('POST'); // the call was a post request
