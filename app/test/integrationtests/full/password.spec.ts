@@ -80,4 +80,36 @@ describe('test browser webpush with password', () => {
         // this will throw if we do not receive a notification
         await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
     });
+
+    test('test with incorrect password', async () => {
+        const [page] = await browser.pages();
+        await page.goto('http://localhost:5001');
+
+        // click on the button
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
+        await page.click('input');
+        await page.waitForTimeout(5_000);
+        await page.type('.mdc-text-field__input', 'this_is_wrong');
+        await page.waitForTimeout(5_000);
+        await page.click('.mdc-dialog__footer__button--accept');
+        await page.waitForTimeout(5_000);
+
+        // reload the page
+        await page.reload();
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
+        await expect(async () => {
+            await page.waitForXPath('//tr[@class="mdc-switch--checked"]', { timeout: 5_000 }); // 30 seconds timeout
+        }).rejects.toThrow();
+
+        // try with correct password
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
+        await page.click('input');
+        await page.waitForTimeout(5_000);
+        await page.type('.mdc-text-field__input', 'test123456');
+        await page.waitForTimeout(5_000);
+        await page.click('.mdc-dialog__footer__button--accept');
+        await page.waitForTimeout(5_000);
+
+        await page.waitForXPath('//tr[@class="mdc-switch--checked"]', { timeout: 5_000 }); // 30 seconds timeout
+    });
 });
