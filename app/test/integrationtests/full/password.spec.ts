@@ -109,7 +109,8 @@ describe('test browser webpush with password', () => {
         await page.waitForTimeout(5_000);
         await page.click('.mdc-dialog__footer__button--accept');
         await page.waitForTimeout(5_000);
-
+        await page.reload();
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
         await page.waitForXPath('//tr[@class="mdc-switch--checked"]', { timeout: 5_000 }); // 30 seconds timeout
     });
 });
