@@ -12,8 +12,9 @@ export async function generateWebPushMessage(message: WebPushMessage,
         generateV2Headers(deviceData.endpoint, applicationServerKeys, message.sub),
         generateAESGCMEncryptedMessage(message.data, deviceData) // TODO: switch this according to supportedAlgorithms
     ]);
+
     const headers: { [headerName: string]: string } = { ...authHeaders };
-    // TODO: set this accroding to the selected/supported Algorithm
+    // TODO: set this according to the selected/supported Algorithm
     headers['Encryption'] = `salt=${encryptedPayloadDetails.salt}`;
     headers['Crypto-Key'] = `dh=${encryptedPayloadDetails.publicServerKey}`;
     headers['Content-Encoding'] = 'aesgcm';
@@ -27,14 +28,19 @@ export async function generateWebPushMessage(message: WebPushMessage,
         method: 'POST', headers, body: encryptedPayloadDetails.cipherText
     });
 
-    if (res.status === 410) {
-        return WebPushResult.NotSubscribed;
+    switch (res.status) {
+        case 200: // http ok
+        case 201: // http created 
+        case 204: // http no content
+            return WebPushResult.Success;
+
+        case 400: // http bad request
+        case 401: // http unauthorized
+        case 404: // http not found
+        case 410: // http gone
+            return WebPushResult.NotSubscribed;
     }
 
-    if (res.status != 200 && res.status != 201) {
-        console.error(`Web Push error: ${res.status} body: ${await res.text()}`);
-        return WebPushResult.Error;
-    }
-
-    return WebPushResult.Success;
+    console.error(`Web Push error: ${res.status} body: ${await res.text()}`);
+    return WebPushResult.Error;
 }

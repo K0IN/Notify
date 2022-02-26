@@ -1,6 +1,6 @@
 import type { IDevice } from '../types/database/device';
 
-export async function createDevice(device: Readonly<IDevice>): Promise<void> {
+export async function databaseCreateDevice(device: Readonly<IDevice>): Promise<void> {
     const deviceData = await NOTIFY_USERS.get(device.id);
     if (deviceData) {
         throw new Error('Device already exists');
@@ -8,11 +8,15 @@ export async function createDevice(device: Readonly<IDevice>): Promise<void> {
     await NOTIFY_USERS.put(device.id, JSON.stringify(device));
 }
 
-export async function deleteDeviceFromDatabase(deviceId: string): Promise<void> {
+export async function databaseUpdateDevice(device: Readonly<IDevice>): Promise<void> {
+    await NOTIFY_USERS.put(device.id, JSON.stringify(device));
+}
+
+export async function databaseDeleteDevice(deviceId: string): Promise<void> {
     await NOTIFY_USERS.delete(deviceId);
 }
 
-export async function getDevice(deviceId: string): Promise<IDevice> {
+export async function databaseGetDevice(deviceId: string): Promise<IDevice> {
     const device = await NOTIFY_USERS.get<IDevice>(deviceId, { type: 'json' });
     if (!device) {
         throw new Error('Device not found');
@@ -20,7 +24,7 @@ export async function getDevice(deviceId: string): Promise<IDevice> {
     return device;
 }
 
-export async function getAllDevicesIDs(): Promise<string[]> {
+export async function databaseGetAllDeviceIDs(): Promise<string[]> {
     const devices: string[] = [];
     let cursor: string | null = null;
     let data;

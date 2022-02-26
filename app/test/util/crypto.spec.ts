@@ -1,4 +1,4 @@
-import { compareStringSafe } from '../src/crypto';
+import { compareStringSafe } from '../../src/util/crypto';
 
 describe('crypto string helpers', () => {
     test('check if two normal strings are the same', () => {
@@ -7,7 +7,7 @@ describe('crypto string helpers', () => {
     });
 
     test('check if two special strings are the same', () => {
-        const input = 'abcdefghijklmnopQRSTUVWXYZ1234567890\'\\\n\r\t\b\f\0";:?.!@#$%^&*()_+-=[]{}|<>/';
+        const input = 'abcdefghijklmnopQRSTUVWXYZ1234567890\'\\\n\r\t\b\f\0";:?.!@#$%^&*()_+-=[]{}|<>/\x00\x00\x01\x02aaa';
         expect(compareStringSafe(input, input)).toBeTruthy();
     });
 

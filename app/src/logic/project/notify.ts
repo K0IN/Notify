@@ -1,10 +1,11 @@
-import { deleteDeviceFromDatabase, getAllDevicesIDs, getDevice } from '../../databases/device';
+import { databaseGetAllDeviceIDs, databaseGetDevice } from '../../databases/device';
+import { validateWebPushData } from '../../util/webpush';
 import type { JWK } from '../../webpush/jwk';
 import { generateWebPushMessage } from '../../webpush/webpush';
 import { WebPushMessage, WebPushResult } from '../../webpush/webpushinfos';
+import { deleteDevice } from '../device/delete';
 
-
-export async function notifyAll(data: string): Promise<Promise<void>> {
+export async function notifyAll(data: string): Promise<Promise<unknown>> {
     if (!SUB || !VAPID_SERVER_KEY) {
         throw new Error('No Subject or vapid server key please set your secret / env var (see readme)');
     }
@@ -18,18 +19,20 @@ export async function notifyAll(data: string): Promise<Promise<void>> {
         ttl: 60 * 24 * 7
     };
 
-    const deviceIds = await getAllDevicesIDs();
+    const deviceIds = await databaseGetAllDeviceIDs();
     const promises = deviceIds.map(async (deviceId): Promise<WebPushResult> => {
-        const device = await getDevice(deviceId);
-        if (!device || !device.pushData) {
+        const device = await databaseGetDevice(deviceId);
+        if (!device || !validateWebPushData(device.pushData)) {
+            await deleteDevice(deviceId);
             return WebPushResult.NotSubscribed;
         }
         const result = await generateWebPushMessage(webPushMessageInfo, device.pushData, vapidKeys);
         if (result === WebPushResult.NotSubscribed) {
-            await deleteDeviceFromDatabase(deviceId);
+            await deleteDevice(deviceId);
+            return WebPushResult.NotSubscribed;
         }
         return result;
     });
 
-    return Promise.allSettled(promises) as unknown as Promise<void>;
+    return Promise.allSettled(promises) as unknown as Promise<unknown>;
 }

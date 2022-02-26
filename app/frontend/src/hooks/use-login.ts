@@ -1,60 +1,53 @@
-import { createDevice, getVapidData } from '../services/apiservice';
 import { useEffect, useState, useCallback } from 'preact/hooks';
 import { checkIfDeviceExists } from '../services/apiservice';
-import { arraybuffer2base64 } from '../util/arraybufferutil';
-import { createSubscription, deleteSubscription } from '../services/webpush';
-import { isSuccess, parseResponse } from '../types/apiresponse';
+import { parseResponse } from '../types/apiresponse';
+import { getDatabase } from '../database/message';
+import { login, LoginStatus, logoff } from '../services/loginservice';
 
-async function login(password?: string): Promise<boolean> {
-    const serverKey = parseResponse(await getVapidData());
-    console.warn("You connected to Server with the key", serverKey);
-    const { endpoint, key, auth } = await createSubscription(serverKey);
-    const userData = await createDevice({
-        endpoint,
-        key: arraybuffer2base64(key),
-        auth: arraybuffer2base64(auth)
-    }, password);
-
-    if (isSuccess(userData)) {
-        localStorage.setItem('userData', JSON.stringify(userData.data));
-        return true;
-    }
-
-    return false; // login required
-}
-
-async function logoff(): Promise<boolean> {
-    localStorage.removeItem('userData');
-    await deleteSubscription();
-    return true;
-}
-
-export function useLogin(): [boolean, (loginState: boolean, apiKey?: string) => Promise<boolean>] {
-    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userData')));
+export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string) => Promise<LoginStatus>] {
+    const [isLoggedIn, setIsLoggedIn] = useState(LoginStatus.LOGGED_OUT);
 
     useEffect(() => {
-        const updateFn = () => {
-            const userData = localStorage.getItem('userData');
-            if (userData) {
-                const user = JSON.parse(userData);
-                checkIfDeviceExists(user.id).then(parseResponse).then(setIsLoggedIn).catch(() => setIsLoggedIn(false));
+        const updateFn = async () => {
+            const database = await getDatabase();
+            const users = await database?.getAll('user');
+            database.close();
+            if (users[0]?.id) {
+                const { id, secret } = users[0];
+                const existsResponse = await checkIfDeviceExists(id, secret);
+                const exists = parseResponse(existsResponse);
+                exists && setIsLoggedIn(LoginStatus.LOGGED_IN);
             } else {
-                setIsLoggedIn(false);
+                setIsLoggedIn(LoginStatus.LOGGED_OUT);
             }
         };
-        updateFn();
-        window.addEventListener('storage', updateFn);
-        return () => window.removeEventListener('storage', updateFn);
+        
+        // todo use BroadcastChannel to sync tabs / login status
+        updateFn().catch((e) => {
+            console.warn("error inside useLogin", e);
+            setIsLoggedIn(LoginStatus.LOGGED_OUT);
+        });
     }, [setIsLoggedIn]);
 
-    const startLogin = useCallback(async (loginState: boolean, apiKey?: string): Promise<boolean> => {
-        const res = await (loginState ? login(apiKey) : logoff())
-        setIsLoggedIn(loginState);
+
+    const startLogin = useCallback(async (loginState: boolean, apiKey?: string): Promise<LoginStatus> => {
+        if (loginState) {
+            const [res, device] = await login(apiKey);
+            // clear all users and save the new one if login was successful
+            if (device) {
+                const db = await getDatabase();
+                await db.clear('user');
+                await db.add('user', device);
+                db.close();
+            }           
+            // after it was successful saved, set the logged in state
+            setIsLoggedIn(res);
+            return res;
+        }
+        const res = await logoff();
+        setIsLoggedIn(res);
         return res;
     }, [setIsLoggedIn]);
 
-    return [
-        isLoggedIn,
-        startLogin
-    ];
+    return [isLoggedIn, startLogin];
 }

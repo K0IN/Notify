@@ -1,5 +1,4 @@
 import { Request, Router } from 'itty-router';
-import { corsHeaders } from '../cors';
 import { notifyAll } from '../logic/project/notify';
 import { authFactory } from '../middleware/auth';
 import { failure, success } from '../types/apiresponse';
@@ -31,11 +30,11 @@ notificationRouter.post('/', authFactory(SERVERPWD),
             return failure({ type: 'invalid_data', message: 'icon is not a url' }, { status: 400 });
         }
 
-        const data = JSON.stringify({ 
-            body: String(message), 
-            icon: iconUrl, 
-            title: String(title), 
-            tags: tags.map((tag) => String(tag)) 
+        const data = JSON.stringify({
+            body: String(message),
+            icon: iconUrl,
+            title: String(title),
+            tags: tags.map((tag) => String(tag))
         });
 
         if (data.length > 1024) { // 1 kb
@@ -43,7 +42,7 @@ notificationRouter.post('/', authFactory(SERVERPWD),
         }
 
         return await notifyAll(data)
-            .then(async (messagePromise: Promise<void>) => event?.waitUntil(messagePromise) ?? await messagePromise)
-            .then(() => success<string>('notified', { headers: corsHeaders }))
-            .catch((error: Error) => failure({ type: 'internal_error', message: error.message }, { headers: corsHeaders }));
+            .then((messagePromise: Promise<unknown>) => event?.waitUntil(messagePromise) ?? messagePromise)
+            .then(() => success<string>('notified'))
+            .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
     });

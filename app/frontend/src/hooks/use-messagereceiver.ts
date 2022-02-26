@@ -22,9 +22,16 @@ export const useMessageReceiver = () => {
                 setMessages(old => sortMessages([data.data, ...old]));
             }
         }
+
+        if (BroadcastChannel) {
+            const bc = new BroadcastChannel('notify-channel');
+            bc.addEventListener('message', onMessageInternalCallback);
+            return () => bc.removeEventListener('message', onMessageInternalCallback);
+        }
+
         navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
-        return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
-    }, []);
+        return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);     
+    }, [setMessages]);
 
     return messages;
 };
