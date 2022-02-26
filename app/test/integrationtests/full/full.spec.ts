@@ -4,8 +4,8 @@ import { Miniflare } from 'miniflare';
 // this test does not work with headless mode see
 // https://github.com/puppeteer/puppeteer/issues/3461
 
-jest.setTimeout(100_000); // 100 seconds timeout
-jest.retryTimes(10); // retry 10 times
+jest.setTimeout(100_000);
+jest.retryTimes(10);
 
 describe('test browser', () => {
     let mf: Miniflare;
@@ -44,14 +44,14 @@ describe('test browser', () => {
         const [page] = await browser.pages();
         await page.goto('http://localhost:5000');
 
-        // click on the button
         await page.waitForNetworkIdle({ idleTime: 5_000 });
+        // click the login button
         await page.click('input');
         await page.waitForTimeout(5_000);
 
         // reload the page
         await page.reload();
-        await page.waitForNetworkIdle({ idleTime: 5_000 });
+        await page.waitForNetworkIdle({ idleTime: 15_000 });
 
         // send a notification
         const res = await fetch('http://localhost:5000/api/notify', {
@@ -71,7 +71,7 @@ describe('test browser', () => {
         });
 
         // this will throw if we do not receive a notification
-        await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
+        await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 60_000 });
     });
 
 });

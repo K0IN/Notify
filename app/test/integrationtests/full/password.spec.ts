@@ -4,8 +4,9 @@ import { Miniflare } from 'miniflare';
 // this test does not work with headless mode see
 // https://github.com/puppeteer/puppeteer/issues/3461
 
-jest.setTimeout(100_000); // 100 seconds timeout
-jest.retryTimes(10); // retry 10 times
+jest.setTimeout(100_000);
+jest.retryTimes(10);
+
 describe('test browser webpush with password', () => {
     let mf: Miniflare;
     let browser: pup.Browser;
@@ -43,19 +44,19 @@ describe('test browser webpush with password', () => {
         const [page] = await browser.pages();
         await page.goto('http://localhost:5001');
 
-        // click on the button
         await page.waitForNetworkIdle({ idleTime: 5_000 });
+        // click the login button
         await page.click('input');
         await page.waitForTimeout(5_000);
+        // enter the password
         await page.type('.mdc-text-field__input', 'test123456');
         await page.waitForTimeout(5_000);
+        // click the login button
         await page.click('.mdc-dialog__footer__button--accept');
         await page.waitForTimeout(5_000);
-
         // reload the page
         await page.reload();
-        await page.waitForNetworkIdle({ idleTime: 5_000 });
-
+        await page.waitForNetworkIdle({ idleTime: 15_000 });
         // send a notification
         const res = await fetch('http://localhost:5001/api/notify', {
             body: JSON.stringify({
@@ -78,30 +79,30 @@ describe('test browser webpush with password', () => {
         });
 
         // this will throw if we do not receive a notification
-        await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 30_000 }); // 30 seconds timeout
+        await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 60_000 });
     });
 
     test('test with incorrect password', async () => {
         const [page] = await browser.pages();
         await page.goto('http://localhost:5001');
 
-        // click on the button
+        // try with invalid password
         await page.waitForNetworkIdle({ idleTime: 5_000 });
+        // click the login button
         await page.click('input');
         await page.waitForTimeout(5_000);
         await page.type('.mdc-text-field__input', 'this_is_wrong');
         await page.waitForTimeout(5_000);
         await page.click('.mdc-dialog__footer__button--accept');
         await page.waitForTimeout(5_000);
-
-        // reload the page
         await page.reload();
         await page.waitForNetworkIdle({ idleTime: 5_000 });
         await expect(async () => {
-            await page.waitForXPath('//tr[@class="mdc-switch--checked"]', { timeout: 5_000 }); // 30 seconds timeout
+            await page.waitForXPath('//div[@class="mdc-switch--checked"]', { timeout: 5_000 });
         }).rejects.toThrow();
-
+        
         // try with correct password
+        await page.goto('http://localhost:5001');
         await page.waitForNetworkIdle({ idleTime: 5_000 });
         await page.click('input');
         await page.waitForTimeout(5_000);
@@ -111,6 +112,6 @@ describe('test browser webpush with password', () => {
         await page.waitForTimeout(5_000);
         await page.reload();
         await page.waitForNetworkIdle({ idleTime: 5_000 });
-        await page.waitForXPath('//tr[@class="mdc-switch--checked"]', { timeout: 5_000 }); // 30 seconds timeout
+        await page.waitForXPath('//div[@class="mdc-switch--checked"]', { timeout: 5_000 });
     });
 });
