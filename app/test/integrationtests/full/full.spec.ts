@@ -7,7 +7,7 @@ import { Miniflare } from 'miniflare';
 jest.setTimeout(100_000);
 jest.retryTimes(10);
 
-describe('test browser', () => {
+describe('integration tests with browser', () => {
     let mf: Miniflare;
     let browser: pup.Browser;
     let server: any;
@@ -40,7 +40,7 @@ describe('test browser', () => {
     });
 
 
-    test('simple test', async () => {
+    test('simple', async () => {
         const [page] = await browser.pages();
         await page.goto('http://localhost:5000');
 
@@ -74,4 +74,44 @@ describe('test browser', () => {
         await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 60_000 });
     });
 
+
+    test('multiple messages', async () => {
+        const [page] = await browser.pages();
+        await page.goto('http://localhost:5000');
+
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
+        // click the login button
+        await page.click('input');
+        await page.waitForTimeout(5_000);
+
+        // reload the page
+        await page.reload();
+        await page.waitForNetworkIdle({ idleTime: 15_000 });
+
+        for (let i = 0; i < 10; i++) {
+            // send a notification
+            const res = await fetch('http://localhost:5000/api/notify', {
+                body: JSON.stringify({
+                    title: `this is #${i}`,
+                    message: `this is a test message (${i})`,
+                }),
+                method: 'POST'
+            });
+            expect(res.status).toBe(200);
+            const body = await res.json();
+
+            expect(body).toMatchObject({
+                successful: true,
+                // any string
+                data: expect.any(String)
+            });
+        }
+
+        await page.waitForTimeout(20_000);
+
+        // this will throw if we do not receive a notification
+        for (let i = 0; i < 10; i++) {
+            await page.waitForXPath(`//*[contains(text(), "this is #${i}")]`, { timeout: 60_000 });
+        }
+    });
 });
