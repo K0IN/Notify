@@ -18,13 +18,13 @@ const sendMessageToMainWindow = async (messageData) => {
         const bc = new BroadcastChannel('notify-channel');
         bc.postMessage(messageData);
         bc.close();
-    } else { 
+    } else {
         return await new Promise(async (resolve) => {
             const clientList = await clients.matchAll({ type: 'window' });
             clientList.map(client => client.postMessage(messageData));
             resolve();
         });
-    }   
+    }
 }
 
 self.addEventListener('activate', (event) => {
@@ -56,22 +56,18 @@ self.addEventListener('push', (event) => {
     ]));
 });
 
-self.addEventListener('notificationclick', (event) => {
-    console.log('On notification click: ', event.notification);
-
-    event.waitUntil(async () => {
-        event.notification.close();
-
-        const clientList = await clients.matchAll({ type: 'window' });
-        for (let i = 0; i < clientList.length; i++) {
-            const client = clientList[i];
-            if (client.url === '/' && 'focus' in client) {
-                return client.focus();
-            }
-        }
-
-        return clients.openWindow && clients.openWindow('/');
-    });
+self.addEventListener('notificationclick', async (e) => {
+    const notification = e.notification;
+    const action = e.action;
+    switch (action) {
+        case 'close':
+            notification.close();
+            break;
+        default:
+            clients.openWindow('/');
+            notification.close();
+            break;
+    }
 });
 
 self.addEventListener("pushsubscriptionchange", event => {
