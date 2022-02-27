@@ -76,7 +76,7 @@ self.addEventListener("pushsubscriptionchange", event => {
     const upgradeSubscription = async () => {
         const database = await getDatabase();
         const users = await database.getAll('user');
-        if (user[0]?.id) {
+        if (users[0]?.id) {
             const { id, secret } = users[0];
             let newSub = newSubscription ?? await registration.pushManager.subscribe(oldSubscription.options);
             let webPushData = getWebPushData(newSub);
