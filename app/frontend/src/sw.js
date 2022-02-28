@@ -1,3 +1,4 @@
+// declare var self: ServiceWorkerGlobalScope;
 import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
 import { getDatabase } from './database/message';
 import { updateDevice } from './services/apiservice';
@@ -59,8 +60,7 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (e) => {
     const notification = e.notification;
-    const action = e.action;
-    console.log({ notification, action });
+    
     const load = async () => {
         try {
             const clientList = await clients.matchAll();
