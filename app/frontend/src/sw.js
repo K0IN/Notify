@@ -56,19 +56,31 @@ self.addEventListener('push', (event) => {
     ]));
 });
 
-self.addEventListener('notificationclick', async (e) => {
+
+self.addEventListener('notificationclick', (e) => {
     const notification = e.notification;
     const action = e.action;
-    switch (action) {
-        case 'close':
+    console.log({ notification, action });
+    const load = async () => {
+        try {
+            const clientList = await clients.matchAll();
+            if (clientList.length > 0) {
+                for (let i = 0; i < clientList.length; i++) {
+                    const client = await clientList[i]?.navigate('/');
+                    client?.focus?.();
+                    break;
+                }
+            } else {
+                clients.openWindow('/');
+            }
+        } finally {
             notification.close();
-            break;
-        default:
-            clients.openWindow('/');
-            notification.close();
-            break;
+        }
     }
+
+    e.waitUntil(load());
 });
+
 
 self.addEventListener("pushsubscriptionchange", event => {
     const { oldSubscription, newSubscription } = event;
