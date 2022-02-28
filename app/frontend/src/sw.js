@@ -1,3 +1,4 @@
+// declare var self: ServiceWorkerGlobalScope;
 import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
 import { getDatabase } from './database/message';
 import { updateDevice } from './services/apiservice';
@@ -18,13 +19,13 @@ const sendMessageToMainWindow = async (messageData) => {
         const bc = new BroadcastChannel('notify-channel');
         bc.postMessage(messageData);
         bc.close();
-    } else { 
+    } else {
         return await new Promise(async (resolve) => {
             const clientList = await clients.matchAll({ type: 'window' });
             clientList.map(client => client.postMessage(messageData));
             resolve();
         });
-    }   
+    }
 }
 
 self.addEventListener('activate', (event) => {
@@ -56,23 +57,30 @@ self.addEventListener('push', (event) => {
     ]));
 });
 
-self.addEventListener('notificationclick', (event) => {
-    console.log('On notification click: ', event.notification);
 
-    event.waitUntil(async () => {
-        event.notification.close();
-
-        const clientList = await clients.matchAll({ type: 'window' });
-        for (let i = 0; i < clientList.length; i++) {
-            const client = clientList[i];
-            if (client.url === '/' && 'focus' in client) {
-                return client.focus();
+self.addEventListener('notificationclick', (e) => {
+    const notification = e.notification;
+    
+    const load = async () => {
+        try {
+            const clientList = await clients.matchAll();
+            if (clientList.length > 0) {
+                for (let i = 0; i < clientList.length; i++) {
+                    const client = await clientList[i]?.navigate('/');
+                    client?.focus?.();
+                    break;
+                }
+            } else {
+                clients.openWindow('/');
             }
+        } finally {
+            notification.close();
         }
+    }
 
-        return clients.openWindow && clients.openWindow('/');
-    });
+    e.waitUntil(load());
 });
+
 
 self.addEventListener("pushsubscriptionchange", event => {
     const { oldSubscription, newSubscription } = event;
@@ -80,7 +88,7 @@ self.addEventListener("pushsubscriptionchange", event => {
     const upgradeSubscription = async () => {
         const database = await getDatabase();
         const users = await database.getAll('user');
-        if (user[0]?.id) {
+        if (users[0]?.id) {
             const { id, secret } = users[0];
             let newSub = newSubscription ?? await registration.pushManager.subscribe(oldSubscription.options);
             let webPushData = getWebPushData(newSub);
