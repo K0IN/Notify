@@ -3,23 +3,29 @@ import { DatabaseProvider } from '../context/database';
 import { useOnline } from '../hooks/use-offline';
 import Messages from './messages/messages';
 import OfflineBanner from './offlinebanner/offline';
+import NotSupportedBanner from './notsupportedbanner/notsupported';
 import Register from './register/register';
 import style from './style.css';
+import { useIsSupported } from '../hooks/use-supported';
 
 const App: FunctionalComponent = () => {
+    const isSupported: boolean = useIsSupported();
     const isOnline = useOnline();
-    return (<div>
-        <div class={style.content}>
-            <div class={style.headeritem}>
-                {isOnline ? <Register /> : <OfflineBanner />}
-            </div>
-            <div class={style.main}>
-                <DatabaseProvider>
-                    <Messages />
-                </DatabaseProvider>
-            </div>
-        </div>
-    </div>);
+    return (
+        <div>
+            {isSupported
+                ? (<div class={style.content}>
+                    <div class={style.headeritem}>
+                        {isOnline ? <Register /> : <OfflineBanner />}
+                    </div>
+                    <div class={style.main}>
+                        <DatabaseProvider>
+                            <Messages />
+                        </DatabaseProvider>
+                    </div>
+                </div>)
+                : <NotSupportedBanner />}
+        </div>);
 };
 
 
