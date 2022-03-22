@@ -1,6 +1,6 @@
 // declare var self: ServiceWorkerGlobalScope;
 import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
-import { getDatabase } from './database/message';
+import { getDatabase, getUnreadMessageCount } from './database/message';
 import { updateDevice } from './services/apiservice';
 import { getWebPushData } from './util/webpushutil';
 
@@ -10,11 +10,16 @@ const urlsToCache = getFiles();
 urlsToCache.push({ url: '/favicon.ico', revision: null });
 setupPrecaching(urlsToCache);
 
-const addMessageToDB = async (messageData) => {
-    getDatabase().then(db => db.add('messages', messageData)).catch(err => console.log(err));
+async function addMessageToDB(messageData) {
+    try {
+        const db = await getDatabase();
+        await db.add('messages', messageData);
+    } catch (e) {
+        console.error('addMessageToDB', e);
+    }
 }
 
-const sendMessageToMainWindow = async (messageData) => {
+async function sendMessageToMainWindow(messageData) {
     if (BroadcastChannel) {
         const bc = new BroadcastChannel('notify-channel');
         bc.postMessage(messageData);
@@ -26,6 +31,11 @@ const sendMessageToMainWindow = async (messageData) => {
             resolve();
         });
     }
+}
+
+async function setAppBadge() {
+    const unreadCount = await getUnreadMessageCount().catch(e => 0);
+    navigator.setAppBadge && navigator.setAppBadge(unreadCount + 1);
 }
 
 self.addEventListener('activate', (event) => {
@@ -42,7 +52,7 @@ self.addEventListener('push', (event) => {
     }
 
     const { title, body, icon = "", tags = [] } = JSON.parse(event.data.text());
-    const tag = (Math.random() + 1).toString(36).substring(7);
+    const tag = (Math.random() + 1).toString(36).substring(7); // a (unique) random tag to identify the notification
 
     const messageData = {
         body, icon, title, tags,
@@ -53,14 +63,14 @@ self.addEventListener('push', (event) => {
     event.waitUntil(Promise.allSettled([
         self.registration.showNotification(title, { body, image: icon, tag }), // first show notification
         addMessageToDB(messageData),                                           // save message to db
-        sendMessageToMainWindow({ type: 'notification', data: messageData })   // send a event to main window to update the notification
+        sendMessageToMainWindow({ type: 'notification', data: messageData }),  // send a event to main window to update the notification
+        setAppBadge()                                                          // set app badge
     ]));
 });
 
 
 self.addEventListener('notificationclick', (e) => {
     const notification = e.notification;
-    
     const load = async () => {
         try {
             const clientList = await clients.matchAll();
@@ -77,7 +87,6 @@ self.addEventListener('notificationclick', (e) => {
             notification.close();
         }
     }
-
     e.waitUntil(load());
 });
 

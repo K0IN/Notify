@@ -2,6 +2,8 @@ import { useEffect, useState } from "preact/hooks";
 import type { MessageType } from "../types/messagetype";
 import type { PushMessage } from "../types/postmassage";
 import { useDatabase } from "./use-database";
+import type { IDBPDatabase } from "idb";
+import { setAllMessagesAsRead } from "../database/message";
 
 const sortMessages = (messages: MessageType[]): MessageType[] => {
     return messages.sort((a, b) => b.receivedAt - a.receivedAt);
@@ -13,7 +15,8 @@ export const useMessageReceiver = () => {
 
     useEffect(() => {
         database && database.getAll('messages').then(savedMessages => setMessages(sortMessages(savedMessages))).catch(console.warn);
-    }, [database]);
+        database && setAllMessagesAsRead(database as unknown as IDBPDatabase);
+    }, [database, setMessages]);
 
     useEffect(() => {
         const onMessageInternalCallback = (messageData: MessageEvent) => {
@@ -30,7 +33,7 @@ export const useMessageReceiver = () => {
         }
 
         navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', onMessageInternalCallback);
-        return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);     
+        return () => navigator.serviceWorker && navigator.serviceWorker.removeEventListener('message', onMessageInternalCallback);
     }, [setMessages]);
 
     return messages;
