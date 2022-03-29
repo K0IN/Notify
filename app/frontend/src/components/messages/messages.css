@@ -3,5 +3,11 @@
 }
 
 .messagelist {
-    padding: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.divider {
+    border-top: 4px solid #bbb;
+    margin: 8px;
 }

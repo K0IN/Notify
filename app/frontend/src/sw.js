@@ -46,7 +46,7 @@ self.addEventListener('push', (event) => {
 
     const messageData = {
         body, icon, title, tags,
-        receivedAt: Date.now(),
+        receivedAt: Number(Date.now()),
         read: false
     };
 
