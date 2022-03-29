@@ -10,3 +10,17 @@ export function getDatabase(): Promise<IDBPDatabase<MessageType>> {
         }
     });
 }
+
+export async function setAllMessagesAsRead(db: IDBPDatabase): Promise<void> {
+    const messages = await db.getAll('messages');
+    const unreadMessages = messages.map(message => ({ ...message, read: true }));
+    await Promise.all(unreadMessages.map(message => db.put('messages', message)));
+}
+
+export async function getUnreadMessageCount() {
+    const db = await getDatabase();
+    const allMessages = await db.getAll('messages');
+    const unreadMessages = allMessages.filter(message => !message.read);
+    return unreadMessages.length;
+}
+

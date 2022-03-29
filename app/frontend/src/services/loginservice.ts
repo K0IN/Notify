@@ -37,7 +37,7 @@ export async function logoff(): Promise<LoginStatus> {
     const { id, secret } = (await db.getAll('user').then(users => users && users[0]) ?? {}) as Device;
     await Promise.allSettled([
         deleteSubscription(),
-        deleteDevice(id, secret),
+        id && deleteDevice(id, secret),
         db.clear('user')
     ]);
     db.close();
