@@ -12,10 +12,10 @@ const App: FunctionalComponent = () => {
     const isSupported: boolean = useIsSupported();
     const isOnline = useOnline();
     return (
-        <div>
+        <div class={style.app}>
             {isSupported
                 ? (<div class={style.content}>
-                    <div class={style.headeritem}>
+                    <div class={style.header}>
                         {isOnline ? <Register /> : <OfflineBanner />}
                     </div>
                     <div class={style.main}>
@@ -27,6 +27,5 @@ const App: FunctionalComponent = () => {
                 : <NotSupportedBanner />}
         </div>);
 };
-
 
 export default App;

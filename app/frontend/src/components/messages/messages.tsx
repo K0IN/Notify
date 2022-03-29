@@ -8,24 +8,30 @@ import style from './messages.css';
 const Messages: FunctionalComponent = () => {
     const messages = useMessageReceiver();
     const lastOpenTime = useLastOpenTime();
-    console.log(messages, lastOpenTime, Date.now(), messages.filter(e => e.receivedAt > lastOpenTime));
-    return (<div>
-        <ul class={style.messagelist}>
-            {messages.filter(e => !(e.receivedAt <= lastOpenTime)).map((message) => (
-                <li class={style.nobullet}>
-                    <Message message={message} />
-                </li>)
-            )}
-        </ul>
-        { messages.filter(e => e.receivedAt > lastOpenTime).length > 0
-            && <div class={style.divider}></div>}
-        <ul class={style.messagelist}>
-            {messages.filter(e => e.receivedAt <= lastOpenTime).map((message) => (
-                <li class={style.nobullet}>
-                    <Message message={message} />
-                </li>)
-            )}
-        </ul>
+
+    const newMessages = messages.filter(e => !(e.receivedAt <= lastOpenTime));
+    const oldMessages = messages.filter(e => e.receivedAt <= lastOpenTime);
+
+    return (<div class={style.content}>
+        <div class={style.main}>
+            <ul class={style.messagelist}>
+                {newMessages.map((message) => (
+                    <li class={style.nobullet}>
+                        <Message message={message} />
+                    </li>)
+                )}
+            </ul>
+
+            {(newMessages.length > 0) && <div class={style.divider}></div>}
+
+            <ul class={style.messagelist}>
+                {oldMessages.map((message) => (
+                    <li class={style.nobullet}>
+                        <Message message={message} />
+                    </li>)
+                )}
+            </ul>
+        </div>
     </div>)
 }
 
