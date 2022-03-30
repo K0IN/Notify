@@ -43,6 +43,7 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
                     <Chips class={style.messagetags}>
                         {message.tags.map((tag: string) => (<Chips.Chip>{(<Chips.Text>{tag}</Chips.Text>) as any}</Chips.Chip>) as any)}
                     </Chips>
+                    {message.icon && (<img class={style.messageimage} style="max-width: 100%" src={message.icon} />)}
                 </div>
             </Elevation>
         </div>)

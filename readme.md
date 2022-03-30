@@ -32,7 +32,7 @@ optional with a icon:
 
 optional with some tags:
 
-> curl -X POST -H "Content-Type: application/json" -d '{"message": "test", "title": "1231234", "tag": ["test", "server"]}' https://yourendpoint/api/notify
+> curl -X POST -H "Content-Type: application/json" -d '{"message": "test", "title": "1231234", "tags": ["test", "server"]}' https://yourendpoint/api/notify
 
 if you have a server password defined you will also need to set the `Authorization` header to: `bearer <server_password>`
 
