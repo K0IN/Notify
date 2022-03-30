@@ -1,7 +1,31 @@
+.content {
+    display: grid;
+    grid-template-areas: ". main .";
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
 .nobullet {
     list-style-type: none;
 }
 
-.messagelist {
-    padding: 10px;
+.main {
+    grid-area: main;
+}
+
+.messagelist {   
+    padding-left: 8px;
+    padding-right: 8px;
+    margin: 0px;
+}
+
+.divider {
+    border-top: 4px solid #bbb;
+    margin: 8px;
+}
+
+/* make the grid responsive */
+@media (max-width: 768px) {
+    .content {
+        grid-template-areas: "main main main";
+    }
 }

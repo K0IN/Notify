@@ -30,7 +30,6 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
     // todo:
     // - add a delete button
     // - add a read status indicator
-    // - add a icon option
     // - add a show more option on to many tags
 
     return (
@@ -43,6 +42,7 @@ const Message: FunctionalComponent<MessageProps> = ({ message }: MessageProps) =
                     <Chips class={style.messagetags}>
                         {message.tags.map((tag: string) => (<Chips.Chip>{(<Chips.Text>{tag}</Chips.Text>) as any}</Chips.Chip>) as any)}
                     </Chips>
+                    {message.icon && (<img class={style.messageimage} src={message.icon} />)}
                 </div>
             </Elevation>
         </div>)

@@ -1,25 +1,23 @@
+.app {
+    height: 100%;
+}
+
 .content {
     display: grid;
-    grid-template-areas: 
-        "header header header"
-        "x content y";
+    grid-template-areas:
+        "header"
+        "main";
+    grid-template-rows: min-content auto;
+    height: 100%;
+}
 
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+.header {
+    grid-area: header;
+    border-bottom: 1px solid #bbb;
 }
 
 .main {
-    grid-area: content;
-}
-
-.headeritem {
-    grid-area: header;
-}
-
-/* make the grid responsive */
-@media (max-width: 768px) {
-    .content {
-        grid-template-areas: 
-        "header header header"
-        "content content content";
-    }
+    grid-area: main;
+    overflow: auto;
+    width: 100%;
 }
