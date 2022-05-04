@@ -14,7 +14,7 @@ You can send a notification to all your devices using this command (note you sho
 
 > curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://notify_app-demo.thisk0in.workers.dev/api/notify
 
-![example of the app](https://i.imgur.com/h68KYqi.png)
+![example of the app](https://i.imgur.com/y32ro73.png)
 ![using on android](https://i.imgur.com/ArAAAO7.png)
 ![using on windows](https://i.imgur.com/U5v3GZl.png)
 
