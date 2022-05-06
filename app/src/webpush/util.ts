@@ -76,3 +76,7 @@ export async function cryptoKeysToUint8Array(pubKey: CryptoKey, privKey?: Crypto
     }
     return { publicKey };
 }
+
+export function b64EncodeUnicode(str: string): string {
+    return btoa(encodeURIComponent(str));
+}
