@@ -1,4 +1,4 @@
-import { arrayBufferToBase64, b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, generateRandomId, joinUint8Arrays, stringToU8Array, u8ToString, urlEncodedToB64 } from '../../src/webpush/util';
+import { arrayBufferToBase64, b64EncodeUnicode, b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, generateRandomId, joinUint8Arrays, stringToU8Array, u8ToString, urlEncodedToB64 } from '../../src/webpush/util';
 
 describe('test webpush util functions', () => {
     describe('generateRandomId', () => {
@@ -178,6 +178,7 @@ describe('test webpush util functions', () => {
 
             expect(x.privateKey).toBe(undefined);
         });
+
         test('check public and private key', async () => {
             const publicKeyData = {
                 x: '_rmBAhCctcJ_rPNinU33moOR6hYvDMjT8UQKWRjo15U',
@@ -217,7 +218,14 @@ describe('test webpush util functions', () => {
             expect(x.publicKey).toEqual(expectedPublicKey);
             expect(x.privateKey).toEqual(expectedPrivateKey);
         });
-
+        test('check if we can encode and decode none latin1 strings', async () => {
+            // see issue https://github.com/K0IN/Notify/issues/33
+            const evilInput = '通知';
+            const encoded = b64EncodeUnicode(evilInput);
+            
+            expect(encoded).toEqual('JUU5JTgwJTlBJUU3JTlGJUE1');
+            expect(decodeURIComponent(atob(encoded))).toEqual(evilInput);
+        });
     });
 
 

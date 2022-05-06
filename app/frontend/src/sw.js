@@ -51,7 +51,10 @@ self.addEventListener('push', (event) => {
         throw new Error('No data in push event');
     }
 
-    const { title, body, icon = "", tags = [] } = JSON.parse(event.data.text());
+    const rawData = event.data.text();
+    const jsonData = decodeURIComponent(atob(rawData));
+    
+    const { title, body, icon = "", tags = [] } = JSON.parse(jsonData);
     const tag = (Math.random() + 1).toString(36).substring(7); // a (unique) random tag to identify the notification
 
     const messageData = {

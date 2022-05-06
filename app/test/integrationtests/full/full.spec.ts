@@ -74,6 +74,40 @@ describe('integration tests with browser', () => {
         await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 60_000 });
     });
 
+    test('weird characters', async () => {
+        const [page] = await browser.pages();
+        await page.goto('http://localhost:5000');
+
+        await page.waitForNetworkIdle({ idleTime: 5_000 });
+        // click the login button
+        await page.click('input');
+        await page.waitForTimeout(5_000);
+
+        // reload the page
+        await page.reload();
+        await page.waitForNetworkIdle({ idleTime: 15_000 });
+
+        // send a notification
+        const res = await fetch('http://localhost:5000/api/notify', {
+            body: JSON.stringify({
+                title: '通知',
+                message: '测试'
+            }),
+            method: 'POST'
+        });
+        expect(res.status).toBe(200);
+        const body = await res.json();
+
+        expect(body).toMatchObject({
+            successful: true,
+            // any string
+            data: expect.any(String)
+        });
+
+        // this will throw if we do not receive a notification
+        await page.waitForXPath('//*[contains(text(), "通知")]', { timeout: 60_000 });
+        await page.waitForXPath('//*[contains(text(), "测试")]', { timeout:  1_000 });
+    });
 
     test('multiple messages', async () => {
         const [page] = await browser.pages();
