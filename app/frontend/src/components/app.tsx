@@ -2,13 +2,13 @@ import { FunctionalComponent, h } from 'preact';
 import { DatabaseProvider } from '../context/database';
 import { useOnline } from '../hooks/use-offline';
 import Messages from './messages/messages';
-import OfflineBanner from './offlinebanner/offline';
-import NotSupportedBanner from './notsupportedbanner/notsupported';
+import OfflineBanner from './banners/offlinebanner/offline';
+import NotSupportedBanner from './banners/notsupportedbanner/notsupported';
 import Register from './register/register';
 import style from './style.css';
 import { useIsSupported } from '../hooks/use-supported';
 import { useAppUpdate } from '../hooks/use-appupdate';
-import HasUpdateBanner from './updatebanner/update';
+import HasUpdateBanner from './banners/updatebanner/update';
 
 const App: FunctionalComponent = () => {
     const hasUpdates = useAppUpdate();

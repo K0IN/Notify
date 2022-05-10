@@ -13,12 +13,13 @@ import 'preact-material-components/Snackbar/style.css';
 import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
 import { LoginStatus } from '../../services/loginservice';
+import { useInstall } from '../../hooks/use-install';
 
 
 const Register: FunctionalComponent = () => {
     const snackbarRef = useRef<Snackbar>();
     const [isLoggedIn, setLoginState] = useLogin();
-
+    const [showInstall, setInstallShown] = useState(false);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [showReloadButton, setShowReloadButton] = useState<boolean>(false);
     const [showDialog, setDialog] = useState<boolean>(false);
@@ -55,14 +56,27 @@ const Register: FunctionalComponent = () => {
         key && setLogin(true, key);
     }, [setLogin, setDialog]);
 
+    const installInfo = useInstall();
+    const installCallback = useCallback(() => {
+        installInfo?.prompt();
+       
+    }, [installInfo]);
+
     return (
         <div>
             <div class={style.headline}>
-                <Switch class={style.padding}
-                    onChange={(e: any) => setLogin(e.target.checked, undefined)}
-                    checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT} />
-                {isLoading && "loading"}
-                {showReloadButton && <Button onClick={() => location.reload()}>reload please</Button>}
+                <div>
+                    <Switch class={style.padding}
+                        onChange={(e: any) => setLogin(e.target.checked, undefined)}
+                        checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT} />
+
+                    {isLoading && "loading"}
+                    {showReloadButton && <Button onClick={() => location.reload()}>reload please</Button>}
+                </div>
+                <div></div>
+                <div>
+                    {installInfo && <Button  onClick={installCallback}>install</Button>}
+                </div>
             </div>
             <PasswordDialog isOpened={showDialog} setPassword={onDialogExit} />
             <Snackbar ref={snackbarRef} />
