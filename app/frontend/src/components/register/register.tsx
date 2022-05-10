@@ -19,7 +19,6 @@ import { useInstall } from '../../hooks/use-install';
 const Register: FunctionalComponent = () => {
     const snackbarRef = useRef<Snackbar>();
     const [isLoggedIn, setLoginState] = useLogin();
-    const [showInstall, setInstallShown] = useState(false);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [showReloadButton, setShowReloadButton] = useState<boolean>(false);
     const [showDialog, setDialog] = useState<boolean>(false);
@@ -57,15 +56,12 @@ const Register: FunctionalComponent = () => {
     }, [setLogin, setDialog]);
 
     const installInfo = useInstall();
-    const installCallback = useCallback(() => {
-        installInfo?.prompt();
-       
-    }, [installInfo]);
+    const installCallback = useCallback(() => installInfo?.prompt(), [installInfo]);
 
     return (
         <div>
             <div class={style.headline}>
-                <div>
+                <div class={style.switchwrapper}>
                     <Switch class={style.padding}
                         onChange={(e: any) => setLogin(e.target.checked, undefined)}
                         checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT} />
@@ -75,7 +71,7 @@ const Register: FunctionalComponent = () => {
                 </div>
                 <div></div>
                 <div>
-                    {installInfo && <Button  onClick={installCallback}>install</Button>}
+                    {installInfo && <Button outlined class={style.installbtn} onClick={installCallback}>install</Button>}
                 </div>
             </div>
             <PasswordDialog isOpened={showDialog} setPassword={onDialogExit} />

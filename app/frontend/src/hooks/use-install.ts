@@ -13,8 +13,8 @@ export const useInstall = () => {
         const cb = (event: any) => {
             event.preventDefault();
             const installEvent = event as unknown as InstallInfo;
-           
-            if(isPWAInstalled() || !event.prompt || !event.userChoice) {
+
+            if (isPWAInstalled() || !event.prompt || !event.userChoice) {
                 setInstall(null);
                 return;
             }
