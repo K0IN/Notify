@@ -67,11 +67,11 @@ const Register: FunctionalComponent = () => {
                         checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT} />
 
                     {isLoading && "loading"}
-                    {showReloadButton && <Button onClick={() => location.reload()}>reload please</Button>}
+                    {showReloadButton && <Button outlined class={style.smallbtn}  onClick={() => location.reload()}>reload</Button>}
                 </div>
                 <div></div>
                 <div>
-                    {installInfo && <Button outlined class={style.installbtn} onClick={installCallback}>install</Button>}
+                    {installInfo && <Button outlined class={style.smallbtn} onClick={installCallback}>install</Button>}
                 </div>
             </div>
             <PasswordDialog isOpened={showDialog} setPassword={onDialogExit} />
