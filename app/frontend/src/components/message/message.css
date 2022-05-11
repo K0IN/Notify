@@ -2,15 +2,15 @@
     max-width: 100%;
 
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "title time"
         "body body"
         "tags tags"
         "image image";
-    
+
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content:space-between;
-    padding: 10px; 
+    align-content: space-between;
+    padding: 10px;
 }
 
 .messagetitle {
@@ -18,12 +18,14 @@
     font-size: 1.2em;
     padding-left: 5px;
     overflow: hidden;
+    margin-top: 0px;
 }
 
 .messagetime {
     grid-area: time;
     justify-self: right;
     padding-right: 5px;
+    margin-top: 0px;
 }
 
 .messagebody {

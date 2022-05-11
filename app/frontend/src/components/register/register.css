@@ -1,7 +1,20 @@
 .headline {
     padding: 10px;
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    align-items: center;
 }
 
 .padding {
     padding-right: 10px;
+}
+
+.smallbtn {
+    height: 22px;
+}
+
+.switchwrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
