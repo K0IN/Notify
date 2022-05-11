@@ -2,15 +2,15 @@
     max-width: 100%;
 
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "title time"
         "body body"
         "tags tags"
         "image image";
-    
+
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content:space-between;
-    padding: 10px; 
+    align-content: space-between;
+    padding: 10px;
 }
 
 .messagetitle {

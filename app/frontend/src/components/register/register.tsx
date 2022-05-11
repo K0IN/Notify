@@ -67,7 +67,7 @@ const Register: FunctionalComponent = () => {
                         checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT} />
 
                     {isLoading && "loading"}
-                    {showReloadButton && <Button outlined class={style.smallbtn}  onClick={() => location.reload()}>reload</Button>}
+                    {showReloadButton && <Button outlined class={style.smallbtn} onClick={() => location.reload()}>reload</Button>}
                 </div>
                 <div></div>
                 <div>
