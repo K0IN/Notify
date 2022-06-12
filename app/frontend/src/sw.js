@@ -38,6 +38,19 @@ async function setAppBadge() {
     navigator.setAppBadge && navigator.setAppBadge(unreadCount + 1);
 }
 
+function fromBinary(binary) {
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    const charCodes = new Uint16Array(bytes.buffer);
+    let result = '';
+    for (let i = 0; i < charCodes.length; i++) {
+        result += String.fromCharCode(charCodes[i]);
+    }
+    return result;
+}
+
 self.addEventListener('activate', (event) => {
     event.waitUntil(getDatabase().catch(error => console.warn(error)));
 });
@@ -52,8 +65,8 @@ self.addEventListener('push', (event) => {
     }
 
     const rawData = event.data.text();
-    const jsonData = decodeURIComponent(atob(rawData));
-    
+    const jsonData = fromBinary(atob(rawData));
+
     const { title, body, icon = "", tags = [] } = JSON.parse(jsonData);
     const tag = (Math.random() + 1).toString(36).substring(7); // a (unique) random tag to identify the notification
 

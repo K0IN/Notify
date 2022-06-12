@@ -2,13 +2,14 @@ import type { JWK } from './jwk';
 import { WebPushInfos, WebPushMessage, WebPushResult } from './webpushinfos';
 import { generateAESGCMEncryptedMessage } from './message';
 import { generateV2Headers } from './vapid';
-import { b64EncodeUnicode } from './util';
+import { toBinary } from './util';
 
 export async function generateWebPushMessage(message: WebPushMessage,
     deviceData: WebPushInfos, applicationServerKeys: JWK): Promise<WebPushResult> {
     
-    const dataB64 = b64EncodeUnicode(message.data);
-    
+    const binString = toBinary(message.data);
+    const dataB64 = btoa(binString);
+
     const [authHeaders, encryptedPayloadDetails] = await Promise.all([
         generateV2Headers(deviceData.endpoint, applicationServerKeys, message.sub),
         generateAESGCMEncryptedMessage(dataB64, deviceData) // TODO: switch this according to supportedAlgorithms

@@ -77,6 +77,15 @@ export async function cryptoKeysToUint8Array(pubKey: CryptoKey, privKey?: Crypto
     return { publicKey };
 }
 
-export function b64EncodeUnicode(str: string): string {
-    return btoa(encodeURIComponent(str));
+export function toBinary(str: string): string {
+    const codeUnits = new Uint16Array(str.length);
+    for (let i = 0; i < codeUnits.length; i++) {
+        codeUnits[i] = str.charCodeAt(i);
+    }
+    const charCodes = new Uint8Array(codeUnits.buffer);
+    let result = '';
+    for (let i = 0; i < charCodes.byteLength; i++) {
+        result += String.fromCharCode(charCodes[i]);
+    }
+    return result;
 }

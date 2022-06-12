@@ -1,4 +1,4 @@
-import { arrayBufferToBase64, b64EncodeUnicode, b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, generateRandomId, joinUint8Arrays, stringToU8Array, u8ToString, urlEncodedToB64 } from '../../src/webpush/util';
+import { arrayBufferToBase64, toBinary, b64ToUrlEncoded, cryptoKeysToUint8Array, exportPublicKeyPair, generateRandomId, joinUint8Arrays, stringToU8Array, u8ToString, urlEncodedToB64 } from '../../src/webpush/util';
 
 describe('test webpush util functions', () => {
     describe('generateRandomId', () => {
@@ -57,7 +57,7 @@ describe('test webpush util functions', () => {
             const urlEncoded = b64ToUrlEncoded('');
             expect(urlEncoded).toEqual('');
         });
-        
+
     });
 
     describe('urlEncodedToB64', () => {
@@ -77,7 +77,7 @@ describe('test webpush util functions', () => {
             // a string with every byte value at it's index
             const input = new Array(255).fill(0).map((x, i) => String.fromCharCode(i)).join();
             const b64In = btoa(input);
-            const urlEncodedIn = b64ToUrlEncoded(b64In);            
+            const urlEncodedIn = b64ToUrlEncoded(b64In);
             expect(urlEncodedIn).toMatch(/^[a-zA-Z0-9_-]*$/);
 
             const base64EncodedOut = urlEncodedToB64(urlEncodedIn);
@@ -221,12 +221,24 @@ describe('test webpush util functions', () => {
         test('check if we can encode and decode none latin1 strings', async () => {
             // see issue https://github.com/K0IN/Notify/issues/33
             const evilInput = '通知';
-            const encoded = b64EncodeUnicode(evilInput);
+            const encoded = btoa(toBinary(evilInput));
             
-            expect(encoded).toEqual('JUU5JTgwJTlBJUU3JTlGJUE1');
-            expect(decodeURIComponent(atob(encoded))).toEqual(evilInput);
+            // see https://developer.mozilla.org/en-US/docs/Web/API/btoa#unicode_strings
+            function fromBinary(binary: string): string {
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < bytes.length; i++) {
+                    bytes[i] = binary.charCodeAt(i);
+                }
+                const charCodes = new Uint16Array(bytes.buffer);
+                let result = '';
+                for (let i = 0; i < charCodes.length; i++) {
+                    result += String.fromCharCode(charCodes[i]);
+                }
+                return result;
+            }
+
+            expect(encoded).toEqual('GpDldw==');
+            expect(fromBinary(atob(encoded))).toEqual(evilInput);
         });
     });
-
-
 });
