@@ -2,16 +2,16 @@ import { h } from "preact"
 import type { IDBPDatabase } from "idb";
 import { createContext } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import type { MessageType } from "../types/messagetype";
 import { getDatabase } from "../database/message";
+import { NotifyV1Store } from "../types/dbtypes";
 
-export const DataBaseContext = createContext<IDBPDatabase<MessageType> | undefined>(undefined);
+export const DataBaseContext = createContext<IDBPDatabase<NotifyV1Store> | undefined>(undefined);
 
 export const DatabaseProvider = ({ children }: any) => {
-    const [database, setDb] = useState<IDBPDatabase<MessageType> | undefined>(undefined);
+    const [database, setDb] = useState<IDBPDatabase<NotifyV1Store> | undefined>(undefined);
     
     useEffect(() => {
-        getDatabase().then((db: IDBPDatabase<MessageType>) => setDb(db));
+        getDatabase().then((db: IDBPDatabase<NotifyV1Store>) => setDb(db));
     }, [setDb]);
 
     return (<DataBaseContext.Provider value={database}>
