@@ -5,11 +5,11 @@ import type { MessageType } from './messagetype';
 export interface NotifyV1Store extends DBSchema {
     'messages': {
         key: number;
-        value: MessageType; // the message type
+        value: MessageType;
     },
     'user': {
-        key: number;
-        value: Device; // the message type
+        key: string;
+        value: Device;
     }
 }
 
