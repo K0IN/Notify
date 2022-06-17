@@ -35,7 +35,11 @@ async function sendMessageToMainWindow(messageData) {
 
 async function setAppBadge() {
     const unreadCount = await getUnreadMessageCount().catch(e => 0);
-    navigator.setAppBadge && navigator.setAppBadge(unreadCount + 1);
+    if (navigator && navigator.setAppBadge) {
+        unreadCount > 0
+            ? navigator.setAppBadge(unreadCount)
+            : navigator.clearAppBadge();
+    }
 }
 
 function fromBinary(binary) {

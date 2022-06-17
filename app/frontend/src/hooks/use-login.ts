@@ -21,7 +21,7 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
                 setIsLoggedIn(LoginStatus.LOGGED_OUT);
             }
         };
-        
+
         // todo use BroadcastChannel to sync tabs / login status
         updateFn().catch((e) => {
             console.warn("error inside useLogin", e);
@@ -39,7 +39,7 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
                 await db.clear('user');
                 await db.add('user', device);
                 db.close();
-            }           
+            }
             // after it was successful saved, set the logged in state
             setIsLoggedIn(res);
             return res;

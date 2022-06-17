@@ -1,6 +1,6 @@
-import { DBSchema } from 'idb';
-import { Device } from './localdevice';
-import { MessageType } from './messagetype';
+import type { DBSchema, IDBPDatabase } from 'idb';
+import type { Device } from './localdevice';
+import type { MessageType } from './messagetype';
 
 export interface NotifyV1Store extends DBSchema {
     'messages': {
@@ -13,3 +13,4 @@ export interface NotifyV1Store extends DBSchema {
     }
 }
 
+export type NotifyDatabase = IDBPDatabase<NotifyV1Store>;

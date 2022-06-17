@@ -2,7 +2,7 @@
     "name": "notify_frontend",
     "short_name": "notify_frontend",
     "start_url": "/",
-    "display": "standalone",
+    "display": "minimal-ui",
     "orientation": "portrait",
     "background_color": "#000",
     "theme_color": "#000",
