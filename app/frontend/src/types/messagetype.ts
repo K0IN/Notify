@@ -5,4 +5,5 @@ export interface MessageType {
     icon: string;               // url to the icon
     tags: string[];             // array of tags
     receivedAt: number;         // the date the message was received
+    read: boolean;              // whether the message has been read or not 
 };
