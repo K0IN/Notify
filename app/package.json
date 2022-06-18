@@ -13,7 +13,8 @@
         "lint": "eslint src/",
         "unittest": "jest --runInBand",
         "test": "npm run lint && npm run build_all && npm run cover",
-        "cover": "jest --collectCoverage --runInBand"
+        "cover": "jest --collectCoverage --runInBand",
+        "setup": "npm i && cd frontend && npm i"
     },
     "eslintConfig": {
         "root": true,
@@ -35,7 +36,7 @@
         "jest-environment-miniflare": "^2.1.0",
         "jest-fetch-mock": "^3.0.3",
         "miniflare": "^2.1.0",
-        "puppeteer": "^13.1.2",
+        "puppeteer": "^14.4.1",
         "ts-jest": "^27.0.5",
         "ts-loader": "^9.2.2",
         "typescript": "^4.4.3",

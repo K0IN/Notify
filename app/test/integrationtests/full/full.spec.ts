@@ -26,7 +26,7 @@ describe('integration tests with browser', () => {
         });
 
         server = await mf.startServer();
-        browser = await pup.launch({ headless: false });
+        browser = await pup.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 
         // allow push notifications
         const context = browser.defaultBrowserContext();
@@ -106,7 +106,7 @@ describe('integration tests with browser', () => {
 
         // this will throw if we do not receive a notification
         await page.waitForXPath('//*[contains(text(), "通知")]', { timeout: 60_000 });
-        await page.waitForXPath('//*[contains(text(), "测试")]', { timeout:  1_000 });
+        await page.waitForXPath('//*[contains(text(), "测试")]', { timeout: 1_000 });
     });
 
     test('multiple messages', async () => {

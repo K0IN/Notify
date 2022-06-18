@@ -26,7 +26,7 @@ describe('test browser webpush with password', () => {
         });
 
         server = await mf.startServer();
-        browser = await pup.launch({ headless: false });
+        browser = await pup.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 
         // allow push notifications
         const context = browser.defaultBrowserContext();

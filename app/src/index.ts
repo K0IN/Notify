@@ -19,7 +19,7 @@ apiRouter.all('/notify/*', notificationRouter.handle);
 apiRouter.all('*', () => failure({ type: 'not_found', message: 'method not found' }, { status: 404 }));
 
 export const errorHandler = (error: Error): Response => {
-    console.error('global error handler catched', error);
+    // console.error('global error handler catched', error);
     return failure({ type: 'internal_error', message: error.message }, { headers: CORS_ORIGIN ? corsHeaders : {} });
 };
 
@@ -42,7 +42,7 @@ export const handleApiRequest = async (request: Request, event?: FetchEvent): Pr
 
 const handleRequest = async (event: FetchEvent): Promise<Response> => {
     const res = await handleApiRequest(event.request, event);
-    return res ?? ((SERVE_FRONTEND && SERVE_FRONTEND != '') ?
+    return res ?? ((SERVE_FRONTEND && SERVE_FRONTEND != '' && event.request.method === 'GET') ?
         await getAssetFromKV(event, { mapRequestToAsset: serveSinglePageApp }) :
         new Response('not found', { status: 404 }));
 };
