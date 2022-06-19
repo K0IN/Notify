@@ -15,7 +15,7 @@ it will print a random generated server key that will be used to send web notifi
 
 or
 
-you can use the [deno script](/helper/deno.js) to generate the server key.
+you can use the [deno script](/helper/deno.ts) to generate the server key.
 
 You will need to set the resulting string inside your secrets (see below) VAPID_SERVER_KEY.
 
