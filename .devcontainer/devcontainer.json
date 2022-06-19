@@ -11,7 +11,6 @@
     ],
     "postCreateCommand": "cd app && npm run setup",
     "postStartCommand": "nohup bash -c 'Xvfb :10 -screen 0 1280x1024x16 &'",
-    // Xvfb :10 -ac & https://stackoverflow.com/questions/51883055/running-puppeteer-with-xfvb-headless-false
     // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     // "remoteUser": "vscode",
     "containerEnv": {
