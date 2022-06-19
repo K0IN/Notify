@@ -8,3 +8,4 @@ app/frontend/size-plugin.json
 coverage
 images/
 *.deb
+nohup

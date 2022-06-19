@@ -42,7 +42,7 @@ export const handleApiRequest = async (request: Request, event?: FetchEvent): Pr
 
 const handleRequest = async (event: FetchEvent): Promise<Response> => {
     const res = await handleApiRequest(event.request, event);
-    return res ?? ((SERVE_FRONTEND && SERVE_FRONTEND != '' && event.request.method === 'GET') ?
+    return res ?? ((SERVE_FRONTEND && SERVE_FRONTEND != '') ?
         await getAssetFromKV(event, { mapRequestToAsset: serveSinglePageApp }) :
         new Response('not found', { status: 404 }));
 };
