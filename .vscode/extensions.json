@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "clippy-ai.clippy-ai",
+        "github.vscode-codeql",
+        "github.copilot",
+        "github.copilot-labs",
+        "ms-vsliveshare.vsliveshare"
+    ]
+}
