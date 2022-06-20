@@ -8,9 +8,16 @@ just want to see a example see a [example](../example/readme.md)?
 
 ## Step 1. Generate your server keys and set it
 
-go to your browser and run this [script](/helper/main.js) in your console (f12 -> console -> past the content of the script and hit enter)
+There are two ways to generate your server keys.
+
+go to your browser and run this [browser script](/helper/browser.js) in your console (f12 -> console -> past the content of the script and hit enter)
 it will print a random generated server key that will be used to send web notifications.
-You will need to set the resulting string inside your secrets,
+
+or
+
+you can use the [deno script](/helper/deno.ts) to generate the server key.
+
+You will need to set the resulting string inside your secrets (see below) VAPID_SERVER_KEY.
 
 ## Step 2. Setup your settings
 
