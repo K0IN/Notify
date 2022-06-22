@@ -32,7 +32,7 @@ deviceRouter.post('/', authFactory(SERVERPWD),
 
 deviceRouter.get('/:device_id', secretAuthFactory('device_id'),
     async (request: Required<Request>): Promise<Response> => {
-        const { device_id } = request.params as { device_id: string };       
+        const { device_id } = request.params as { device_id: string };
         return await checkDevice(device_id)
             .then((exists) => success<boolean>(exists))
             .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
@@ -64,7 +64,7 @@ deviceRouter.patch('/:device_id', secretAuthFactory('device_id'),
 
 deviceRouter.delete('/:device_id', secretAuthFactory('device_id'),
     async (request: Required<Request>): Promise<Response> => {
-        const { device_id } = request.params as { device_id: string };        
+        const { device_id } = request.params as { device_id: string };
         return await deleteDevice(String(device_id))
             .then(() => success<string>('deleted'))
             .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
