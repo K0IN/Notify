@@ -21,9 +21,14 @@ notificationRouter.post('/', authFactory(SERVERPWD),
                 type: 'invalid_data',
                 message: JSON.stringify(parseData.error.flatten())
             }, { status: 400 });
+        } 
+        
+        const data = JSON.stringify(parseData.data);
+        if (data.length > 1024) { // 1 kb
+            return failure({ type: 'invalid_data', message: 'data too long' }, { status: 400 });
         }
 
-        return await notifyAll(JSON.stringify(parseData.data))
+        return await notifyAll(data)
             .then((messagePromise: Promise<unknown>) => event?.waitUntil(messagePromise) ?? messagePromise)
             .then(() => success<string>('notified'))
             .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
