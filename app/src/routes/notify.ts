@@ -23,12 +23,16 @@ notificationRouter.post('/', authFactory(SERVERPWD),
             }, { status: 400 });
         } 
         
-        const data = JSON.stringify(parseData.data);
-        if (data.length > 1024) { // 1 kb
+        const { message, title, icon, tags } = parseData.data;
+
+        // this is the frontend expected type - encoded as string
+        const messageData = JSON.stringify({ body: message, icon, title, tags });
+
+        if (messageData.length > 1024) { // 1 kb
             return failure({ type: 'invalid_data', message: 'data too long' }, { status: 400 });
         }
 
-        return await notifyAll(data)
+        return await notifyAll(messageData)
             .then((messagePromise: Promise<unknown>) => event?.waitUntil(messagePromise) ?? messagePromise)
             .then(() => success<string>('notified'))
             .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
