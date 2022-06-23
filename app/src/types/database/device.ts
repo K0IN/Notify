@@ -3,8 +3,8 @@ import { WebPushInfos } from '../../webpush/webpushinfos';
 
 export const WebPushInfosSchema = z.object({
     endpoint: z.string().url().min(1).max(1024),
-    key: z.string().min(1).max(256), // base64
-    auth: z.string().min(1).max(64), // base64
+    key: z.string().min(1).max(512), // base64
+    auth: z.string().min(1).max(512), // base64
 });
 
 export const DeviceSchema = z.object({
