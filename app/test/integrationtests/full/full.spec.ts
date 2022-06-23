@@ -56,8 +56,9 @@ describe('integration tests with browser', () => {
         // send a notification
         const res = await fetch('http://localhost:5000/api/notify', {
             body: JSON.stringify({
-                title: 'test',
-                message: 'test'
+                title: 'test_title',
+                message: 'test_message',
+                tags: ['test_tag']
             }),
             method: 'POST'
         });
@@ -71,7 +72,9 @@ describe('integration tests with browser', () => {
         });
 
         // this will throw if we do not receive a notification
-        await page.waitForXPath('//*[contains(text(), "test")]', { timeout: 60_000 });
+        await page.waitForXPath('//*[contains(text(), "test_title")]', { timeout: 60_000 });
+        await page.waitForXPath('//*[contains(text(), "test_message")]', { timeout: 1_000 });
+        await page.waitForXPath('//*[contains(text(), "test_tag")]', { timeout: 1_000 });
     });
 
     test('weird characters', async () => {
