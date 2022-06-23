@@ -1,5 +1,5 @@
 import { databaseGetAllDeviceIDs, databaseGetDevice } from '../../databases/device';
-import { validateWebPushData } from '../../util/webpush';
+import { WebPushInfosSchema } from '../../types/database/device';
 import type { JWK } from '../../webpush/jwk';
 import { generateWebPushMessage } from '../../webpush/webpush';
 import { WebPushMessage, WebPushResult } from '../../webpush/webpushinfos';
@@ -22,7 +22,7 @@ export async function notifyAll(data: string): Promise<Promise<unknown>> {
     const deviceIds = await databaseGetAllDeviceIDs();
     const promises = deviceIds.map(async (deviceId): Promise<WebPushResult> => {
         const device = await databaseGetDevice(deviceId);
-        if (!device || !validateWebPushData(device.pushData)) {
+        if (!WebPushInfosSchema.safeParse(device.pushData).success) { // todo error checks
             await deleteDevice(deviceId);
             return WebPushResult.NotSubscribed;
         }
