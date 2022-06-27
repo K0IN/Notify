@@ -1,6 +1,7 @@
 import { databaseCreateDevice, databaseGetAllDeviceIDs, databaseGetDevice } from '../../src/databases/device';
 import { deleteDevice } from '../../src/logic/device/delete';
 import type { IDevice } from '../../src/types/database/device';
+import { generateRandomId } from '../../src/webpush/util';
 
 describe('test device database', () => {
     test('check if list is empty', async () => {
@@ -11,13 +12,13 @@ describe('test device database', () => {
 
     test('check if device gets added', async () => {
         const device: IDevice = {
-            id: 'test',
+            id: 'c0fad558910fc2d4d2e4c91a5bb4925b',
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://test.com',
                 key: 'test',
             },
-            secret: 'test'
+            secret: '01993d9e846ac84044889292bddd3632'
         };
         await databaseCreateDevice(device);
         const devices = await databaseGetAllDeviceIDs();
@@ -26,13 +27,13 @@ describe('test device database', () => {
 
     test('check if device gets added and can be read', async () => {
         const device: IDevice = {
-            id: 'test',
+            id: 'c0fad558910fc2d4d2e4c91a5bb4925b',
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://test.com',
                 key: 'test',
             },
-            secret: 'test'
+            secret: '01993d9e846ac84044889292bddd3632'
         };
         await databaseCreateDevice(device);
         const devices = await databaseGetAllDeviceIDs();
@@ -43,13 +44,13 @@ describe('test device database', () => {
 
     test('check if device gets deleted', async () => {
         const device: IDevice = {
-            id: 'test',
+            id: 'c0fad558910fc2d4d2e4c91a5bb4925b',
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://test.com',
                 key: 'test',
             },
-            secret: 'test'
+            secret: '01993d9e846ac84044889292bddd3632'
         };
         await databaseCreateDevice(device);
         const devices = await databaseGetAllDeviceIDs();
@@ -69,13 +70,13 @@ describe('test device database', () => {
 
     test('check if same id create device throws', async () => {
         const device: IDevice = {
-            id: 'test',
+            id: 'c0fad558910fc2d4d2e4c91a5bb4925b',
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://test.com',
                 key: 'test',
             },
-            secret: 'test'
+            secret: '01993d9e846ac84044889292bddd3632'
         };
 
         await databaseCreateDevice(device);
@@ -92,14 +93,15 @@ describe('test device database', () => {
 
     test('check if all ids are correctly returned', async () => {
         for (let i = 0; i < 100; i++) {
+            const id = generateRandomId();
             const device: IDevice = {
-                id: String(i),
+                id: id,
                 pushData: {
                     auth: 'test',
-                    endpoint: 'test',
+                    endpoint: 'https://test.com',
                     key: 'test',
                 },
-                secret: 'test'
+                secret: '01993d9e846ac84044889292bddd3632'
             };
             
             await databaseCreateDevice(device);
@@ -114,14 +116,15 @@ describe('test device database', () => {
 
     test('check if huge get ids works', async () => {
         for (let i = 0; i < 10_000; i++) {
+            const id = generateRandomId();
             const device: IDevice = {
-                id: String(i),
+                id: id,
                 pushData: {
                     auth: 'test',
-                    endpoint: 'test',
+                    endpoint: 'https://test.com',
                     key: 'test',
                 },
-                secret: 'test'
+                secret: '01993d9e846ac84044889292bddd3632'
             };            
             await databaseCreateDevice(device);
         }

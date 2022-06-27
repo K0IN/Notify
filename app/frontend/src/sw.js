@@ -71,6 +71,8 @@ self.addEventListener('push', (event) => {
     const rawData = event.data.text();
     const jsonData = fromBinary(atob(rawData));
 
+    console.log("[sw] Got push event: ", jsonData);
+
     const { title, body, icon = "", tags = [] } = JSON.parse(jsonData);
     const tag = (Math.random() + 1).toString(36).substring(7); // a (unique) random tag to identify the notification
 
@@ -84,7 +86,7 @@ self.addEventListener('push', (event) => {
         self.registration.showNotification(title, { body, image: icon, tag }), // first show notification
         addMessageToDB(messageData),                                           // save message to db
         sendMessageToMainWindow({ type: 'notification', data: messageData }),  // send a event to main window to update the notification
-        setAppBadge()                                                          // set app badge
+        setAppBadge(),                                                     // set app badge
     ]));
 });
 

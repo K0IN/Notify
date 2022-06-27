@@ -5,7 +5,7 @@ describe('device check tests', () => {
     test('check successful', async () => {
         const createdDev = await createDevice({
             auth: 'test',
-            endpoint: 'test',
+            endpoint: 'https://adwdawd',
             key: 'test',
         });
         const exists = await checkDevice(createdDev.id);

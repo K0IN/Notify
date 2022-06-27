@@ -6,7 +6,7 @@ import { toBinary } from './util';
 
 export async function generateWebPushMessage(message: WebPushMessage,
     deviceData: WebPushInfos, applicationServerKeys: JWK): Promise<WebPushResult> {
-    
+
     const binString = toBinary(message.data);
     const dataB64 = btoa(binString);
 
@@ -41,8 +41,10 @@ export async function generateWebPushMessage(message: WebPushMessage,
         case 404: // http not found
         case 410: // http gone
             return WebPushResult.NotSubscribed;
+
+        default:
+            console.error(`Web Push error: ${res.status} body: ${await res.text()}`);
     }
 
-    console.error(`Web Push error: ${res.status} body: ${await res.text()}`);
     return WebPushResult.Error;
 }
