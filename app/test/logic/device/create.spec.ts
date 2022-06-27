@@ -5,7 +5,7 @@ describe('device create tests', () => {
     test('create successful', async () => {       
         const createdDev = await createDevice({
             auth: 'test',
-            endpoint: 'test',
+            endpoint: 'https://wdaw.com',
             key: 'test',
         });
         const dev = await databaseGetDevice(createdDev.id);
@@ -13,7 +13,7 @@ describe('device create tests', () => {
             id: createdDev.id,
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://wdaw.com',
                 key: 'test',
             },
             secret: createdDev.secret

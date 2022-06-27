@@ -1,15 +1,23 @@
-import type { IDevice } from '../types/database/device';
+import { DeviceSchema, IDevice } from '../types/database/device';
 
 export async function databaseCreateDevice(device: Readonly<IDevice>): Promise<void> {
+    const deviceDataSafe = DeviceSchema.safeParse(device);
+    if (!deviceDataSafe.success) {
+        throw new Error('invalid device data');
+    }
     const deviceData = await NOTIFY_USERS.get(device.id);
     if (deviceData) {
         throw new Error('Device already exists');
     }
-    await NOTIFY_USERS.put(device.id, JSON.stringify(device));
+    await NOTIFY_USERS.put(device.id, JSON.stringify(deviceDataSafe.data));
 }
 
 export async function databaseUpdateDevice(device: Readonly<IDevice>): Promise<void> {
-    await NOTIFY_USERS.put(device.id, JSON.stringify(device));
+    const deviceDataSafe = DeviceSchema.safeParse(device);
+    if (!deviceDataSafe.success) {
+        throw new Error('invalid device data');
+    }
+    await NOTIFY_USERS.put(device.id, JSON.stringify(deviceDataSafe.data));
 }
 
 export async function databaseDeleteDevice(deviceId: string): Promise<void> {

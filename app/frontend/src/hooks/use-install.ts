@@ -23,7 +23,6 @@ export const useInstall = () => {
             installEvent?.userChoice.then((choice) => {
                 if (choice.outcome === 'accepted') {
                     setInstall(null);
-                    console.log('User accepted the install prompt');
                 }
             });
         };

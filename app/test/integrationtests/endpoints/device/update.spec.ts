@@ -26,7 +26,6 @@ describe('update device', () => {
         });
 
         const getResponse = await handleApiRequest(updateRequest);
-
         expect(getResponse?.status).toBe(200);
         const getBody = await getResponse?.json();
         expect(getBody).toMatchObject({
