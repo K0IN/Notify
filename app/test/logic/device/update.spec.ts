@@ -5,20 +5,20 @@ import { IDevice } from '../../../src/types/database/device';
 describe('device update tests', () => {
     test('update successful', async () => {
         const device: IDevice = {
-            id: 'test-device-id',
+            id: 'c0fad558910fc2d4d2e4c91a5bb4925b',
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://test.com',
                 key: 'test',
             },
-            secret: 'test-device-secret'
+            secret: '01993d9e846ac84044889292bddd3632'
         };
         await databaseCreateDevice(device);
-        await updateDevice('test-device-id', 'test-device-secret', { auth: 'new', endpoint: 'new', key: 'new' });
-        const dev = await databaseGetDevice('test-device-id');
+        await updateDevice('c0fad558910fc2d4d2e4c91a5bb4925b', '01993d9e846ac84044889292bddd3632', { auth: 'new', endpoint: 'https://test.com/new', key: 'new' });
+        const dev = await databaseGetDevice('c0fad558910fc2d4d2e4c91a5bb4925b');
         expect(dev.pushData.auth).toBe('new');
-        expect(dev.pushData.endpoint).toBe('new');
+        expect(dev.pushData.endpoint).toBe('https://test.com/new');
         expect(dev.pushData.key).toBe('new');
     });
-
+    
 });

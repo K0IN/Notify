@@ -1,8 +1,10 @@
 import { Request, Router } from 'itty-router';
 import { notifyAll } from '../logic/project/notify';
 import { authFactory } from '../middleware/auth';
+import { requireVapidKey } from '../middleware/vapidkey';
 import { failure, success } from '../types/apiresponse';
 import { IWebPush, WebPushMessageSchema } from '../types/webpush';
+import type { JWK } from '../webpush/jwk';
 
 export const notificationRouter = Router({ base: '/api/notify' });
 
@@ -11,7 +13,7 @@ export async function readBodyAs<T>(request: Request): Promise<Partial<T>> {
     return await bodyPromise.then((body: string /* | undefined*/) => JSON.parse(body)).catch(() => ({})) as Partial<T>;
 }
 
-notificationRouter.post('/', authFactory(SERVERPWD),
+notificationRouter.post('/', requireVapidKey, authFactory(SERVERPWD),
     async (request: Required<Request>, event?: FetchEvent): Promise<Response> => {
         const pushData = await readBodyAs<IWebPush>(request);
         const parseData = WebPushMessageSchema.safeParse(pushData);
@@ -32,7 +34,9 @@ notificationRouter.post('/', authFactory(SERVERPWD),
             return failure({ type: 'invalid_data', message: 'data too long' }, { status: 400 });
         }
 
-        return await notifyAll(messageData)
+        const vapidKeys: Readonly<JWK> = JSON.parse(VAPID_SERVER_KEY!);
+
+        return await notifyAll(messageData, vapidKeys)
             .then((messagePromise: Promise<unknown>) => event?.waitUntil(messagePromise) ?? messagePromise)
             .then(() => success<string>('notified'))
             .catch((error: Error) => failure({ type: 'internal_error', message: error.message }));
