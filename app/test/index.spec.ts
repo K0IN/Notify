@@ -1,7 +1,7 @@
 import { errorHandler, handleCors } from '../src';
 import { corsHeaders } from '../src/cors';
 
-describe('index', () => {    
+describe('index', () => {
     test('errorHandler', async () => {
         const e = new Error('test');
         const res = errorHandler(e);
@@ -19,7 +19,7 @@ describe('index', () => {
     test('set cors header', async () => {
         const request = new Request('https://localhost/api/device/', { method: 'OPTIONS' });
         const res = handleCors(request);
-        for(const headerName in corsHeaders) {
+        for (const headerName in corsHeaders) {
             expect(res?.headers.get(headerName)).toEqual((corsHeaders as any)[headerName]);
         }
     });

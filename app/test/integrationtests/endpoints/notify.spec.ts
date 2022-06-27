@@ -99,7 +99,7 @@ describe('device endpoints', () => {
 
     // this should be a edge case - but i just want to make sure it works
     test('send remove device data notification', async () => {
-        const { id } = await createDevice(null as any); // empty device - this should not happen
+        const id = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ012345'; // 32 random id
 
         const req = new Request('https://localhos/api/notify/', {
             method: 'POST',

@@ -9,7 +9,7 @@ describe('secret middleware', () => {
             id: '0f23a3129eefc8b90f23a3129eefc8b9',
             pushData: {
                 auth: 'test',
-                endpoint: 'test',
+                endpoint: 'https://awdawdawdadawdaw.com',
                 key: 'test',
             },
             secret: '8a7a4f189b0cfeab8a7a4f189b0cfeab'
