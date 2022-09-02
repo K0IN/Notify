@@ -44,3 +44,4 @@ jobs:
         env:
           DISPLAY: :99.0
           PUPPETEER_EXEC_PATH: "google-chrome-stable"
+          NODE_OPTIONS: --openssl-legacy-provider
