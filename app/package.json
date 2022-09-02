@@ -11,9 +11,9 @@
         "dev": "miniflare dist/index.js --kv-persist --wrangler-config wrangler.toml --watch --env .env",
         "publish": "wrangler publish",
         "lint": "eslint src/",
-        "unittest": "NODE_OPTIONS=--openssl-legacy-provider && jest --runInBand",
-        "test": "npm run lint && npm run build_all && npm run cover",
-        "cover": "NODE_OPTIONS=--openssl-legacy-provider && jest --collectCoverage --runInBand",
+        "unittest": "jest --runInBand",
+        "test": "NODE_OPTIONS=--openssl-legacy-provider && npm run lint && npm run build_all && npm run cover",
+        "cover": "jest --collectCoverage --runInBand",
         "setup": "npm i && cd frontend && npm i"
     },
     "eslintConfig": {
