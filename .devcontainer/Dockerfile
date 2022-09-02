@@ -7,7 +7,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends npm wget curl apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
 RUN npm install -g n \
-    && n 16.7.0
+    && n 18.8.0
 
 RUN sudo apt-get update \
     && sudo apt-get install -yq libgconf-2-4 \
@@ -18,3 +18,4 @@ RUN apt update \
     && apt install -y wget \
     && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && apt install -y ./google-chrome-stable_current_amd64.deb
+

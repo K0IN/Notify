@@ -1,13 +1,15 @@
-FROM node:16-alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /usr/src
 COPY app .
+
 # dont install puppeteer in container
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN npm install
 RUN npm run build_all
 
-FROM node:16-alpine
+FROM node:18-alpine
 WORKDIR /usr/app
 
 RUN npm install -g miniflare

@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "build_all": "npm i && npm run build && cd frontend && npm i && npm run build",
-        "build": "esbuild --bundle --sourcemap --minify --target=esnext --outdir=dist ./src/index.js",
+        "build": "NODE_OPTIONS=--openssl-legacy-provider && esbuild --bundle --sourcemap --minify --target=esnext --outdir=dist ./src/index.js",
         "serve": "miniflare dist/index.js --kv-persist --wrangler-config wrangler.toml",
         "dev": "miniflare dist/index.js --kv-persist --wrangler-config wrangler.toml --watch --env .env",
         "publish": "wrangler publish",
