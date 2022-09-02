@@ -4,7 +4,9 @@
 
 ### VAPID_SERVER_KEY
 
-this is the vapid key for the server, generate it with [helper/main.js](../helper/main.js) file
+This key is used to sign the web push messages, so it is important to keep it secret.
+Generate it with [helper/browser.js](../helper/browser.js) or [helper/deno.ts](../helper/deno.ts) file.
+Also if you get stuck please refer to the [install guide](./install.md) for help.
 
 ### SERVERPWD
 
