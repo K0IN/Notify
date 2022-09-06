@@ -70,8 +70,8 @@ self.addEventListener('push', (event) => {
 
     const rawData = event.data.text();
     const jsonData = fromBinary(atob(rawData));
+    const { title, message: body, icon = "", tags = [] } = JSON.parse(jsonData);
 
-    const { title, body, icon = "", tags = [] } = JSON.parse(jsonData);
     const tag = (Math.random() + 1).toString(36).substring(7); // a (unique) random tag to identify the notification
 
     const messageData = {
