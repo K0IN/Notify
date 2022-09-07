@@ -22,11 +22,9 @@ notificationRouter.post('/', authFactory(SERVERPWD),
 
         const stringData = JSON.stringify(parsed.data);
 
-        if (stringData.length > 1024) { // 1 kb
+        if (stringData.length > 2048) { // 1 kb
             return failure({ type: 'invalid_data', message: 'data too long' }, { status: 400 });
         }
-
-        console.log(stringData);
 
         return await notifyAll(stringData)
             .then((messagePromise: Promise<unknown>) => event?.waitUntil(messagePromise) ?? messagePromise)

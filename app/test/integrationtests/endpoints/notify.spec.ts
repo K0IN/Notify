@@ -56,8 +56,8 @@ describe('device endpoints', () => {
         const req = new Request('https://localhos/api/notify/', {
             method: 'POST',
             body: JSON.stringify({
-                title: randomString(512),
-                message: randomString(512),
+                title: randomString(1024),
+                message: randomString(1024),
                 icon: 'https://example.com/icon.png',
             })
         });

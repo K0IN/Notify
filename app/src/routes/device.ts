@@ -11,7 +11,7 @@ export const deviceRouter = Router({ base: '/api/device' });
 deviceRouter.post('/', authFactory(SERVERPWD),
     async (request: Request): Promise<Response> => {
         const { web_push_data: SubscriptionData } = await request.json?.()
-            .catch(() => ({ web_push_data: {} })) as { web_push_data?: Partial<IWebPushInfos> };
+            .catch(() => ({ web_push_data: undefined })) as { web_push_data?: Partial<IWebPushInfos> };
 
         const parsed = WebPushInfosSchema.safeParse(SubscriptionData);
         if (!parsed.success) {
@@ -37,7 +37,7 @@ deviceRouter.patch('/:device_id', secretAuthFactory('device_id'),
         const { device_id } = request.params as { device_id: string };
 
         const { web_push_data: SubscriptionData } = await request.json?.()
-            .catch(() => ({ web_push_data: {} })) as { web_push_data?: Partial<IWebPushInfos> };
+            .catch(() => ({ web_push_data: undefined })) as { web_push_data?: Partial<IWebPushInfos> };
 
         const parsed = WebPushInfosSchema.safeParse(SubscriptionData);
         if (!parsed.success) {
