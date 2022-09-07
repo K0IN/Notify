@@ -20,6 +20,7 @@ export async function notifyAll(data: string): Promise<Promise<unknown>> {
     };
 
     const deviceIds = await databaseGetAllDeviceIDs();
+    
     const promises = deviceIds.map(async (deviceId): Promise<WebPushResult> => {
         const device = await databaseGetDevice(deviceId);
         if (!device || !validateWebPushData(device.pushData)) {

@@ -4,8 +4,8 @@ import { Miniflare } from 'miniflare';
 // this test does not work with headless mode see
 // https://github.com/puppeteer/puppeteer/issues/3461
 
-jest.setTimeout(100_000);
-jest.retryTimes(10);
+jest.setTimeout(60_000);
+jest.retryTimes(3);
 
 describe('integration tests with browser', () => {
     let mf: Miniflare;
@@ -95,6 +95,7 @@ describe('integration tests with browser', () => {
             }),
             method: 'POST'
         });
+
         expect(res.status).toBe(200);
         const body = await res.json();
 
