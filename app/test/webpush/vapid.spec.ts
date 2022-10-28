@@ -13,7 +13,7 @@ describe('test vapid header generation functions', () => {
         const [header, body, signature] = jwtData.split('.');
         expect(headers['Crypto-Key']).toEqual('p256ecdsa=BGDRJjAeUMkFC1uFnqR0L5-VlqwV6RxhQedXid6CY95ONU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ');
         expect(JSON.parse(atob(header))).toMatchObject({ 'typ': 'JWT', 'alg': 'ES256' });
-        expect(JSON.parse(atob(body))).toMatchObject({ 'aud': 'https://example.com', 'exp': '1487119908', 'sub': 'abc@email.com' });
+        expect(JSON.parse(atob(body))).toMatchObject({ 'aud': 'https://example.com', 'exp': 1487119908, 'sub': 'abc@email.com' });
         // todo validate signature
         expect(signature).toBeTruthy();
     });
@@ -30,7 +30,7 @@ describe('test vapid header generation functions', () => {
         const [header, body, signature] = token.split('.');
         expect(serverKey).toEqual('BGDRJjAeUMkFC1uFnqR0L5-VlqwV6RxhQedXid6CY95ONU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ');
         expect(JSON.parse(atob(header))).toMatchObject({ 'typ': 'JWT', 'alg': 'ES256' });
-        expect(JSON.parse(atob(body))).toMatchObject({ 'aud': 'https://example.com', 'exp': '1487119908', 'sub': 'abc@email.com' });
+        expect(JSON.parse(atob(body))).toMatchObject({ 'aud': 'https://example.com', 'exp': 1487119908, 'sub': 'abc@email.com' });
         // todo validate signature
         expect(signature).toBeTruthy();
     });
