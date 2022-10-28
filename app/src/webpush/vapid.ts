@@ -1,7 +1,7 @@
 import type { JWK } from './jwk';
 import { arrayBufferToBase64, b64ToUrlEncoded, exportPublicKeyPair, stringToU8Array } from './util';
 
-const objToUrlB64 = (obj: { [key: string]: string }) => b64ToUrlEncoded(btoa(JSON.stringify(obj)));
+const objToUrlB64 = (obj: { [key: string]: string | number | null }) => b64ToUrlEncoded(btoa(JSON.stringify(obj)));
 
 async function signData(token: string, applicationKeys: JWK): Promise<string> {
     const key = await crypto.subtle.importKey('jwk',
@@ -29,8 +29,8 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
 
     const body = {
         'aud': `${pushService.protocol}//${pushService.host}`,
-        'exp': `${Math.floor(Date.now() / 1000) + (12 * 60 * 60)}`,
-        'sub': sub
+        'exp': Math.floor(Date.now() / 1000) + (12 * 60 * 60),
+        'sub': String(sub)
     };
 
     const unsignedToken = objToUrlB64(header) + '.' + objToUrlB64(body);
