@@ -29,8 +29,8 @@ async function generateHeaders(endpoint: string, applicationServerKeys: JWK, sub
 
     const body = {
         'aud': `${pushService.protocol}//${pushService.host}`,
-        'exp': `${Math.floor(Date.now() / 1000) + (12 * 60 * 60)}`,
-        'sub': sub
+        'exp': Math.floor(Date.now() / 1000) + (12 * 60 * 60),
+        'sub': String(sub)
     };
 
     const unsignedToken = objToUrlB64(header) + '.' + objToUrlB64(body);
