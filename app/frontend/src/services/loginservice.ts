@@ -8,7 +8,7 @@ import { createSubscription, deleteSubscription } from "./webpush";
 export enum LoginStatus {
     LOGGED_IN,
     LOGIN_PASSWORD_REQUIRED,
-    LOGGED_IN_WITH_TIMEOUT,
+    LOGGED_IN_WITH_EXPIRED_WEBPUSH_INFO,
     LOGGED_OUT
 }
 
@@ -26,7 +26,7 @@ export async function login(password?: string): Promise<[LoginStatus, Device | n
     const device = parseResponse<Device>(userData);
     return [
         webPushData.expirationTime
-            ? LoginStatus.LOGGED_IN_WITH_TIMEOUT
+            ? LoginStatus.LOGGED_IN_WITH_EXPIRED_WEBPUSH_INFO
             : LoginStatus.LOGGED_IN,
         device
     ];

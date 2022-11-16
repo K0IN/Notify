@@ -14,6 +14,7 @@ import Switch from 'preact-material-components/Switch';
 import 'preact-material-components/Switch/style.css';
 import { LoginStatus } from '../../services/loginservice';
 import { useInstall } from '../../hooks/use-install';
+import { useIsProtected } from '../../hooks/use-isprotected';
 
 
 const Register: FunctionalComponent = () => {
@@ -22,24 +23,23 @@ const Register: FunctionalComponent = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
     const [showReloadButton, setShowReloadButton] = useState<boolean>(false);
     const [showDialog, setDialog] = useState<boolean>(false);
+    const isProtected = useIsProtected();
+
+    const installInfo = useInstall();
+    const installCallback = useCallback(() => installInfo?.prompt(), [installInfo]);
 
     const showSnackbar = useCallback((message: string, timeout: number = 7000) => {
         snackbarRef.current?.MDComponent.show({ message, timeout });
     }, [snackbarRef]);
-
-    useEffect(() => {
-        if (isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT) {
-            showSnackbar(`WARNING: your subscription has a expired date set! (Auto renew is still in Beta!)`, 20000);
-        }
-    }, [isLoggedIn, showSnackbar]);
-
+    
     const setLogin = useCallback(async (shouldDoLogin: boolean, password?: string) => {
         setLoading(true);
         try {
             const loginSuccess = await setLoginState(shouldDoLogin, password);
-            setDialog(LoginStatus.LOGIN_PASSWORD_REQUIRED === loginSuccess && shouldDoLogin);
-            if (isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT) {
-                await new Promise((r) => setTimeout(r, 5000));
+            // setDialog(LoginStatus.LOGIN_PASSWORD_REQUIRED === loginSuccess && shouldDoLogin);
+            if (isLoggedIn === LoginStatus.LOGGED_IN_WITH_EXPIRED_WEBPUSH_INFO) {
+                showSnackbar(`WARNING: Your webpush subscription has expired. Please login again.`, 20000);
+                setLoginState(false);
             }
             setShowReloadButton(true);
         } catch (e: any) {
@@ -55,8 +55,12 @@ const Register: FunctionalComponent = () => {
         key && setLogin(true, key);
     }, [setLogin, setDialog]);
 
-    const installInfo = useInstall();
-    const installCallback = useCallback(() => installInfo?.prompt(), [installInfo]);
+    // now check if we need to show the login dialog
+    useEffect(() => {
+        if (isProtected && !isLoggedIn) {
+            setDialog(true);
+        }
+    }, [isLoggedIn, isProtected]);
 
     return (
         <div>
@@ -64,7 +68,7 @@ const Register: FunctionalComponent = () => {
                 <div class={style.switchwrapper}>
                     <Switch class={style.padding}
                         onChange={(e: any) => setLogin(e.target.checked, undefined)}
-                        checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_TIMEOUT} />
+                        checked={isLoggedIn === LoginStatus.LOGGED_IN || isLoggedIn === LoginStatus.LOGGED_IN_WITH_EXPIRED_WEBPUSH_INFO} />
 
                     {isLoading && "loading"}
                     {showReloadButton && <Button outlined class={style.smallbtn} onClick={() => location.reload()}>reload</Button>}

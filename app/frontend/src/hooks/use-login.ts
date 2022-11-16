@@ -22,15 +22,12 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
             }
         };
 
-        // todo use BroadcastChannel to sync tabs / login status
-        updateFn().catch((e) => {
-            console.warn("error inside useLogin", e);
-            setIsLoggedIn(LoginStatus.LOGGED_OUT);
-        });
+        updateFn().catch((e) => setIsLoggedIn(LoginStatus.LOGGED_OUT));
+        
     }, [setIsLoggedIn]);
 
 
-    const startLogin = useCallback(async (loginState: boolean, apiKey?: string): Promise<LoginStatus> => {
+    const setLoginState = useCallback(async (loginState: boolean, apiKey?: string): Promise<LoginStatus> => {
         if (loginState) {
             const [res, device] = await login(apiKey);
             // clear all users and save the new one if login was successful
@@ -43,11 +40,12 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
             // after it was successful saved, set the logged in state
             setIsLoggedIn(res);
             return res;
+        } else {
+            const res = await logoff();
+            setIsLoggedIn(res);
+            return res;
         }
-        const res = await logoff();
-        setIsLoggedIn(res);
-        return res;
     }, [setIsLoggedIn]);
 
-    return [isLoggedIn, startLogin];
+    return [isLoggedIn, setLoginState];
 }

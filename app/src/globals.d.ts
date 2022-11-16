@@ -7,7 +7,8 @@ declare global {
     const SUB: string | undefined; // this is used for the subscription administrator email
     // secrets
     const VAPID_SERVER_KEY: string | undefined;
-    const SERVERPWD: string | undefined; // used for pushes and for registration
+    const SERVERPWD: string | undefined; // used for pushes
+    const AUTHPWD: string | undefined; // used for authentication
     // server 
     const CORS_ORIGIN: string | undefined;
     const SERVE_FRONTEND: string | undefined;

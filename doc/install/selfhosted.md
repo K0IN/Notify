@@ -37,6 +37,7 @@ All of them need to be set to work.
 
 * `SUB`: set this to the email of the person in charge for notifcations - this will be sent to the push server.
 * `SERVERPWD`: the password to send notifications - this should be a secret.
+* `AUTHPWD`: the password to access the webinterface - this should be a secret.
 * `CORS_ORIGIN`: enables cors for the supplied domain(s) - empty if none.
 * `SERVE_FRONTEND`: boolean to enable the frontend - empty if it should not be served.
 * `VAPID_SERVER_KEY` set the secret to the value of the server key.
