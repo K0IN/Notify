@@ -15,7 +15,6 @@ import 'preact-material-components/Switch/style.css';
 import { LoginStatus } from '../../services/loginservice';
 import { useInstall } from '../../hooks/use-install';
 import { useIsProtected } from '../../hooks/use-isprotected';
-import Icon from 'preact-material-components/Icon';
 
 
 const Register: FunctionalComponent = () => {
