@@ -11,12 +11,12 @@ async function getWebPushManger() {
 
 export async function createSubscription(serverKey: string): Promise<ExtractedWebPushData> {
     const pushManager = await getWebPushManger();
-    const subscription: ExtendedSubscription = await pushManager.subscribe({
+    const subscription = await pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: serverKey
     }).catch((_e) => {
         throw new Error('Could not subscribe to push service');
-    });
+    }) as ExtendedSubscription;
     console.warn("using subscription:", subscription.toJSON());
     return getWebPushData(subscription);
 }

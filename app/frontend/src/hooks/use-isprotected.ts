@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { getVapidData, isPasswordProtected } from "../services/apiservice";
+import { isPasswordProtected } from "../services/apiservice";
 
 export const useIsProtected = () => {
     const [isProtected, setProtected] = useState<boolean>(false);

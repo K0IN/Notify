@@ -3,11 +3,9 @@ import type { IApiResponse } from '../types/apiresponse';
 import type { Device } from '../types/localdevice';
 import type { WebPushData } from '../types/webpushdata';
 
-
 export async function isPasswordProtected(): Promise<IApiResponse<boolean>> {
-    return await fetch(`${APIBASE}/auth`).then(r => r.json());
+    return await fetch(`${APIBASE}/keys/auth`).then(r => r.json());
 }
-
 
 export async function getVapidData(): Promise<IApiResponse<string>> {
     return await fetch(`${APIBASE}/keys`).then(r => r.json());

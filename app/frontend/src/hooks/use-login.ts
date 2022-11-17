@@ -7,26 +7,6 @@ import { login, LoginStatus, logoff } from '../services/loginservice';
 export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string) => Promise<LoginStatus>] {
     const [isLoggedIn, setIsLoggedIn] = useState(LoginStatus.LOGGED_OUT);
 
-    useEffect(() => {
-        const updateFn = async () => {
-            const database = await getDatabase();
-            const users = await database?.getAll('user');
-            database.close();
-            if (users[0]?.id) {
-                const { id, secret } = users[0];
-                const existsResponse = await checkIfDeviceExists(id, secret);
-                const exists = parseResponse(existsResponse);
-                exists && setIsLoggedIn(LoginStatus.LOGGED_IN);
-            } else {
-                setIsLoggedIn(LoginStatus.LOGGED_OUT);
-            }
-        };
-
-        updateFn().catch((e) => setIsLoggedIn(LoginStatus.LOGGED_OUT));
-        
-    }, [setIsLoggedIn]);
-
-
     const setLoginState = useCallback(async (loginState: boolean, apiKey?: string): Promise<LoginStatus> => {
         if (loginState) {
             const [res, device] = await login(apiKey);
@@ -45,6 +25,24 @@ export function useLogin(): [LoginStatus, (shouldLogin: boolean, apiKey?: string
             setIsLoggedIn(res);
             return res;
         }
+    }, [setIsLoggedIn]);
+
+    useEffect(() => {
+        const updateFn = async () => {
+            const database = await getDatabase();
+            const users = await database?.getAll('user');
+            database.close();
+            if (users[0]?.id) {
+                const { id, secret } = users[0];
+                const existsResponse = await checkIfDeviceExists(id, secret);
+                const exists = parseResponse(existsResponse);
+                exists && setIsLoggedIn(LoginStatus.LOGGED_IN);
+            } else {
+                setIsLoggedIn(LoginStatus.LOGGED_OUT);
+            }
+        };
+
+        updateFn().catch((e) => setIsLoggedIn(LoginStatus.LOGGED_OUT));
     }, [setIsLoggedIn]);
 
     return [isLoggedIn, setLoginState];
