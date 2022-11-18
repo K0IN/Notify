@@ -8,7 +8,7 @@ import { headers } from '../util/headers';
 
 export const deviceRouter = Router({ base: '/api/device' });
 
-deviceRouter.post('/', authFactory(SERVERPWD),
+deviceRouter.post('/', authFactory(AUTHPWD),
     async (request: Request): Promise<Response> => {
         const { web_push_data: SubscriptionData } = await request.json?.()
             .catch(() => ({ web_push_data: undefined })) as { web_push_data?: Partial<IWebPushInfos> };

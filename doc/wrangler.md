@@ -10,7 +10,13 @@ Also if you get stuck please refer to the [install guide](./install.md) for help
 
 ### SERVERPWD
 
-this is the password for the (send push) webhook endpoint you will need to set your Authentication header to `bearer <SERVERPWD>`
+This is the password for the (send push) webhook endpoint you will need to set your Authentication header to `bearer <SERVERPWD>`
+
+default: "" (empty) -> no password set
+
+### AUTHPWD
+
+This is the password that will be used to authenticate the user inside the web interface.
 
 default: "" (empty) -> no password set
 

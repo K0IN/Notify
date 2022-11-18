@@ -13,3 +13,5 @@ keysRouter.get('/', (): Response => {
     const publicKey: string = b64ToUrlEncoded(exportPublicKeyPair(vapidKeys));
     return success<string>(publicKey);
 });
+
+keysRouter.get('/auth', (): Response => success<boolean>(Boolean(AUTHPWD)));
