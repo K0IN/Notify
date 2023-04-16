@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node environment
         uses: actions/setup-node@v3
         with:
-          node-version: "16.7.0"
+          node-version: "19"
 
       - name: install dependencies
         run: npm install 
