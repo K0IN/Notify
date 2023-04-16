@@ -4,10 +4,11 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 ENV PUPPETEER_EXEC_PATH=google-chrome-stable
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends npm wget curl apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    && apt-get -y install --no-install-recommends node npm wget curl apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
-RUN npm install -g n \
-    && n 16.7.0
+# you can set the node version here
+# RUN npm install -g n \
+#     && n 16.7.0
 
 RUN sudo apt-get update \
     && sudo apt-get install -yq libgconf-2-4 \

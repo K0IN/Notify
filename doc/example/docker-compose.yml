@@ -2,7 +2,10 @@ version: '3.7'
 
 services:
   notify:
-    image: ghcr.io/k0in/notify:latest
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    # image: ghcr.io/k0in/notify:latest
     restart: unless-stopped
     volumes:
       # this is a example how your settings fike coud look like
