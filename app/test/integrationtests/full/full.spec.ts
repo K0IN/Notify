@@ -34,7 +34,6 @@ describe('integration tests with browser', () => {
     });
 
     afterEach(async () => {
-        server.close();
         await browser.close();
         await mf.dispose();
     });
