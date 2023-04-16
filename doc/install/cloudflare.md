@@ -3,7 +3,7 @@
 ## Prerequisites
 
 * npm
-* node
+* node 16
 
 Clone this Repository and set your work dir to `app`
 
