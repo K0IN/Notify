@@ -8,7 +8,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # you can set the node version here
 RUN npm install -g n \
-     && n latest
+     && n 19
 
 RUN sudo apt-get update \
     && sudo apt-get install -yq libgconf-2-4 \

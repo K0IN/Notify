@@ -5,6 +5,7 @@ export default {
     // API options here:
     // load env file
     testEnvironmentOptions: {
+        modules: true,
         bindings: { },
         kvNamespaces: ['NOTIFY_USERS'],
     },
