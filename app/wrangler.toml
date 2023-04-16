@@ -8,6 +8,9 @@ kv_namespaces = [
     { binding = "NOTIFY_USERS", id = "00000000000000000000000000000000" } # your kv id here
 ]
 
+# flags
+compatibility_flags = ["streams_enable_constructors"]
+
 [build]
 command = "npm install && cd frontend && npm install && cd .. && npm run build_all"
 
@@ -23,6 +26,7 @@ AUTHPWD= "" # "" = no pw
 CORS_ORIGIN = "*" # "" = no cors
 SERVE_FRONTEND = true
 
+# you can also use secrets! Example:
 # [secrets]
 # VAPID_SERVER_KEY
 # SERVERPWD

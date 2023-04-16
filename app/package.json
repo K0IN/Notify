@@ -35,7 +35,7 @@
         "jest": "^27.4.7",
         "jest-environment-miniflare": "^2.1.0",
         "jest-fetch-mock": "^3.0.3",
-        "miniflare": "^2.1.0",
+        "miniflare": "^2.13.0",
         "puppeteer": "^14.4.1",
         "ts-jest": "^27.0.5",
         "ts-loader": "^9.2.2",
