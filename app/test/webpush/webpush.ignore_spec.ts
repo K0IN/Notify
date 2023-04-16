@@ -34,9 +34,9 @@ describe('test webpush functions', () => {
         fetchMock.mockResponseOnce(JSON.stringify({ data: 'ok' }), { status: 200 }); 
         const result = await generateWebPushMessage(message, deviceData, applicationServerKeys);
         expect(result).toBe(WebPushResult.Success);
-        expect(fetchMock.mock.calls.length).toEqual(1); // one call 
-        expect(fetchMock.mock.calls[0][0]).toEqual(deviceData.endpoint); // the call endpoint was the device endpoint
-        expect(fetchMock.mock.calls[0][1]?.method).toEqual('POST'); // the call was a post request
+        expect(fetchMock.mock.calls.length).toBe(1); // one call 
+        expect(fetchMock.mock.calls[0][0]).toBe(deviceData.endpoint); // the call endpoint was the device endpoint
+        expect(fetchMock.mock.calls[0][1]?.method).toBe('POST'); // the call was a post request
         const header = fetchMock.mock.calls[0][1]?.headers as unknown as {[key: string]: string};
         expect(header['Content-Type']).toEqual('application/octet-stream'); // the call had a content type header
         const k = header['Authorization'].match(/k=([^,]+)/)?.[1];
