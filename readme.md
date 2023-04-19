@@ -1,7 +1,5 @@
 # Notify
 
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/K0IN/Notify.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/K0IN/Notify/context:javascript)
-
 A Simple way to send (offline) push messages (via a webhook) to every [device that supports web push](https://caniuse.com/push-api).
 Hosted inside a `cloudflare worker` or `selfhost` (using miniflare).
 You can even receive notifications if the app is closed or your offline(and back online again).
