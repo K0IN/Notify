@@ -34,7 +34,6 @@ describe('test browser webpush with password', () => {
     });
 
     afterEach(async () => {
-        server.close();
         await browser.close();
         await mf.dispose();
     });

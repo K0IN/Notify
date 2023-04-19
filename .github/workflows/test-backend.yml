@@ -22,12 +22,12 @@ jobs:
       - name: Setup Node environment
         uses: actions/setup-node@v3
         with:
-          node-version: "16.7.0"
+          node-version: "19"
 
       - name: install dependencies
         run: npm install 
 
-      - name: install puppeteer and run tests
+      - name: install puppeteer
         run: |
                 sudo apt-get update
                 sudo apt-get install -yq libgconf-2-4
@@ -37,6 +37,12 @@ jobs:
                 sudo apt-get install -y google-chrome-stable --no-install-recommends
                 sudo rm -rf /var/lib/apt/lists/*
                 sudo Xvfb -ac :99 -screen 0 1280x1024x16 > /dev/null 2>&1 &
+        env:
+          DISPLAY: :99.0
+          PUPPETEER_EXEC_PATH: "google-chrome-stable"
+    
+      - name: run tests
+        run: |
                 sudo chown -R 1001:121 "/root/.npm"
                 npm run test
         env:
