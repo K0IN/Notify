@@ -9,6 +9,7 @@ kv_namespaces = [
 ]
 
 # flags
+compatibility_date = "2022-04-05"
 compatibility_flags = ["streams_enable_constructors"]
 
 [build]
