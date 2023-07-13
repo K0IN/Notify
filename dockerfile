@@ -10,7 +10,8 @@ RUN npm run build_all
 FROM node:alpine
 WORKDIR /usr/app
 
-RUN npm install -g miniflare
+RUN npm install -g miniflare@2.14.0
+
 RUN apk update && apk add --no-cache curl
 
 COPY --from=builder /usr/src/dist /usr/app/dist
