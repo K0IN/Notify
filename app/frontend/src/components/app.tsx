@@ -19,7 +19,7 @@ const App: FunctionalComponent = () => {
     const isOnline = useOnline();
     return (
         <div class={style.app}>
-            {isSupported
+            {true
                 ? (<div class={style.content}>
                     <div class={style.header}>
                         {hasUpdates && <HasUpdateBanner />}

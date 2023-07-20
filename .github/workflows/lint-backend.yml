@@ -1,0 +1,22 @@
+name: Run linter on backend
+
+on:
+    push:
+        branches:
+            - '*'  
+
+jobs:
+    run-linter:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - uses: denoland/setup-deno@v1
+              with:
+                deno-version: vx.x.x
+
+            - name: Run linter
+              run: |
+                cd app/backend
+                deno lint

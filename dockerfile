@@ -1,24 +1,29 @@
-FROM node:alpine AS builder
+# build our frontend (preact)
+FROM node:alpine AS frontend_builder
+
 WORKDIR /usr/src
-COPY app .
-# dont install puppeteer in container
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+COPY app/frontend app
+
+WORKDIR /usr/src/app
 
 RUN npm install
-RUN npm run build_all
 
-FROM node:alpine
-WORKDIR /usr/app
+RUN npm run build
 
-RUN npm install -g miniflare@2.14.0
 
+FROM denoland/deno:alpine
+WORKDIR /app
+EXPOSE 8787
+
+COPY --from=frontend_builder /usr/src/app/build /app/static-site
+
+
+COPY app/backend . 
+# RUN deno cache main.ts
+
+# healthchecks
 RUN apk update && apk add --no-cache curl
-
-COPY --from=builder /usr/src/dist /usr/app/dist
-COPY --from=builder /usr/src/frontend/build /usr/app/frontend/build
-COPY --from=builder /usr/src/package.json /usr/app/package.json 
-COPY --from=builder /usr/src/wrangler.toml /usr/app/wrangler.toml 
-
 HEALTHCHECK CMD curl --fail http://localhost:8787 || exit 1
 
-ENTRYPOINT [ "miniflare", "./dist/index.js", "--wrangler-config", "wrangler.toml", "--env", "app.env", "--build-command", ""]
+ENTRYPOINT [ "deno", "run", "--allow-net", "--allow-read", "--allow-write", "--allow-env", "--allow-run", "main.ts" ] 

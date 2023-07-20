@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+            "name": "root",
+			"path": "."
+		},
+		{
+            "name": "backend",
+			"path": "app/backend"
+		},
+        {
+            "name": "frontend",
+			"path": "app/frontend"
+		}
+	],
+    "settings": {
+        "deno.unstable": true,
+        "cSpell.words": [
+            "aesgcm",
+            "Denomander",
+            "loginkey",
+            "sendkey",
+            "vapidkey"
+        ]
+    }
+}
