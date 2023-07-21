@@ -13,7 +13,7 @@ apiRouter.use(keysRouter.routes(), keysRouter.allowedMethods());
 apiRouter.use(notificationRouter.routes(), notificationRouter.allowedMethods());
 
 export async function serve(params: AppParameters, listen = true): Promise<Application> {
-    
+
     const parsed = AppParametersValidator.safeParse(params);
     if (!parsed.success) {
         throw new Error(`Invalid parameters: ${JSON.stringify(parsed.error)}`);
@@ -41,7 +41,7 @@ export async function serve(params: AppParameters, listen = true): Promise<Appli
         app.use(oakCors());
     }
 
-    console.log(`Listening on http://localhost:${port}/ Config: ${JSON.stringify(params)}` );
+    console.log(`Listening on http://localhost:${port}/ Config: ${JSON.stringify(params)}`);
 
     if (listen) {
         await app.listen({ port });

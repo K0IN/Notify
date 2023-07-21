@@ -1,5 +1,5 @@
 import Denomander from "denomander";
-import { serve } from "./server.ts";
+import { serve } from "./mod.ts";
 import { validateEmail, validatePort } from "./util/commandvalidator.ts";
 import { notify } from "./client/mod.ts";
 

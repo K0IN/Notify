@@ -1,4 +1,4 @@
-import { serve } from "./server.ts";
+import { serve } from "./mod.ts";
 
 // todo read this from env!
 
