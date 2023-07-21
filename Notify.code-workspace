@@ -19,8 +19,24 @@
             "aesgcm",
             "Denomander",
             "loginkey",
+            "preact",
+            "prerender",
             "sendkey",
+            "sirv",
+            "timeago",
             "vapidkey"
         ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [],
+        "compounds": [{
+            "name": "Launch Server & Client",
+            "configurations": [
+              "Launch Backend",
+              "Launch Frontend",
+              "Attach to Chrome"
+            ]
+        }]
     }
 }

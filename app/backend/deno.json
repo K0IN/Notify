@@ -33,7 +33,8 @@
             ],
             "include": [],
             "exclude": [
-                "ban-untagged-todo"
+                "ban-untagged-todo",
+                "import-prefix-missing"
             ]
         }
     }

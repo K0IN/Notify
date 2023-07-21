@@ -28,8 +28,8 @@ program
     .option("--sendkey", `Set the api key (for sending a new request)`, String)
     .option("--loginkey", `Set the api key (for login into the ui)`, String)
     .option("-p --port", `Set the api url (for this request)`, validatePort, 8787)
-    .action((ctx: Denomander) =>
-        serve({
+    .action(async (ctx: Denomander) =>
+        await serve({
             port: ctx.port,
             sub: ctx.sub,
             vapidKey: ctx.vapidkey,
@@ -81,4 +81,4 @@ program.
         });
     });
 
-program.parse(Deno.args);
+await program.parse(Deno.args);

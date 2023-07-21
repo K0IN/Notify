@@ -3,17 +3,16 @@
     "configurations": [
         {
             "request": "launch",
-            "preLaunchTask": "build-frontend",
-            "name": "Launch Program",
+            "name": "Launch Backend",
             "type": "node",
             "program": "${workspaceFolder}/main.ts",
             "cwd": "${workspaceFolder}",
-            "runtimeExecutable": "C:\\Users\\K0IN\\.deno\\bin\\deno.EXE",
+            "runtimeExecutable": "deno",
             "runtimeArgs": [
                 "run",
-                "--unstable",
-                "--inspect-wait",
-                "--allow-all"
+                // "--unstable",
+                // "--inspect"
+                // "--allow-all"
             ],
             "args": [                
                 "run",
@@ -22,7 +21,7 @@
                 "--vapidkey",
                 "eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwiYWxnIjoiRVMyNTYiLCJ4IjoiUV92WlVXUExOUlFMRnU5QWRNaGRDQlFpY1FKamxYajVHZ2lwY19BS1E5USIsInkiOiJILXlDUF9hZ3FzRmpGMmgtZ2dNTTdVT1UxdktJN1JTcU1XSVhfZjBJekhnIiwiZCI6IjVXdzg1TnFxN09lY0pyaDN5MDl6a1JLWWR3TEhUVTVObjlNZUNqMkh6Y2MiLCJrZXlfb3BzIjpbInNpZ24iXSwiZXh0Ijp0cnVlfQ=="
             ],
-            "attachSimplePort": 9229
+            // "attachSimplePort": 9229
         }
     ]
 }
