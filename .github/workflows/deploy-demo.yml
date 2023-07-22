@@ -1,9 +1,8 @@
 name: Deploy
 on:
   push:
-    branches: deno-port
-  pull_request:
-    branches: deno-port
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -35,5 +34,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "notify-demo"
-          entrypoint: "deploy.ts" # 📝 Update the entrypoint
-          root: "deploy" # 📝 Update the root
+          entrypoint: "deploy.ts"
+          root: "deploy"
