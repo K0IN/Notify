@@ -10,9 +10,6 @@ jobs:
   build-and-deploy-worker:
     environment: deploy
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app/
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
