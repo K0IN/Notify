@@ -1,9 +1,9 @@
 import { Application, Router } from "oak";
 import logger from "oak_logger";
+import { oakCors } from "cors";
 import { deviceRouter } from './routes/device.ts';
 import { keysRouter } from './routes/keys.ts';
 import { notificationRouter } from './routes/notify.ts';
-import { oakCors } from "cors";
 import { serveStaticFilesMiddleware } from "./routes/static-files.ts";
 import { AppParameters, AppParametersValidator } from "./types/appparameters.ts";
 

@@ -30,7 +30,7 @@ program
     .option("-p --port", `Set the api url (for this request)`, validatePort, 8787)
     .action(async (ctx: Denomander) =>
         await serve({
-            port: ctx.port,
+            port: Number(ctx.port),
             sub: ctx.sub,
             vapidKey: ctx.vapidkey,
             cors: ctx.cors,
@@ -65,20 +65,5 @@ program.
         console.log('Notification sent');
     });
 
-
-program.
-    command('demo', 'Run demo instance, also useful for testing')
-    .action(async () => {
-        const vapidKey = 'eyJrdHkiOiJFQyIsImNydiI6IlAtMjU2IiwiYWxnIjoiRVMyNTYiLCJ4IjoiUV92WlVXUExOUlFMRnU5QWRNaGRDQlFpY1FKamxYajVHZ2lwY19BS1E5USIsInkiOiJILXlDUF9hZ3FzRmpGMmgtZ2dNTTdVT1UxdktJN1JTcU1XSVhfZjBJekhnIiwiZCI6IjVXdzg1TnFxN09lY0pyaDN5MDl6a1JLWWR3TEhUVTVObjlNZUNqMkh6Y2MiLCJrZXlfb3BzIjpbInNpZ24iXSwiZXh0Ijp0cnVlfQ==';
-        const sub = 'example@example.com';
-        const port = 8787;
-        await serve({
-            port,
-            sub,
-            vapidKey,
-            cors: false,
-            frontend: 'static-site',
-        });
-    });
 
 await program.parse(Deno.args);
