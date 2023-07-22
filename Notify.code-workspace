@@ -1,20 +1,19 @@
 {
-	"folders": [
-		{
+    "folders": [
+        {
             "name": "root",
-			"path": "."
-		},
-		{
+            "path": "."
+        },
+        {
             "name": "backend",
-			"path": "app/backend"
-		},
+            "path": "app/backend"
+        },
         {
             "name": "frontend",
-			"path": "app/frontend"
-		}
-	],
+            "path": "app/frontend"
+        }
+    ],
     "settings": {
-        "deno.unstable": true,
         "cSpell.words": [
             "aesgcm",
             "Denomander",
@@ -30,13 +29,15 @@
     "launch": {
         "version": "0.2.0",
         "configurations": [],
-        "compounds": [{
-            "name": "Launch Server & Client",
-            "configurations": [
-              "Launch Backend",
-              "Launch Frontend",
-              "Attach to Chrome"
-            ]
-        }]
+        "compounds": [
+            {
+                "name": "Launch Server & Client",
+                "configurations": [
+                    "Launch Backend",
+                    "Launch Frontend",
+                    "Attach to Chrome"
+                ]
+            }
+        ]
     }
 }

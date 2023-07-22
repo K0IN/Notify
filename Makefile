@@ -1,14 +1,13 @@
-build: 
+build-frontend: 
 	@echo "Building..."
-
-deploy:
-	@echo "Deploying..."
 	cd ./app/frontend && npm install && npm run build
-	cp -r ./app/frontend/build ./app/src/static-site
-	# deployctl deploy --token xxxxxxxxxxxx --project=dwdw ./app/src/main.ts
-
-start-local:
-	
 
 
-# https://deno.com/blog/deploy-static-files
+deploy: build-frontend
+	@echo "Deploying..."
+	mkdir -p deploy
+	cp -r ./app/backend/ ./deploy
+	cp -r ./app/frontend/build ./deploy/static-site
+	@echo "Deployed to ./deploy use deployctl to deploy to deno deploy"
+	@echo "Example: deployctl deploy --token xxxxxxxxxxxx --project=notify ./deploy/deploy.ts"
+	@echo "Remember to set the env variables in your dashboard!"

@@ -10,3 +10,5 @@ images/
 nohup
 nohup.out
 static-site
+deploy
+*.exe

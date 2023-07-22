@@ -12,6 +12,17 @@
                 "cache",
                 "main.ts"
             ]
+        },
+        {
+            "label": "build backend",
+            "type": "process",
+            "command": "deno",
+            "args": [
+                "compile",
+                "--unstable",
+                "--allow-all",
+                "main.ts",
+            ],
         }
     ]
 }

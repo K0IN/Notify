@@ -4,7 +4,20 @@
         {
             "label": "prepare",
             "type": "shell",
-            "command": "npm install"
+            "command": "npm install",
+            "problemMatcher": []
+        },
+        {
+            "label": "build frontend",
+            "type": "process",
+            "dependsOn": [
+                "prepare"
+            ],
+            "command": "npm",
+            "args": [
+                "run",
+                "build"
+            ]
         }
     ]
 }

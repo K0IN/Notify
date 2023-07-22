@@ -6,3 +6,8 @@ size-plugin.json
 coverage
 images/
 *.deb
+*.exe
+.vscode
+.github
+doc/
+*.md
