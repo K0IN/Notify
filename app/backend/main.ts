@@ -49,11 +49,11 @@ program.
 
 program.
     command('notify', 'Send a test notification to all clients')
-    .requiredOption("-t --title", `Set the title of the notification`, String, 'test')
-    .requiredOption("-m --message", `Set the body of the notification`, String, 'test')
+    .requiredOption("-t --title", `Set the title of the notification`, String)
+    .requiredOption("-m --message", `Set the body of the notification`, String)
     .option("-i --icon", `Set the icon of the notification`, String)
     .option("-t --tags", `Comma separated list of all tags`, String)
-    .requiredOption("-r --remote", `Set the remote url of the notification`, String, 'http://localhost:8787')
+    .option("-r --remote", `Set the remote url of the notification`, String, 'http://localhost:8787')
     .option("-k --key", `Set the api key (for this request)`, String)
     .action(async (ctx: Denomander) => {
         await notify(ctx.remote, {
