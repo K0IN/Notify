@@ -1,0 +1,16 @@
+{
+    "name": "notify_frontend",
+    "short_name": "notify_frontend",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#000",
+    "theme_color": "#000",
+    "icons": [
+        {
+            "src": "/assets/icons/notify_big.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
