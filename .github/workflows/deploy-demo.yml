@@ -1,4 +1,4 @@
-name: Build and publish demo to Cloudflare
+name: Build and publish demo to deno deploy
 
 on:
   push:
