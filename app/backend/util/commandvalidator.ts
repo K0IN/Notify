@@ -1,4 +1,3 @@
-
 export function validatePort(port: string) {
     const portNumber = parseInt(port);
     if (portNumber < 1 || portNumber > 65535) {

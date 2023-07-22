@@ -22,6 +22,11 @@ export async function serve(params: AppParameters, listen = true): Promise<Appli
     const { port, vapidKey, sub, frontend, cors, sendkey, loginkey } = parsed.data;
 
     const app = new Application();
+    
+    if (cors) {
+        app.use(oakCors());
+    }
+
     app.use(logger.logger, logger.responseTime);
     app.use(apiRouter.routes(), apiRouter.allowedMethods());
 
@@ -36,10 +41,6 @@ export async function serve(params: AppParameters, listen = true): Promise<Appli
     app.state.frontend = frontend;
     app.state.sendkey = sendkey;
     app.state.loginkey = loginkey;
-
-    if (cors) {
-        app.use(oakCors());
-    }
 
     console.log(`Listening on http://localhost:${port}/ Config: ${JSON.stringify(params)}`);
 

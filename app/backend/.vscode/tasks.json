@@ -2,11 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "runOptions": { "runOn": "folderOpen" },
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
             "label": "prepare",
             "type": "process",
             "command": "deno",
-            "args": ["cache", "main.ts"]
+            "args": [
+                "cache",
+                "main.ts"
+            ]
         }
     ]
 }
