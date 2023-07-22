@@ -2,11 +2,14 @@ version: '3.7'
 
 services:
   notify:
+    # build from source
     build:
       context: ../
       dockerfile: Dockerfile
-    
-    restart: unless-stopped    
+    # or use our image
+    # image: ghcr.io/k0in/notify:latest
+
+    restart: unless-stopped
     ports:
       - "8787:80" 
 
