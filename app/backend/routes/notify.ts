@@ -3,10 +3,11 @@ import { MessageValidator } from "../types/message.ts";
 import { failure, success } from "../types/apiresponse.ts";
 import { notifyAll } from "../logic/project/notify.ts";
 import { toReturn } from "../util/oakreturn.ts";
+import { validatePushSecret } from "../middleware/auth.ts";
 
 export const notificationRouter = new Router({ prefix: '/notify' });
 
-notificationRouter.post('/', // authFactory(SERVERPWD ?? AUTHPWD), // if no Server password is set, use the user password
+notificationRouter.post('/', validatePushSecret,
     toReturn(async (context): Promise<Response> => {
         const body = context.request.body({ type: 'json' });
         const rawMessage = await body.value;

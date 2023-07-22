@@ -20,8 +20,14 @@ export async function serve(params: AppParameters, listen = true): Promise<Appli
     }
 
     const { port, vapidKey, sub, frontend, cors, sendkey, loginkey } = parsed.data;
-
+    
     const app = new Application();
+
+    app.state.vapidKey = vapidKey;
+    app.state.sub = sub;
+    app.state.frontend = frontend;
+    app.state.sendkey = sendkey;
+    app.state.loginkey = loginkey;
     
     if (cors) {
         app.use(oakCors());
@@ -34,13 +40,6 @@ export async function serve(params: AppParameters, listen = true): Promise<Appli
     if (frontend) {
         app.use(serveStaticFilesMiddleware);
     }
-
-    // inject global settings
-    app.state.vapidKey = vapidKey;
-    app.state.sub = sub;
-    app.state.frontend = frontend;
-    app.state.sendkey = sendkey;
-    app.state.loginkey = loginkey;
 
     console.log(`Listening on http://localhost:${port}/ Config: ${JSON.stringify(params)}`);
 
