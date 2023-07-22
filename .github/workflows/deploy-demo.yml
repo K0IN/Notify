@@ -1,26 +1,27 @@
 name: Build and publish demo to Cloudflare
 
 on:
-    push:
-        branches:
-            - 'main'
+  push:
+    branches:
+      - "main"
 
 jobs:
-    build-and-deploy-worker:        
-        environment: deploy
-        runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: ./app/
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
-            
-            - uses: denoland/setup-deno@v1
-              with:
-                deno-version: vx.x.x
-          
-            - name: build frontend
-              run: deno do stuff 
+  build-and-deploy-worker:
+    environment: deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app/
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-              # deployctl deploy --project=dwdw --token ddp_eH7SzJEkvkRdwe0fjRNIzWthW4z7tc3nKLBf main.ts 
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: build frontend
+        run: deno do stuff
+        # https://deno.land/x/deploy@1.7.0
+        # https://github.com/denoland/deployctl/blob/main/action/README.md
+        # deployctl deploy --project=dwdw --token ddp_eH7SzJEkvkRdwe0fjRNIzWthW4z7tc3nKLBf main.ts
