@@ -1,4 +1,4 @@
-name: Generate a build and push to deploy branch
+name: push build to deploy branch
 
 on:
   push:

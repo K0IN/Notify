@@ -6,7 +6,7 @@ export async function serveStaticFilesMiddleware(context: Context, next: () => P
         if (!context.state.frontend) {
             throw new Error('frontend path not set');
         }
-        
+
         if (context.request.url.pathname.startsWith('/api/')) {
             throw new Error('api path');
         }

@@ -1,8 +1,0 @@
-# todo
-
-[ ] build frontend with deno
-[ ] update frontend dependencies
-[x] add import file so we can update it all in one place
-[ ] add caching to docker
-[ ] update docs
-[x] add a remote notify cli call
