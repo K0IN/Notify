@@ -49,3 +49,16 @@ export async function validateDeviceSecret<CTX extends RouterContext<A, B, C>, A
         return;
     }
 }
+
+
+export async function validatePushSecret<CTX extends RouterContext<A, B, C>, A extends string, B extends RouteParams<A>, C extends State>(context: CTX, next: () => Promise<unknown>) {
+    const { sendkey } = context.state;
+    const authHeader = context.request.headers.get('authorization');
+    if (!sendkey || validateAuthHeader(authHeader, sendkey)) {
+        return next();
+    } else {
+        const response = failure({ type: 'auth_required', message: 'Authorization header invalid' }, { status: 401 });
+        responseToContext(context, response)
+        return;
+    }
+}
