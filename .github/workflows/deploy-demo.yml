@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+      - '*'
 
 jobs:
   build-and-deploy-worker:
@@ -20,8 +21,20 @@ jobs:
         with:
           deno-version: vx.x.x
 
-      - name: build frontend
-        run: deno do stuff
-        # https://deno.land/x/deploy@1.7.0
-        # https://github.com/denoland/deployctl/blob/main/action/README.md
-        # deployctl deploy --project=dwdw --token ddp_eH7SzJEkvkRdwe0fjRNIzWthW4z7tc3nKLBf main.ts
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install make
+        run: sudo apt update && sudo apt install make -y
+
+      - name: build deploy folder
+        run: make deploy
+
+      - name: Deploy to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: notify-demo
+          entrypoint: deploy.ts
+          root: ./deploy
+          import-map: deno.json
