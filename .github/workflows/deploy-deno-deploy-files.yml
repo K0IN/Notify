@@ -23,7 +23,7 @@ jobs:
           node-version: 18
 
       - name: Install make
-        run: apt update && apt install make -y
+        run: sudo apt update && sudo apt install make -y
 
       - name: build deploy folder
         run: make deploy
