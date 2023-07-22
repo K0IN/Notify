@@ -1,22 +1,21 @@
-name: Build and publish demo to deno deploy
-
+name: Deploy
 on:
   push:
-    branches:
-      - "main"
-      - '*'
+    branches: deno-port
+  pull_request:
+    branches: deno-port
 
 jobs:
-  build-and-deploy-worker:
-    environment: deploy
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     permissions:
-        contents: read
-        packages: write
-        
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Clone repository
+        uses: actions/checkout@v3
 
       - uses: denoland/setup-deno@v1
         with:
@@ -32,10 +31,9 @@ jobs:
       - name: build deploy folder
         run: make deploy
 
-      - name: Deploy to Deno Deploy
+      - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "notify-demo"
-          entrypoint: deploy.ts
-          root: ./deploy
-          import-map: deno.json
+          entrypoint: "deploy.ts" # 📝 Update the entrypoint
+          root: "deploy" # 📝 Update the root
