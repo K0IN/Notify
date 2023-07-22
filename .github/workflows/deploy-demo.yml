@@ -10,6 +10,10 @@ jobs:
   build-and-deploy-worker:
     environment: deploy
     runs-on: ubuntu-latest
+    permissions:
+        contents: read
+        packages: write
+        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -31,7 +35,7 @@ jobs:
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: notify-demo
+          project: "notify-demo"
           entrypoint: deploy.ts
           root: ./deploy
           import-map: deno.json

@@ -13,9 +13,6 @@ jobs:
   build-and-push-image:
     name: Build ${{ matrix.platform }} docker image
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     strategy:
       matrix:
