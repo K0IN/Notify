@@ -30,6 +30,23 @@ curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message"
 Don't worry about complicated setups. The installation documentation is right here to help you get started with Notify in no time! 📚
 
 👉 [Installation Documentation](doc/install.md)
+👉 [Api Documentation](doc/api.md)
+
+## Features 🎉
+
+- Send push messages to any device that supports web push
+- Easy installation with Docker, bare metal, or Deno Deploy
+- Offline installable PWA
+- Customize your notifications with optional features like adding an icon
+- Open-source and free to use
+- No registration required
+- Easy to use API
+
+## Need Help? 🤔
+
+- Refer to our great [documentation](doc/install.md)
+- Start a discussion on [GitHub Discussions](https://github.com/K0IN/Notify/discussions)
+- Open an [new issue](https://github.com/K0IN/Notify/issues/new)
 
 ## Ready to Get Notified? 🚀
 

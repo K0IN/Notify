@@ -1,142 +1,169 @@
-# API DOC
+# API Documentation
 
 ## Routes
 
 All routes are prefixed with `/api`
 
-## keys endpoint
+---
 
-### get vapid keys
+## Notifications Endpoint
 
-**URL** : `/api/keys`
+### Send a Notification to All Devices
 
-**Method** : `GET`
+**URL**: `/api/notify`
 
-**Auth required** : No
+**Method**: `POST`
 
-**Description** : get the server vapid key to create a client subscription
+**Auth required**: Yes (only if the server password is set). Authentication
+header must be `Bearer <serverpassword>`.
 
-#### Success Responses
+**Description**: Send a notification to all devices.
 
-**Code** : `200 OK`
-
-**Content** :
-
-```json
-{"successful":true,"data":"BGDRJjAeUMkFC1uFnqR0L5-VlqwV6RxhQedXid6CY95ONU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ"}
-```
-
-## device endpoint
-
-### create a new device
-
-**URL** : `/api/device`
-
-**Method** : `POST`
-
-**Auth required** : no (only if the serverpassword is set) Authentication header must be `Bearer <serverpassword>`
-
-**Description** : create a new device and return the device id with a secret that can be used to delete it later
-
-**Body** :
+**Body**:
 
 ```json
 {
-    "web_push_data":{
-        "endpoint":"<endpoint url>",
-        "key":"<base64 encoded subscription p256 key>",
-        "auth":"<base64 encoded subscription auth>"
-    }
+  "title": "<title>",
+  "message": "<message>",
+  "icon": "<optional icon url>",
+  "tags": ["<optional list of strings>"]
 }
 ```
 
-#### Success Responses
+#### Success Response
 
-**Code** : `200 OK`
+**Code**: `200 OK`
 
-**Content** :
-
-```json
-{"successful":true,"data":{"id":"c968712190ec72e785160fe2a45b45a4","secret":"bd907b2a5f9e571949aa92561fcb5694"}}
-```
-
-### Check if a device exists
-
-**URL** : `/api/device/<device_id>`
-
-**Method** : `GET`
-
-**Auth required** : No
-
-**Description** : check if a device exists
-
-#### Success Responses
-
-**Code** : `200 OK`
-
-**Content** :
-
-```json
-{"successful":true,"data":true} 
-```
-
-### Delete a device
-
-**URL** : `/api/device/<device_id>`
-
-**Method** : `DELETE`
-
-**Auth required** : No
-
-**Description** : delete a device
-
-**Body** :
+**Content**:
 
 ```json
 {
-    "secret":"<device secret>"
+  "successful": true,
+  "data": "notified"
 }
 ```
 
-#### Success Responses
+---
 
-**Code** : `200 OK`
+## Keys Endpoint
 
-**Content** :
+### Get Vapid Keys
 
-```json
-{"successful":true,"data":"device deleted"} 
-```
+**URL**: `/api/keys`
 
-## Notifications endpoint
+**Method**: `GET`
 
-### Send a notification to all devices
+**Auth required**: No
 
-**URL** : `/api/notify`
+**Description**: Get the server Vapid key to create a client subscription.
 
-**Method** : `POST`
+#### Success Response
 
-**Auth required** : yes (only if the serverpassword is set) Authentication header must be `Bearer <serverpassword>`
+**Code**: `200 OK`
 
-**Description** : send a notification to all devices
-
-**Body** :
+**Content**:
 
 ```json
 {
-    "title":"<title>",
-    "message":"<message>",
-    "icon":"<optional icon url>",
-    "tags": [<optional list of strings>]
+  "successful": true,
+  "data": "BGDRJjAeUMkFC1uFnqR0L5-VlqwV6RxhQedXid6CY95ONU3NCQI82-WvNWc2vc9HV8YOIAC9VsMrMhJhi3XS8MQ"
 }
 ```
 
-#### Success Responses
+---
 
-**Code** : `200 OK`
+## Device Endpoint
 
-**Content** :
+### Create a New Device
+
+**URL**: `/api/device`
+
+**Method**: `POST`
+
+**Auth required**: No (only if the server password is set). Authentication header must be `Bearer <serverpassword>`.
+
+**Description**: Create a new device and return the device ID with a secret that
+can be used to delete or update it later.
+
+**Body**:
 
 ```json
-{"successful":true,"data":"notified"}
+{
+  "web_push_data": {
+    "endpoint": "<endpoint url>",
+    "key": "<base64 encoded subscription p256 key>",
+    "auth": "<base64 encoded subscription auth>"
+  }
+}
 ```
+
+#### Success Response
+
+**Code**: `200 OK`
+
+**Content**:
+
+```json
+{
+  "successful": true,
+  "data": {
+    "id": "c968712190ec72e785160fe2a45b45a4",
+    "secret": "bd907b2a5f9e571949aa92561fcb5694"
+  }
+}
+```
+
+### Check If a Device Exists
+
+**URL**: `/api/device/<device_id>`
+
+**Method**: `GET`
+
+**Auth required**: No
+
+**Description**: Check if a device exists.
+
+#### Success Response
+
+**Code**: `200 OK`
+
+**Content**:
+
+```json
+{
+  "successful": true,
+  "data": true
+}
+```
+
+### Delete a Device
+
+**URL**: `/api/device/<device_id>`
+
+**Method**: `DELETE`
+
+**Auth required**: No
+
+**Description**: Delete a device.
+
+**Body**:
+
+```json
+{
+  "secret": "<device secret>"
+}
+```
+
+#### Success Response
+
+**Code**: `200 OK`
+
+**Content**:
+
+```json
+{
+  "successful": true,
+  "data": "device deleted"
+}
+```
+
