@@ -11,7 +11,7 @@ And that's not all! Notify comes with a cool offline installable PWA, ensuring y
 
 ## Check Out the DEMO 🚀
 
-Want to see Notify in action? No problem! We've set up a live demo instance on deno deploy. Try it out now! Just use this command to send a notification to all your devices:
+Want to see Notify in action? No problem! We've set up a [live demo instance](https://notify-demo.deno.dev/) on deno deploy. Try it out now! Just use this command to send a notification to all your devices:
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://notify-demo.deno.dev/api/notify
