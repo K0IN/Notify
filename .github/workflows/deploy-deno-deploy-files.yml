@@ -2,8 +2,8 @@ name: push build to deploy branch
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:

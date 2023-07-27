@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "*"
+  schedule:
+      - cron: "39 12 * * 6"
 
 jobs:
   run-linter:
