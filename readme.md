@@ -42,6 +42,15 @@ Don't worry about complicated setups. The installation documentation is right he
 - No registration required
 - Easy to use API
 
+## Quickstart using Docker 🐳
+
+1. Generate your instance vapid key `deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/main.ts generate`
+2. Start the docker `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword k0in/notify`
+3. Start sending notifications
+`curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer mypassword" -d '{"title":"Hello", "message":"World"}' http://localhost:8787/api/notify` 
+or use our cli
+`deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/main.ts notify -r http://localhost:8787/api/notify -t test -m world --key mypassword`
+
 ## Need Help? 🤔
 
 - Refer to our great [documentation](doc/install.md)
