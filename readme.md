@@ -47,7 +47,7 @@ Don't worry about complicated setups. The installation documentation is right he
 I know this looks scary on first glance but i swear it makes sense.
 
 1. Generate your instance vapid key `deno run --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/app/backend/main.ts generate`
-2. Start the docker `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword ghcr.io/k0in/notify:latest`
+2. Start the docker (fill in the vapid key from step 1.) `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword ghcr.io/k0in/notify:latest`
 3. Start sending notifications
 `curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer mypassword" -d '{"title":"Hello", "message":"World"}' http://localhost:8787/api/notify`
 or use our cli
