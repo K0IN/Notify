@@ -47,7 +47,21 @@ deno run --allow-net --allow-read --allow-write --unstable ./deploy/main.ts gene
 * `--tags` Comma separated list of all tags (optional)
 
 ```bash
-deno run --allow-net --allow-read --allow-write --unstable ./deploy/main.ts send --remote http://localhost:8080/api/notify --key <sendkey> --title "Hello World" --message "This is a test notification" --icon "https://picsum.photos/200/300" --tags "test,notification"
+deno run --allow-net --allow-read --allow-write --unstable ./deploy/main.ts notify --remote http://localhost:8080/api/notify --key <sendkey> --title "Hello World" --message "This is a test notification" --icon "https://picsum.photos/200/300" --tags "test,notification"
 ```
 
 Example: `deno run -A --unstable .\main.ts notify -r  https://notify-demo.deno.dev/api/notify -t test -m world`
+
+## Compile to binary
+
+You can compile the app to a single binary using deno compile
+
+```bash
+deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output ./deploy/notify ./deploy/main.ts
+```
+
+then you can youse the executable as follows:
+
+```bash
+./deploy/notify run --port 8080 --vapidkey <vapidkey> --sub mailto:admin@admin.com
+```
