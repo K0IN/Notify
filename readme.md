@@ -44,12 +44,14 @@ Don't worry about complicated setups. The installation documentation is right he
 
 ## Quickstart using Docker 🐳
 
-1. Generate your instance vapid key `deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/main.ts generate`
-2. Start the docker `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword k0in/notify`
+I know this looks scary on first glance but i swear it makes sense.
+
+1. Generate your instance vapid key `deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/app/backend/main.ts generate`
+2. Start the docker `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword ghcr.io/k0in/notify:latest`
 3. Start sending notifications
-`curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer mypassword" -d '{"title":"Hello", "message":"World"}' http://localhost:8787/api/notify` 
+`curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer mypassword" -d '{"title":"Hello", "message":"World"}' http://localhost:8787/api/notify`
 or use our cli
-`deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/main.ts notify -r http://localhost:8787/api/notify -t test -m world --key mypassword`
+`deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/app/backend/main.ts notify -r http://localhost:8787/api/notify -t test -m world --key mypassword`
 
 ## Need Help? 🤔
 
