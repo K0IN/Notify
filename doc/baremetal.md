@@ -11,6 +11,7 @@
 Hint: we have a [makefile](/Makefile) that does all the steps for you
 Just run `make deploy` and it will automatically create a deployable bundle.
 Otherwise follow the steps below:
+Hint: If you are really lazy we provide precompiled deploy packages in the branch `deno-deploy-data`
 
 1. Install frontend dependencies, open app/frontend and run `npm install`
 2. Build frontend, run `npm run build`
