@@ -28,7 +28,7 @@ const App: FunctionalComponent = () => {
                         {hasUpdates && <HasUpdateBanner />}
                         {isInvalidKey && <KeyWarningBanner />}
                         {(isIos && !isSupported) && <IosInstallBanner />}
-                        {isOnline ? <Register /> : <OfflineBanner />}                     
+                        {isOnline ? <Register /> : <OfflineBanner />}
                     </div>
                     <div class={style.main}>
                         <DatabaseProvider>
