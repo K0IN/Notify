@@ -8,6 +8,10 @@
 
 ## Build
 
+Hint: we have a [makefile](/Makefile) that does all the steps for you
+Just run `make deploy` and it will automatically create a deployable bundle.
+Otherwise follow the steps below:
+
 1. Install frontend dependencies, open app/frontend and run `npm install`
 2. Build frontend, run `npm run build`
 3. Create a deploy folder `mkdir deploy`
