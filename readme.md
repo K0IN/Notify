@@ -59,10 +59,6 @@ or use our cli
 - Start a discussion on [GitHub Discussions](https://github.com/K0IN/Notify/discussions)
 - Open an [new issue](https://github.com/K0IN/Notify/issues/new)
 
-## Ready to Get Notified? 🚀
-
-Join our open-source community and take advantage of Notify's incredible features in your projects! It's time to level up your notification game!
-
 ## Credits to the Amazing Developers! 🙏
 
 Huge shout-out to the talented folks who made this possible! We've built on the fantastic web push code from [gauntface](https://github.com/gauntface) and, not to forget, we use the [Google Icon Font](https://fonts.google.com/icons).
