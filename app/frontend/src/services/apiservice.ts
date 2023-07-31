@@ -12,6 +12,7 @@ export async function getVapidData(): Promise<IApiResponse<string>> {
 }
 
 export async function createDevice(webPushData: WebPushData, registerToken?: string): Promise<[number, IApiResponse<Device>]> {
+
     const res = await fetch(`${APIBASE}/device`, {
         method: 'POST',
         body: JSON.stringify({

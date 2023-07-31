@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "request": "launch",
+            "preLaunchTask": "prepare",
+            "name": "Launch Frontend",
+            "type": "node",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
+            "env": {
+                "PREACT_APP_BACKEND_URL": "http://localhost:8787/api"
+            },
+            "postDebugTask": "Attach to Chrome"
+        },
+        {
+            "name": "Attach to Chrome",
+            "port": 9222,
+            "request": "launch",
+            "url": "http://localhost:8000",
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

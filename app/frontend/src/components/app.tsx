@@ -11,19 +11,23 @@ import { useAppUpdate } from '../hooks/use-appupdate';
 import HasUpdateBanner from './banners/updatebanner/update';
 import KeyWarningBanner from './banners/keywarning/keywarning';
 import { useInvalidKeyDetector } from '../hooks/use-invalidkeydetector';
+import { useIsIos } from '../hooks/use-isios';
+import IosInstallBanner from './banners/iosbanner/iosbanner';
 
 const App: FunctionalComponent = () => {
     const hasUpdates = useAppUpdate();
     const isSupported = useIsSupported();
     const isInvalidKey = useInvalidKeyDetector();
     const isOnline = useOnline();
+    const isIos = useIsIos();
     return (
         <div class={style.app}>
-            {isSupported
+            {(isSupported || isIos)
                 ? (<div class={style.content}>
                     <div class={style.header}>
                         {hasUpdates && <HasUpdateBanner />}
                         {isInvalidKey && <KeyWarningBanner />}
+                        {(isIos && !isSupported) && <IosInstallBanner />}
                         {isOnline ? <Register /> : <OfflineBanner />}
                     </div>
                     <div class={style.main}>

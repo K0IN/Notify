@@ -1,41 +1,64 @@
-# Notify
+# Introducing Notify: Your Awesome Offline Push Message Sender! 📲
 
-A Simple way to send (offline) push messages (via a webhook) to every [device that supports web push](https://caniuse.com/push-api).
-Hosted inside a `cloudflare worker` or `selfhost` (using miniflare).
-You can even receive notifications if the app is closed or your offline(and back online again).
-It comes with a offline installable pwa for all time access to your latest notifications.
+Looking for a super-easy way to send push messages to your devices, even when you're offline?
+Meet Notify - the open-source project that's got your back!
+With Notify, you can send push messages via a webhook to any device that supports web push.
+Whether you're using Docker, bare metal, or Deno Deploy, Notify's got you covered!
 
-## DEMO
+**Get Notified Anywhere, Anytime! 📲**
 
-There is a [demo instance](https://notify_app-demo.thisk0in.workers.dev/) hosted on cloudflare workers.
-You can send a notification to all your devices using this command (note you should unsubscribe from the demo instance to avoid spamming):
+And that's not all! Notify comes with a cool offline installable PWA, ensuring you never miss any important notifications - even when you're on the go!
 
-> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://notify_app-demo.thisk0in.workers.dev/api/notify
+## Check Out the DEMO 🚀
 
-![example of the app](https://i.imgur.com/y32ro73.png)
-![using on android](https://i.imgur.com/ArAAAO7.png)
-![using on windows](https://i.imgur.com/U5v3GZl.png)
+Want to see Notify in action? No problem! We've set up a [live demo instance](https://notify-demo.deno.dev/) on deno deploy. Try it out now! Just use this command to send a notification to all your devices:
 
-## Install
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://notify-demo.deno.dev/api/notify
+```
 
-See [installation documentation](doc/install.md)
+**Customize Your Notifications! ✨**
 
-## How to send a notification
+You're in control! Personalize your notifications with optional features like adding an icon:
 
-> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World"}' https://yourendpoint/api/notify
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World", "icon": "https://via.placeholder.com/150", "tags": ["test", "server"] }' https://notify-demo.deno.dev/api/notify
+```
 
-optional with a icon:
+**Easy Installation - No Fuss! 🛠️**
 
-> curl -X POST -H "Content-Type: application/json" -d '{"title":"Hello", "message":"World", "icon": "https://via.placeholder.com/150"}' https://yourendpoint/api/notify
+Don't worry about complicated setups. The installation documentation is right here to help you get started with Notify in no time! 📚
 
-optional with some tags:
+👉 [Installation Documentation](doc/install.md)
+👉 [Api Documentation](doc/api.md)
 
-> curl -X POST -H "Content-Type: application/json" -d '{"message": "test", "title": "1231234", "tags": ["test", "server"]}' https://yourendpoint/api/notify
+## Features 🎉
 
-if you have a server password defined you will also need to set the `Authorization` header to: `bearer <server_password>`
+- Send push messages to any device that supports web push
+- Easy installation with Docker, bare metal, or Deno Deploy
+- Offline installable PWA
+- Customize your notifications with optional features like adding an icon
+- Open-source and free to use
+- No registration required
+- Easy to use API
 
-for more info see [the documentation](doc/api.md)
+## Quickstart using Docker 🐳
 
-## Credits
+I know this looks scary on first glance but i swear it makes sense.
 
-most of the webpush code is a port of [simple-push-demo](https://github.com/gauntface/simple-push-demo) by [gauntface](https://github.com/gauntface) and icons from [google icon](https://fonts.google.com/icons) font.
+1. Generate your instance vapid key `deno run --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/app/backend/main.ts generate`
+2. Start the docker (fill in the vapid key from step 1.) `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword ghcr.io/k0in/notify:latest`
+3. Start sending notifications
+`curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer mypassword" -d '{"title":"Hello", "message":"World"}' http://localhost:8787/api/notify`
+or use our cli
+`deno run --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/app/backend/main.ts notify -r http://localhost:8787/api/notify -t test -m world --key mypassword`
+
+## Need Help? 🤔
+
+- Refer to our great [documentation](doc/install.md)
+- Start a discussion on [GitHub Discussions](https://github.com/K0IN/Notify/discussions)
+- Open an [new issue](https://github.com/K0IN/Notify/issues/new)
+
+## Credits to the Amazing Developers! 🙏
+
+Huge shout-out to the talented folks who made this possible! We've built on the fantastic web push code from [gauntface](https://github.com/gauntface) and, not to forget, we use the [Google Icon Font](https://fonts.google.com/icons).
