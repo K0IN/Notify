@@ -53,6 +53,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           platforms: ${{ matrix.platform }}
           context: .
-          push: ${{ github.ref == 'refs/heads/main' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
