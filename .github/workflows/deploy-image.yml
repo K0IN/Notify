@@ -14,10 +14,6 @@ jobs:
     name: Build ${{ matrix.platform }} docker image
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        platform: [linux/amd64, linux/arm64/v8] # linux/arm/v6, linux/arm/v7,
-        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -48,10 +44,10 @@ jobs:
             type=sha
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          platforms: ${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64/v8
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
