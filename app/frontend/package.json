@@ -23,7 +23,7 @@
         ]
     },
     "dependencies": {
-        "idb": "^6.1.3",
+        "idb": "^7.1.1",
         "preact": "^10.16.0",
         "preact-material-components": "^1.6.1",
         "timeago.js": "^4.0.2"
