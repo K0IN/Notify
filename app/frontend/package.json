@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "idb": "^7.1.1",
-        "preact": "^10.16.0",
+        "preact": "^10.17.1",
         "preact-material-components": "^1.6.1",
         "timeago.js": "^4.0.2"
     },
