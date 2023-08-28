@@ -92,6 +92,9 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (e) => {
     const notification = e.notification;
     const load = async () => {
+        if (navigator && navigator.clearAppBadge) {
+            navigator.clearAppBadge();
+        }
         try {
             const clientList = await clients.matchAll();
             if (clientList.length > 0) {
