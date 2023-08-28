@@ -1,0 +1,32 @@
+name: Build frontend
+
+on:
+  push:
+    branches:
+      - "*"
+  schedule:
+      - cron: "39 12 * * 6"
+
+jobs:
+  run-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+         node-version: 'latest'
+      
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./app/frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: ./app/frontend
+
+      # - name: Build
+      #   run: npm run lint
+      #   working-directory: ./app/frontend
+        
