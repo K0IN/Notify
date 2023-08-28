@@ -1,7 +1,7 @@
 {
-  "bundle.css": "bundle.d187c.css",
-  "bundle.js": "bundle.edefe.esm.js",
-  "polyfills.js": "polyfills.af0e0.esm.js",
+  "bundle.css": "bundle.3f12c.css",
+  "bundle.js": "bundle.d7e11.esm.js",
+  "polyfills.js": "polyfills.16510.esm.js",
   "assets/favicon.ico": "assets/favicon.ico",
   "assets/fonts/LICENSE.txt": "assets/fonts/LICENSE.txt",
   "assets/fonts/fonts.css": "assets/fonts/fonts.css",
@@ -9,7 +9,7 @@
   "assets/fonts/roboto.woff2": "assets/fonts/roboto.woff2",
   "assets/icons/notify.png": "assets/icons/notify.png",
   "assets/icons/notify_big.png": "assets/icons/notify_big.png",
-  "bundle.d187c.css.map": "bundle.d187c.css.map",
+  "bundle.3f12c.css.map": "bundle.3f12c.css.map",
   "manifest.json": "manifest.json",
   "sw-esm.js": "sw-esm.js",
   "sw.js": "sw.js"
