@@ -16,6 +16,7 @@ export const useMessageReceiver = () => {
     useEffect(() => {
         database && database.getAll('messages').then(savedMessages => setMessages(sortMessages(savedMessages))).catch(console.warn);
         database && setAllMessagesAsRead(database as unknown as NotifyDatabase);
+        navigator.clearAppBadge && navigator.clearAppBadge();
     }, [database, setMessages]);
 
     useEffect(() => {
