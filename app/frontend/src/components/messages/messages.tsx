@@ -4,6 +4,7 @@ import { useLastOpenTime } from '../../hooks/use-lastopen';
 import { useMessageReceiver } from '../../hooks/use-messagereceiver';
 import Message from '../message/message';
 import style from './messages.css';
+import { useEffect } from 'preact/hooks';
 
 const Messages: FunctionalComponent = () => {
     const messages = useMessageReceiver();
@@ -11,6 +12,12 @@ const Messages: FunctionalComponent = () => {
 
     const newMessages = messages.filter(e => !(e.receivedAt <= lastOpenTime));
     const oldMessages = messages.filter(e => e.receivedAt <= lastOpenTime);
+
+    useEffect(() => {
+        if (navigator && navigator.clearAppBadge) {
+            navigator.clearAppBadge();
+        }
+    }, [messages]);
 
     return (<div class={style.content}>
         <div class={style.main}>
