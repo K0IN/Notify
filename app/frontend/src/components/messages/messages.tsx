@@ -14,8 +14,8 @@ const Messages: FunctionalComponent = () => {
     const oldMessages = messages.filter(e => e.receivedAt <= lastOpenTime);
 
     useEffect(() => {
-        if (navigator && navigator.clearAppBadge) {
-            navigator.clearAppBadge();
+        if (navigator && (navigator as any).clearAppBadge) {
+            (navigator as any).clearAppBadge();
         }
     }, [messages]);
 
