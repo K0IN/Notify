@@ -1,16 +1,43 @@
 {
-    "name": "notify_frontend",
-    "short_name": "notify_frontend",
-    "start_url": "/",
-    "display": "standalone",
-    "orientation": "portrait",
-    "background_color": "#000",
-    "theme_color": "#000",
-    "icons": [
-        {
-            "src": "/assets/icons/notify_big.png",
-            "type": "image/png",
-            "sizes": "512x512"
-        }
-    ]
+  "name": "notify app",
+  "short_name": "notify",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000",
+  "theme_color": "#000",
+  "categories": ["utilities", "productivity"],
+  "description": "Notify is a simple app that allows you to receive notifications from a webhook.",
+  "icons": [
+    {
+      "src": "/assets/icons/notify_big.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/notify_big.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/mobile-screenshot.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Homescreen of Awesome App",
+      "platform": "ios"
+    },
+    {
+      "src": "/assets/icons/desktop-screenshot.png",
+      "sizes": "2038x1301",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Homescreen of Awesome App",
+      "platform": "ios"
+    }
+  ]
 }
