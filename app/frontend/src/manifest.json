@@ -47,12 +47,28 @@
       "platform": "ios"
     },
     {
+      "src": "/assets/screenshots/mobile-screenshot.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "App screenshot with example notification",
+      "platform": "android"
+    },
+    {
       "src": "/assets/icons/desktop-screenshot.png",
       "sizes": "2038x1301",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Home screen of Awesome App",
-      "platform": "ios"
+      "platform": "windows"
+    },
+    {
+      "src": "/assets/icons/desktop-screenshot.png",
+      "sizes": "2038x1301",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Home screen of Awesome App",
+      "platform": "macos"
     }
   ]
 }
