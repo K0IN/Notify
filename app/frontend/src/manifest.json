@@ -43,7 +43,7 @@
       "sizes": "1170x2532",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Homescreen of Awesome App",
+      "label": "App screenshot with example notification",
       "platform": "ios"
     },
     {
@@ -51,7 +51,7 @@
       "sizes": "2038x1301",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Homescreen of Awesome App",
+      "label": "Home screen of Awesome App",
       "platform": "ios"
     }
   ]
