@@ -42,6 +42,12 @@ deno run --allow-net --allow-read --allow-write --unstable ./deploy/main.ts run 
 deno run --allow-net --allow-read --allow-write --unstable ./deploy/main.ts generate
 ```
 
+or if you do not want to checkout this repository you can use the following command:
+
+```bash
+deno run -A --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/deno-port/app/backend/main.ts generate
+```
+
 ### Send a notification (using the cli)
 
 * `--remote` Set the remote url of the notification
