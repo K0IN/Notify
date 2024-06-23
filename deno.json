@@ -1,41 +1,41 @@
 {
-    "imports": {
-        "std/": "https://deno.land/std@0.194.0/",
-        "oak": "https://deno.land/x/oak@v12.6.0/mod.ts",
-        "oak_logger": "https://deno.land/x/oak_logger@1.0.0/mod.ts",
-        "cors": "https://deno.land/x/cors@v1.2.2/mod.ts",
-        "zod": "https://deno.land/x/zod@v3.20.0/mod.ts",
-        "denomander": "https://deno.land/x/denomander@0.9.3/mod.ts"
-    },
-    "tasks": {
-        "dev": "deno run --watch main.ts"
-    },
-    "fmt": {
-        "useTabs": false,
-        "lineWidth": 80,
-        "indentWidth": 4,
-        "semiColons": true,
-        "singleQuote": false,
-        "proseWrap": "preserve",
-        "include": [
-            "./**/*.ts"
-        ],
-        "exclude": []
-    },
-    "lint": {
-        "include": [
-            "./**/*.ts"
-        ],
-        "exclude": [],
-        "rules": {
-            "tags": [
-                "recommended"
-            ],
-            "include": [],
-            "exclude": [
-                "ban-untagged-todo",
-                "import-prefix-missing"
-            ]
-        }
+  "imports": {
+    "std/": "https://deno.land/std@0.218.0/",
+    "oak": "https://deno.land/x/oak@v12.6.2/mod.ts",
+    "oak_logger": "https://deno.land/x/oak_logger@1.0.0/mod.ts",
+    "cors": "https://deno.land/x/cors@v1.2.2/mod.ts",
+    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
+    "denomander": "https://deno.land/x/denomander@0.9.3/mod.ts"
+  },
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 4,
+    "semiColons": true,
+    "singleQuote": false,
+    "proseWrap": "preserve",
+    "include": [
+      "./**/*.ts"
+    ],
+    "exclude": []
+  },
+  "lint": {
+    "include": [
+      "./**/*.ts"
+    ],
+    "exclude": [],
+    "rules": {
+      "tags": [
+        "recommended"
+      ],
+      "include": [],
+      "exclude": [
+        "ban-untagged-todo",
+        "import-prefix-missing"
+      ]
     }
+  }
 }
