@@ -50,8 +50,18 @@ I know this looks scary on first glance but i swear it makes sense.
 2. Start the docker (fill in the vapid key from step 1.) `docker run -p 8787:8787 -e VAPID_KEY=<vapidkey> -e SUB=mailto:admin@admin.com -e SENDKEY=mypassword ghcr.io/k0in/notify:latest`
 3. Start sending notifications
 `curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer mypassword" -d '{"title":"Hello", "message":"World"}' http://localhost:8787/api/notify`
-or use our cli
+
+by the way, you can also use the deno cli to send notifications 
+
 `deno run --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/main.ts notify -r http://localhost:8787/api/notify -t test -m world --key mypassword`
+
+(which can be build into a single binary)
+
+```bash
+deno compile --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/deno.json --output notify https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/main.ts
+
+./notify notify -r http://localhost:8787/api/notify -t test -m world --key mypassword
+```
 
 ## Need Help? 🤔
 
