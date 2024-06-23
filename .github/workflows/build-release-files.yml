@@ -1,11 +1,12 @@
 name: Build files and add to release
 
 on:
-  release:
-    types:
-      - created
-      - published
-
+  # release:
+  #   types:
+  #     - created
+  #     - published
+  push:
+    
 jobs:
   run-linter:
     runs-on: ubuntu-latest
@@ -47,7 +48,7 @@ jobs:
         with:
           name: notify
           path: /out/notify/notify.tar.gz
-          
+
       # - name: Upload release files
       #   uses: actions/upload-release-asset@v1
       #   with:
