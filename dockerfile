@@ -1,6 +1,6 @@
 FROM node:alpine AS frontend_builder
 WORKDIR /usr/src
-COPY app/frontend app
+COPY app/frontend /usr/src/app
 WORKDIR /usr/src/app
 RUN npm install
 RUN npm run build
