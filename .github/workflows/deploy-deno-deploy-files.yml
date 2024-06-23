@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: vx.x.x\
+          deno-version: vx.x.x
       - run: |
           echo "Waiting for the deploy branch to be updated"
           sleep 30
