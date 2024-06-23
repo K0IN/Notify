@@ -8,7 +8,7 @@ on:
   push:
     
 jobs:
-  run-linter:
+  build-release-files:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,7 +23,7 @@ jobs:
           node-version: "latest"
 
       - name: Create directories
-        run: mkdir -p ~/out/notify
+        run: mkdir -p ~/out/notify ~/out/notify/static-files
 
       - name: Compile Deno and copy to output
         run: deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output ~/out/notify/notify ./main.ts
