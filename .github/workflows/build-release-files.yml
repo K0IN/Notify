@@ -6,7 +6,7 @@ on:
   #     - created
   #     - published
   push:
-    
+
 jobs:
   build-release-files:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
           node-version: "latest"
 
       - name: Create directories
-        run: mkdir -p ~/out/notify ~/out/notify/static-files
+        run: mkdir -p ~/out/notify ~/out/notify/frontend/build
 
       - name: Compile Deno and copy to output
         run: deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output ~/out/notify/notify ./main.ts
@@ -38,17 +38,16 @@ jobs:
         working-directory: ./app/frontend
 
       - name: Copy frontend files
-        run: cp -r ./app/frontend/build/* ~/out/notify/static-files
+        run: cp -r ./app/frontend/build/* ~/out/notify/frontend/build
 
       - name: Archive files
         run: tar -czf ~/out/notify.tar.gz -C ~/out/notify .
-      
+
       - name: Add artifact
         uses: actions/upload-artifact@v2
         with:
           name: notify
           path: ~/out/notify.tar.gz
-
 
       # - name: Upload release files
       #   uses: actions/upload-release-asset@v1
