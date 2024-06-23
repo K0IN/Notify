@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     name: Build and Push
     steps:
       - name: git-checkout
@@ -35,3 +35,15 @@ jobs:
           FOLDER: deploy
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MESSAGE: "Build: ({sha}) {msg}"
+
+  send-version-notification:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Notify demo
+        run: |
+          deno run --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/main.ts notify -r https://notify-demo.deno.dev/api/notify -t "New notify version" -m "New Version Released ${major}.${minor}"
