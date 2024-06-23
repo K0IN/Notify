@@ -42,8 +42,11 @@ jobs:
     steps:
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: vx.x.x
+          deno-version: vx.x.x\
+      - run: |
+          echo "Waiting for the deploy branch to be updated"
+          sleep 30
 
       - name: Notify demo
         run: |
-          deno run --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/main.ts notify -r https://notify-demo.deno.dev/api/notify -t "New notify version" -m "New Version Released ${major}.${minor}"
+          deno run --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/main.ts notify -r https://notify-demo.deno.dev/api/notify -t "New notify version" -m "New Version Released ${{github.ref}}"
