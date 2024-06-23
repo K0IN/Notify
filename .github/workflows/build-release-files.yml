@@ -41,13 +41,14 @@ jobs:
         run: cp -r ./app/frontend/build/* ~/out/notify/static-files
 
       - name: Archive files
-        run: tar -czf ~/out/notify/notify.tar.gz -C /out/notify .
+        run: tar -czf ~/out/notify/notify.tar.gz -C ~/out/notify .
       
       - name: Add artifact
         uses: actions/upload-artifact@v2
         with:
           name: notify
-          path: /out/notify/notify.tar.gz
+          path: ~/out/notify/notify.tar.gz
+
 
       # - name: Upload release files
       #   uses: actions/upload-release-asset@v1
