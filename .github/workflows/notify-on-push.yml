@@ -1,0 +1,16 @@
+name: push build to deploy branch
+
+on:
+  push:
+
+jobs:
+  send-version-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - name: Notify demo
+        run: |
+          deno run --allow-net --unstable --import-map https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/deno.json https://raw.githubusercontent.com/K0IN/Notify/main/app/backend/main.ts notify -r https://notify-demo.deno.dev/api/notify -t "New notify version" -m "New Version Released ${major}.${minor}"
