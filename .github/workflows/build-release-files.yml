@@ -23,10 +23,10 @@ jobs:
           node-version: "latest"
 
       - name: Create directories
-        run: mkdir -p /out/notify
+        run: mkdir -p ~/out/notify
 
       - name: Compile Deno and copy to output
-        run: deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output /out/notify/notify ./main.ts
+        run: deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output ~/out/notify/notify ./main.ts
         working-directory: ./app/backend
 
       - name: Install frontend dependencies
@@ -38,10 +38,10 @@ jobs:
         working-directory: ./app/frontend
 
       - name: Copy frontend files
-        run: cp -r ./app/frontend/build/* /out/notify/static-files
+        run: cp -r ./app/frontend/build/* ~/out/notify/static-files
 
       - name: Archive files
-        run: tar -czf /out/notify/notify.tar.gz -C /out/notify .
+        run: tar -czf ~/out/notify/notify.tar.gz -C /out/notify .
       
       - name: Add artifact
         uses: actions/upload-artifact@v2
