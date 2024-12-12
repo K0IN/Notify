@@ -55,7 +55,7 @@
       "platform": "android"
     },
     {
-      "src": "/assets/icons/desktop-screenshot.png",
+      "src": "/assets/screenshots/desktop-screenshot.png",
       "sizes": "2038x1301",
       "type": "image/png",
       "form_factor": "wide",
@@ -63,7 +63,7 @@
       "platform": "windows"
     },
     {
-      "src": "/assets/icons/desktop-screenshot.png",
+      "src": "/assets/screenshots/desktop-screenshot.png",
       "sizes": "2038x1301",
       "type": "image/png",
       "form_factor": "wide",
