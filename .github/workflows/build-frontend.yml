@@ -5,10 +5,10 @@ on:
     branches:
       - "*"
   schedule:
-      - cron: "39 12 * * 6"
+    - cron: "39 12 * * 6"
 
 jobs:
-  run-linter:
+  run-frontend-linter:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,8 +16,8 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-         node-version: 'latest'
-      
+          node-version: "16"
+
       - name: Install dependencies
         run: npm install
         working-directory: ./app/frontend
@@ -29,4 +29,3 @@ jobs:
       # - name: Build
       #   run: npm run lint
       #   working-directory: ./app/frontend
-        
