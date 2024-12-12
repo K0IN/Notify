@@ -1,0 +1,59 @@
+name: Build files and add to release
+
+on:
+  # release:
+  #   types:
+  #     - created
+  #     - published
+  push:
+
+jobs:
+  build-release-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+
+      - name: Create directories
+        run: mkdir -p ~/out/notify ~/out/notify/frontend/build
+
+      - name: Compile Deno and copy to output
+        run: deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output ~/out/notify/notify ./main.ts
+        working-directory: ./app/backend
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: ./app/frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./app/frontend
+
+      - name: Copy frontend files
+        run: cp -r ./app/frontend/build/* ~/out/notify/frontend/build
+
+      - name: Archive files
+        run: tar -czf ~/out/notify.tar.gz -C ~/out/notify .
+
+      - name: Add artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: notify
+          path: ~/out/notify.tar.gz
+
+      # - name: Upload release files
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: ${{ github.event.release.upload_url }}
+      #     asset_path: /out/notify/notify.tar.gz
+      #     asset_name: notify.tar.gz
+      #     asset_content_type: application/gzip
+      #     token: ${{ secrets.GITHUB_TOKEN }}
