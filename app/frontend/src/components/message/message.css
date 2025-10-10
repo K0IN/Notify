@@ -1,46 +1,47 @@
 .message {
-    max-width: 100%;
+  max-width: 100%;
 
-    display: grid;
-    grid-template-areas:
-        "title time"
-        "body body"
-        "tags tags"
-        "image image";
+  display: grid;
+  grid-template-areas:
+    "title time"
+    "body body"
+    "tags tags"
+    "image image";
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content: space-between;
-    padding: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: space-between;
+  padding: 10px;
 }
 
 .messagetitle {
-    grid-area: title;
-    font-size: 1.2em;
-    padding-left: 5px;
-    overflow: hidden;
-    margin-top: 0px;
+  grid-area: title;
+  font-size: 1.2em;
+  padding-left: 5px;
+  overflow: hidden;
+  margin-top: 0px;
 }
 
 .messagetime {
-    grid-area: time;
-    justify-self: right;
-    padding-right: 5px;
-    margin-top: 0px;
+  grid-area: time;
+  justify-self: right;
+  padding-right: 5px;
+  margin-top: 0px;
 }
 
 .messagebody {
-    grid-area: body;
-    padding-left: 5px;
-    padding-right: 5px;
+  grid-area: body;
+  padding-left: 5px;
+  padding-right: 5px;
+  white-space: pre-line;
 }
 
 .messagetags {
-    grid-area: tags;
+  grid-area: tags;
 }
 
 .messageimage {
-    grid-area: image;
-    max-width: 100%;
-    max-height: 25vh;
-    justify-self: center;
+  grid-area: image;
+  max-width: 100%;
+  max-height: 25vh;
+  justify-self: center;
 }
