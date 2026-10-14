@@ -1,3 +1,12 @@
+> [!WARNING]
+> ## Project Discontinued
+>
+> Following [Cloudflare's acquisition of Deno](https://deno.com/blog/cloudflare), Deno will only receive maintenance and security fixes for another year, and Deno Deploy is being sunset.
+> 
+> Since **notify** was built specifically for Deno Deploy after migrating away from Cloudflare, I've decided to discontinue this project.
+>
+> Thanks to everyone who starred the repo, used the project, or shared feedback. I really appreciate the support!
+
 # Introducing Notify: Your Awesome Offline Push Message Sender! 📲
 
 Looking for a super-easy way to send push messages to your devices, even when you're offline?
